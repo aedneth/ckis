@@ -1,6 +1,6 @@
 ---
 name: url-processor
-description: Fetch a web URL via Jina Reader, extract a clean literature note (title, key insights, quotes, actionability score), file it under 04-resources/articles/, and promote any novel insights into permanent notes. Use when Eduardo says "process URL [url]", "process this article [url]", "procesa este artículo [url]", or pastes a non-YouTube link to read.
+description: Fetch a web URL via Jina Reader, extract a clean literature note (title, key insights, quotes, actionability score), file it under 04-resources/articles/, and promote any novel insights into permanent notes. Use when [OWNER] says "process URL [url]", "process this article [url]", "procesa este artículo [url]", or pastes a non-YouTube link to read.
 ---
 
 # URL Processor
@@ -24,9 +24,9 @@ Turn a raw web URL into a structured literature note in seconds, and promote any
    - **Actionability score 1-5**: 1 = pure entertainment, 3 = useful reference, 5 = changes how Eduardo will work this week
 4. **Generate a clean filename**: `<descriptive-kebab-slug>.md`. Avoid dates in the filename — `created` lives in frontmatter.
 5. **Write the literature note** to `04-resources/articles/` using the template below.
-6. **Decide on permanent note promotion**: if the article delivers at least one *genuinely new* insight (not already in Eduardo's vault — quick Grep check), create a permanent note in `03-knowledge/permanent-notes/` that captures the atomic idea in Eduardo's voice (not a quote dump).
+6. **Decide on permanent note promotion**: if the article delivers at least one *genuinely new* insight (not already in [OWNER]'s vault — quick Grep check), create a permanent note in `03-knowledge/permanent-notes/` that captures the atomic idea in [OWNER]'s voice (not a quote dump).
 7. **Update relevant MOCs** in `03-knowledge/maps-of-content/` — add `[[wikilink]]` to the new note under the right section. Don't create new MOCs from a single article; that's `monthly-consolidation`'s job.
-8. **Echo a 3-line summary** to Eduardo: title, actionability score, where it was filed, whether a permanent note was created.
+8. **Echo a 3-line summary** to [OWNER]: title, actionability score, where it was filed, whether a permanent note was created.
 
 ## Literature note template
 
@@ -83,7 +83,7 @@ Promote to a permanent note ONLY if:
 ## Example invocation
 
 ```
-Eduardo: process URL https://www.example.com/the-tao-of-pricing
+[OWNER]: process URL https://www.example.com/the-tao-of-pricing
 → defuddle parse https://www.example.com/the-tao-of-pricing --md
 → Extract title, insights, quotes, score
 → Write 04-resources/articles/tao-of-pricing.md

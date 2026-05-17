@@ -4,14 +4,14 @@ created: 2026-05-03
 modified: 2026-05-17
 tags: [architecture, ckis, claude-code, brain, graphify, wiki-brain, dev-brain, open-source]
 status: evergreen
-related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent]]", "[[06-decision-execution-and-review-protocol]]", "[[09-cross-model-shared-context-protocol]]", "[[02-projects/korvex/_overview]]", "[[02-projects/brisas-del-golfo/_overview]]", "[[ai-specialization-automation-engineering]]"]
+related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent]]", "[[06-decision-execution-and-review-protocol]]", "[[09-cross-model-shared-context-protocol]]", "[[02-projects/[your-project]/_overview]]", "[[02-projects/[client-site]/_overview]]", "[[ai-specialization-automation-engineering]]"]
 ---
 
 # Per-Project Second Brain
 ## Graphify + `.brain/` + Dev Brain + Wiki-Brain Architecture
 
 > **Version:** 2026-05-17 (v2.2) — Dev Brain autonomous pipeline added; sessions indexed; wiki pages auto-built.
-> Previous: 2026-05-04 (v2.0) — full implementation across korvex-web and brisas-del-golfo.
+> Previous: 2026-05-04 (v2.0) — full implementation across [your-project] and [client-site].
 > This note is the canonical spec. Future changes start here, then propagate to the CKIS CHANGELOG.
 
 CKIS solves the *strategic* memory problem — who Eduardo is, what projects exist, what's been decided at the business level. It deliberately does **not** solve the *tactical* problem inside a coding repo: every Claude Code session loses the thread of what happened in the previous one. Bug fixes evaporate. Decisions made mid-session never reach the vault. The codebase grows opaque.
@@ -102,8 +102,8 @@ Each layer has a clear owner and scope. Nothing crosses boundaries upward withou
 Every script sources `config.sh` first. The minimal fields:
 
 ```bash
-PROJECT_SLUG="korvex"           # must match 02-projects/<slug>/ in CKIS vault
-PROJECT_NAME="Korvex Web"
+PROJECT_SLUG="[your-project]"           # must match 02-projects/<slug>/ in CKIS vault
+PROJECT_NAME="[YOUR_PROJECT] Web"
 CKIS_VAULT="$HOME/Documents/Second Brain"
 CKIS_MEMORY="$CKIS_VAULT/00-inbox/_MEMORY.md"
 CKIS_PROJECT_OVERVIEW="$CKIS_VAULT/02-projects/$PROJECT_SLUG/_overview.md"
@@ -264,16 +264,16 @@ exit 0
 ├── AGENT_README.md       # entry point for any agent — query patterns, registered projects
 ├── projects.json         # central registry: slug, repo_root, graph_json, sessions_dir
 ├── code-graph/
-│   ├── korvex/           # 376 .md notes — one per korvex-web code node (v2.2)
-│   └── brisas-del-golfo/ # 190 .md notes — one per brisas node
+│   ├── [your-project]/           # 376 .md notes — one per [your-project] code node (v2.2)
+│   └── [client-site]/ # 190 .md notes — one per brisas node
 ├── sessions/
 │   ├── index.md          # append-only feed: UTC | slug | duration | sha | summary | path
-│   ├── korvex/           # per-session pointer files from korvex-web Stop hook
-│   └── brisas-del-golfo/ # per-session pointer files from brisas Stop hook
+│   ├── [your-project]/           # per-session pointer files from [your-project] Stop hook
+│   └── [client-site]/ # per-session pointer files from brisas Stop hook
 ├── wiki/
 │   ├── index.md          # auto-rebuilt by build-wiki-page.sh after each Obsidian sync
-│   ├── korvex.md         # god-nodes + communities + recent sessions digest
-│   └── brisas-del-golfo.md
+│   ├── [your-project].md         # god-nodes + communities + recent sessions digest
+│   └── [client-site].md
 ├── scripts/
 │   ├── query-all.sh          # cross-project query via graphify merge-graphs
 │   ├── register-project.sh   # upserts project in projects.json + AGENT_README.md
@@ -329,8 +329,8 @@ Required setup:
 3. Install **BRAT** (Beta Reviewers Auto-update Tester).
 4. Via BRAT: add `Aryan Gupta/3D-Graph` (v2.4.1) → enable.
 5. In 3D Graph settings, configure color groups:
-   - Community 0 (korvex core): electric blue `#3B82F6`
-   - Community 1 (brisas core): emerald `#10B981`
+   - Community 0 ([your-project] core): electric blue `#3B82F6`
+   - Community 1 ([your-project]-2 core): emerald `#10B981`
    - `wiki/` path prefix: magenta `#D946EF`
    - `timeline/` path prefix: grey `#6B7280`
 
@@ -419,7 +419,7 @@ SessionEnd (global, wiki-brain)
 ### Graphify (`safishamsi/graphify`, PyPI: `graphifyy==0.6.7`)
 
 Selected over `abhigyanpatwari/GitNexus` because:
-- **License:** Graphify is MIT. GitNexus is PolyForm Noncommercial — hard blocker for Korvex commercial work.
+- **License:** Graphify is MIT. GitNexus is PolyForm Noncommercial — hard blocker for [YOUR_PROJECT] commercial work.
 - **Obsidian native:** Graphify's Python API writes a real Obsidian vault (one `.md` per node, wikilinks, community frontmatter). GitNexus has no Obsidian integration.
 
 Known risks:
@@ -578,9 +578,9 @@ uv tool install graphifyy==0.6.7
 
 | Repo | Status | Nodes | Notes |
 | --- | --- | --- | --- |
-| korvex-web | ✅ live | 376 | Pilot 2026-05-03; grew to 376 nodes by 2026-05-17 |
-| brisas-del-golfo | ✅ live | 190 | Replicated 2026-05-03 |
-| korvex-crm | ⏳ pending | — | Next after soak period |
+| [your-project] | ✅ live | 376 | Pilot 2026-05-03; grew to 376 nodes by 2026-05-17 |
+| [client-site] | ✅ live | 190 | Replicated 2026-05-03 |
+| [your-project]-crm | ⏳ pending | — | Next after soak period |
 
 **v2.2 additions (2026-05-17):** Both repos now registered in `projects.json`; `log-session.sh` indexes sessions into `Dev Brain/sessions/`; `sync-obsidian-graph.sh` calls `build-wiki-page.sh` after each Obsidian export; `AGENT_README.md` + `query-all.sh` enable cross-project agent queries.
 
@@ -593,6 +593,6 @@ uv tool install graphifyy==0.6.7
 - [[04-claude-code-obsidian-agent]] — agent behavior rules (CKIS side)
 - [[06-decision-execution-and-review-protocol]] — decision-log format used in `.brain/decisions/`
 - [[09-cross-model-shared-context-protocol]] — Claude ↔ ChatGPT context handoff
-- [[02-projects/korvex/_overview]] — Korvex curated overview
-- [[02-projects/brisas-del-golfo/_overview]] — Brisas del Golfo curated overview
-- [[ai-specialization-automation-engineering]] — why this matters for Eduardo's specialization
+- [[02-projects/[your-project]/_overview]] — [YOUR_PROJECT] curated overview
+- [[02-projects/[client-site]/_overview]] — [CLIENT_SITE] curated overview
+- [[ai-specialization-automation-engineering]] — why this matters for [OWNER]'s specialization

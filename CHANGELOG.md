@@ -5,9 +5,38 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 
 ---
 
+## [v2.3.0] 2026-05-17 — Plug-and-Play Template + 3D Graph + Apache 2.0
+
+**Goal:** Make the public template truly plug-and-play — any developer should be able to clone and immediately have a functioning agentic knowledge system.
+
+### Added
+- Full folder skeleton with `CONVENTION.md` in every folder — purpose, naming, frontmatter, anti-patterns
+- `00-inbox/` subcarpetas: `quick-capture/`, `url-dumps/`, `youtube-queue/`, `social-media-queue/`, `convert-queue/`
+- `02-projects/_TEMPLATE/` — starter folder with `_overview.md`, `clients/`, `processes/`
+- `03-knowledge/` subfolders: `frameworks/`, `guides/`, `literature-notes/`, `maps-of-content/`, `patterns/`
+- `04-resources/` subfolders with social-captures CONVENTION.md for 5 platforms (LinkedIn, X, Instagram, TikTok, YouTube Shorts)
+- `05-areas/` seed notes: personal-brand, finance (personal+business), health-fitness, learning, relationships, wellbeing
+- `06-goals/` subfolders: `annual/`, `quarterly/`, `monthly/`, `weekly/`
+- `07-people/` subfolders: `clients/`, `mentors/`, `network/`
+- `08-templates/`: permanent-note, literature-note, project-overview, weekly-review, goal-quarterly, session-log
+- `00-systems/ckis/21-obsidian-3d-graph-guide.md` — plugin install, settings, color scheme, growth metrics, troubleshooting
+- `00-systems/ckis/22-optional-agentmemory-integration.md` — evaluation of agentmemory; reference-only verdict
+- `docs/images/` — two 3D graph screenshots (connected + dispersed) for README and file 21
+- `00-systems/workflows/CONVENTION.md` — workflow documentation convention
+- README: complete rewrite with hero screenshots, evolution story, architecture diagram, skill tables, agent habits section, 3D graph section, related tools table
+
+### Changed
+- License: MIT → Apache 2.0 (patent grant + "CKIS" trademark protection; maximizes adoption)
+- README: product-first structure, screenshots at top, full skill catalog
+
+### Fixed
+- Security audit: all personal project names, university, locale references replaced with generic placeholders across 20 files — repo is now safe for public cloning
+
+---
+
 ## [v2.2.0] 2026-05-17 — Dev Brain Autonomous Architecture
 
-**CKIS System:** Dev Brain autonomous pipeline — any agent can now query Eduardo's codebases.
+**CKIS System:** Dev Brain autonomous pipeline — any agent can now query [OWNER]'s codebases.
 
 ### Added
 - `AGENT_README.md` in Dev Brain — agent entry point with query patterns and registered project table
@@ -59,7 +88,7 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 ## [v1.0.0] 2026-05-03 — Initial Architecture
 
 - Three-layer memory stack designed and documented
-- Per-project `.brain/` piloted on korvex-web and brisas-del-golfo
+- Per-project `.brain/` piloted on [your-project] and [client-site]
 - Graphify v0.6.7 selected (MIT license, Obsidian-native)
 - 5 Claude Code hooks wired in all coding repos
 - Dev Brain vault created with 376 code-graph nodes across 2 projects

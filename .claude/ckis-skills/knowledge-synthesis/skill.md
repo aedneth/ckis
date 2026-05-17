@@ -1,6 +1,6 @@
 ---
 name: knowledge-synthesis
-description: Search the entire vault for all notes related to a topic, compile what Eduardo already knows, surface patterns, contradictions, and gaps, and create or update a MOC. Use when Eduardo says "synthesize [topic]", "síntesis de [tema]", "what do I know about [topic]", or "qué sé sobre [tema]".
+description: Search the entire vault for all notes related to a topic, compile what Eduardo already knows, surface patterns, contradictions, and gaps, and create or update a MOC. Use when [OWNER] says "synthesize [topic]", "síntesis de [tema]", "what do I know about [topic]", or "qué sé sobre [tema]".
 ---
 
 # Knowledge Synthesis
@@ -9,7 +9,7 @@ Pull every relevant note across the vault into a single, coherent view of "what 
 
 ## Workflow
 
-1. **Parse the topic** from Eduardo's request. If ambiguous (`"synthesize AI"` is too broad), ask one clarifying question.
+1. **Parse the topic** from [OWNER]'s request. If ambiguous (`"synthesize AI"` is too broad), ask one clarifying question.
 2. **Generate search terms**: the topic itself, 3-5 synonyms, related concepts, and the Spanish/English counterpart. Example for "pricing": `pricing`, `precios`, `cotización`, `value-based`, `wtp`, `willingness to pay`, `anchoring`.
 3. **Search the vault** in parallel using Grep across:
    - `03-knowledge/permanent-notes/`
@@ -48,7 +48,7 @@ Pull every relevant note across the vault into a single, coherent view of "what 
 - [[note A]] argues X, [[note B]] argues ¬X. Worth resolving because {{...}}
 
 ## 🕳️ Gaps
-- {{question Eduardo's vault doesn't answer}}
+- {{question [OWNER]'s vault doesn't answer}}
 - ...
 
 ## Sources used (N notes)
@@ -61,7 +61,7 @@ Pull every relevant note across the vault into a single, coherent view of "what 
 
 - The "What you know" section is **prose, not bullets**. Forcing prose forces synthesis. Bullet dumps are not synthesis.
 - Cite at least 3 notes or admit Eduardo has very little on the topic. Don't fabricate connections.
-- Bilingual: write the synthesis in the language most of the source notes use. If split 50/50, use Spanish (Eduardo's native).
+- Bilingual: write the synthesis in the language most of the source notes use. If split 50/50, use Spanish ([OWNER]'s native).
 - Never delete or rewrite source notes. Synthesis is read-only on its inputs.
 - "Contradictions" must be substantive — different framings of the same idea don't count.
 - If fewer than 3 relevant notes exist, say so plainly: "Eduardo has 2 notes on this topic — too thin to synthesize. Suggest capturing more before running this again."
@@ -69,9 +69,9 @@ Pull every relevant note across the vault into a single, coherent view of "what 
 ## Example invocation
 
 ```
-Eduardo: synthesize value-based pricing
+[OWNER]: synthesize value-based pricing
 → Search terms: value-based, pricing, wtp, willingness to pay, anchoring, cotización, precios
-→ Grep across 03-knowledge/, 04-resources/, 02-projects/korvex/ → 11 matches
+→ Grep across 03-knowledge/, 04-resources/, 02-projects/[your-project]/ → 11 matches
 → Read all matches → compile prose synthesis → identify 2 patterns, 1 contradiction, 3 gaps
 → Update existing MOC-Business-Strategy.md with new sub-section
 → Output synthesis inline

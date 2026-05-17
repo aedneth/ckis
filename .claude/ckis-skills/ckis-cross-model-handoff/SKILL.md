@@ -1,11 +1,11 @@
 ---
 name: ckis-cross-model-handoff
-description: Build a copy-pasteable briefing for Claude Chat or ChatGPT. Pulls 14-active-working-slot.md, relevant project _overview.md files, and CKIS file pointers; flags content NOT to paste (secrets, full _MEMORY.md). Use when Eduardo says "cross-model handoff <claude-chat|chatgpt> <topic>" or wants to brief another model without dumping the vault. Read-only — never writes to the vault.
+description: Build a copy-pasteable briefing for Claude Chat or ChatGPT. Pulls 14-active-working-slot.md, relevant project _overview.md files, and CKIS file pointers; flags content NOT to paste (secrets, full _MEMORY.md). Use when [OWNER] says "cross-model handoff <claude-chat|chatgpt> <topic>" or wants to brief another model without dumping the vault. Read-only — never writes to the vault.
 ---
 
 # CKIS Cross-Model Handoff
 
-Prepare a single block Eduardo can paste into Claude Chat or ChatGPT. Goal: maximum context-density per token, no leakage.
+Prepare a single block [OWNER] can paste into Claude Chat or ChatGPT. Goal: maximum context-density per token, no leakage.
 
 ## Trigger
 
@@ -73,18 +73,18 @@ Where `<destination>` is one of:
 ## Output Example
 
 ```
-# Briefing — Korvex pricing for Bloque 3
+# Briefing — [YOUR_PROJECT] pricing for Bloque 3
 
 ## Context
 We're shipping Bloque 3 of the 7-bloque framework next month. Need to lock pricing before launch. Current market positioning is mid-tier; competitor X just dropped to $X.
 
 ## Relevant CKIS files
 - 06 - Decision · Execution · Review Protocol
-- 07 - Projects / Areas / Resources / Archives Map (Korvex section)
+- 07 - Projects / Areas / Resources / Archives Map ([YOUR_PROJECT] section)
 - 09 - Cross-Model Shared Context Protocol
 
 ## Project state
-- Project: Korvex
+- Project: [YOUR_PROJECT]
 - Status: Bloque 2/7 launched; Bloque 3 in design.
 - Open decisions: pricing for Bloque 3; productized vs custom split.
 - Blockers: no validated lead source.

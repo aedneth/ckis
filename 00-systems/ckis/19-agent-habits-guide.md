@@ -107,7 +107,7 @@ Write this to 01-daily/logs/2026-05-17.md.
 
 **Automated (Cron 4, Sunday 9:30pm)**:
 - Cron 4 reads the week's daily logs + session logs + project overviews
-- Writes `06-goals/weekly/week-YYYY-WW.md` with: Wins, Losses, Blockers, Korvex Progress, Priorities
+- Writes `06-goals/weekly/week-YYYY-WW.md` with: Wins, Losses, Blockers, [YOUR_PROJECT] Progress, Priorities
 - **No action needed** — just read the output Monday morning
 
 **Manual additions (15 minutes)**:
@@ -140,22 +140,22 @@ Write this to 01-daily/logs/2026-05-17.md.
 
 ━━━
 
-## 7. Korvex-web Sessions (separate from vault)
+## 7. [YOUR_PROJECT]-web Sessions (separate from vault)
 
-When working on the korvex-web codebase:
+When working on the [your-project] codebase:
 
 ```bash
 cd "<YOUR_PROJECT_PATH>"
 claude
 ```
 
-The korvex-web `.brain/` system is **more automated** than the vault:
+The [your-project] `.brain/` system is **more automated** than the vault:
 - **SessionStart**: auto-assembles `_CONTEXT.md` with last 3 sessions + open decisions
 - **PostToolUse**: auto-captures every build, test, lint, and commit
 - **Stop**: auto-writes session log with iterations and compactions
 - **74+ compaction files** already captured
 
-For korvex-web sessions, your only habit is: **use /compact generously**. Everything else is automatic.
+For [your-project] sessions, your only habit is: **use /compact generously**. Everything else is automatic.
 
 ━━━
 
@@ -182,7 +182,7 @@ CKIS is NOT working if:
 # Start a vault session (Second Brain)
 cd ~/Documents/Second\ Brain && claude
 
-# Start a coding session (korvex-web)
+# Start a coding session ([your-project])
 cd "<YOUR_PROJECT_PATH>" && claude
 
 # Check today's session log

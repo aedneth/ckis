@@ -73,7 +73,7 @@ Within the vault itself, certain files serve as **live memory state**:
 - **What**: Local-first verbatim memory with hierarchical "palace" metaphor (individuals→wings, subjects→rooms, content→drawers), 96.6% recall@5, MCP server with 29 tools
 - **License**: MIT
 - **Install**: `uv tool install mempalace` (Python 3.9+, ~300 MB)
-- **Architecture fit**: EXCELLENT — the palace hierarchy (wings=projects, rooms=topics, drawers=notes) maps directly to Eduardo's vault structure (02-projects, 03-knowledge, per-folder files)
+- **Architecture fit**: EXCELLENT — the palace hierarchy (wings=projects, rooms=topics, drawers=notes) maps directly to [OWNER]'s vault structure (02-projects, 03-knowledge, per-folder files)
 - **Verdict: INTEGRATE IN v2** — Best long-term architectural fit for CKIS public. The Python dependency and ChromaDB setup requires dedicated infrastructure time. Target: integrate when building the CKIS public repo's backend. MCP server approach means it can serve all agents (Claude Code, Hermes, Codex) equally.
 
 ### 4.3 Max Mitcham's Three-Layer Architecture (agentic-os-compound-memory)
@@ -102,9 +102,9 @@ graphify wiki            →    ~/Documents/Dev Brain/wiki/
 
 ## 6. Future: Hermes Integration
 
-Max Mitcham's guide uses **Hermes** as the main orchestration controller (with Claude Code as one of many execution agents). Eduardo's current setup uses Claude Code as both orchestrator and executor.
+Max Mitcham's guide uses **Hermes** as the main orchestration controller (with Claude Code as one of many execution agents). [OWNER]'s current setup uses Claude Code as both orchestrator and executor.
 
-**Plan**: When Eduardo acquires Hermes:
+**Plan**: When [OWNER] acquires Hermes:
 1. Claude Code → execution role (coding tasks, vault writes)
 2. Hermes → orchestration role (task routing, cross-agent coordination)
 3. mempalace MCP → shared memory backend for both

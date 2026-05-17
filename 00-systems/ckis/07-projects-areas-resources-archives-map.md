@@ -9,7 +9,7 @@ related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]"]
 
 # 07 — Projects · Areas · Resources · Archives Map
 
-> Real taxonomy as it lives in this vault. CKIS is **inspired by PARA** (Projects / Areas / Resources / Archives) but uses Eduardo's numbered-folder convention with finer-grained content folders. Do not force pure PARA on top of this — preserve the existing structure.
+> Real taxonomy as it lives in this vault. CKIS is **inspired by PARA** (Projects / Areas / Resources / Archives) but uses [OWNER]'s numbered-folder convention with finer-grained content folders. Do not force pure PARA on top of this — preserve the existing structure.
 
 ━━━
 
@@ -23,7 +23,7 @@ Folder mapping to PARA:
 |---|---|---|
 | `00-inbox/` | (capture buffer) | Strict PARA has no inbox; this vault treats it as a first-class zone |
 | `01-daily/` | (operations) | Time-indexed working memory |
-| `02-projects/` | Projects | Korvex, Brisas, University, Personal Brand |
+| `02-projects/` | Projects | [YOUR_PROJECT], Brisas, University, Personal Brand |
 | `03-knowledge/` | (Resources, but evergreen) | Permanent + literature + MOCs + frameworks + guides + patterns |
 | `04-resources/` | Resources | Raw reference (articles, books, courses, social, tools, youtube) |
 | `05-areas/` | Areas | Health, finance personal, finance business, relationships, learning, wellbeing |
@@ -37,18 +37,18 @@ Folder mapping to PARA:
 
 Active:
 
-- **Korvex** — `02-projects/korvex/` — primary professional focus. Software / digitalization startup (not a "web agency"). Stack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Supabase, Vercel, Cloudflare, Wompi SV.
-- **Brisas del Golfo** — `02-projects/brisas-del-golfo/` — delivered hotel/restaurant client site. URL: brisasdelgolfo.site. Postmortem documented.
-- **University** — `02-projects/university/` — UGB Ingeniería en Sistemas, Ciclo 1-2026. Goal Q2: pass all subjects (≥7/10), automate study pipelines.
+- **[YOUR_PROJECT]** — `02-projects/[your-project]/` — primary professional focus. Software / digitalization startup (not a "web agency"). Stack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Supabase, Vercel, Cloudflare, Wompi SV.
+- **[CLIENT_SITE]** — `02-projects/[client-site]/` — delivered hotel/restaurant client site. URL: brisasdelgolfo.site. Postmortem documented.
+- **University** — `02-projects/university/` — [YOUR_UNIVERSITY] [your-education-context]. Goal Q2: pass all subjects (≥7/10), automate study pipelines.
 - **Personal Brand** — `02-projects/personal-brand/` — LinkedIn-only, reactivated Q2 2026.
 
 Archived (`09-archive/`):
 
-- **Tourdy** — `09-archive/tourdy/` — coastal tourism marketplace. Archived 2026-05-02 to give Korvex full focus. Reactivation trigger: manual ("when Eduardo says so").
+- **[ARCHIVED_PROJECT]** — `09-archive/[archived-project]/` — coastal tourism marketplace. Archived 2026-05-02 to give [YOUR_PROJECT] full focus. Reactivation trigger: manual ("when [OWNER] says so").
 - **HidroPlus** — IoT hydration project (ESP8266, Blynk). Bachillerato-era project; archived (not a current priority).
 - **Movi RideXpress** — dual-service startup. Archived (location TBD; check `09-archive/`).
 
-Each project folder must contain `_overview.md`. Subfolders typical of project work: `clients/`, `processes/`, `notes/`, source-of-truth context files (e.g., `korvex-context.md`, `company-strategy-context.md`).
+Each project folder must contain `_overview.md`. Subfolders typical of project work: `clients/`, `processes/`, `notes/`, source-of-truth context files (e.g., `[your-project]-context.md`, `company-strategy-context.md`).
 
 ## 3. Areas (`05-areas/`)
 
@@ -99,7 +99,7 @@ One unified goal system. Do not introduce a parallel goal tracker.
 
 ## 7. People (`07-people/`)
 
-- `clients/` — one note per real (not prospective) Korvex client.
+- `clients/` — one note per real (not prospective) [YOUR_PROJECT] client.
 - `mentors/` — relationships providing strategic input.
 - `network/` — useful contacts not in the above buckets.
 
@@ -131,7 +131,7 @@ This folder. Holds:
 ## 11. Cross-Folder Patterns
 
 - A YouTube video produces: an entry under `04-resources/youtube/`, plus a literature note under `03-knowledge/literature-notes/`, plus 0+ permanent notes under `03-knowledge/permanent-notes/`, plus possible MOC update.
-- A new client produces: a note under `07-people/clients/` (from `client-note.md` template) and a project subfolder under `02-projects/korvex/clients/` if the engagement is large enough.
+- A new client produces: a note under `07-people/clients/` (from `client-note.md` template) and a project subfolder under `02-projects/[your-project]/clients/` if the engagement is large enough.
 - A captured book produces: an entry under `04-resources/books/` and 1+ permanent notes for novel ideas.
 
 ## 12. Anti-patterns to Avoid

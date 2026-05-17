@@ -1,6 +1,6 @@
 ---
 name: monthly-consolidation
-description: Run the monthly knowledge consolidation — analyze permanent notes from the past month, detect recurring patterns, update or create MOCs, write pattern notes, identify knowledge gaps, and produce a monthly intelligence report. Use when Eduardo says "knowledge consolidation", "monthly consolidation", "consolidación mensual", or "reporte mensual". Saves report to 06-goals/monthly/.
+description: Run the monthly knowledge consolidation — analyze permanent notes from the past month, detect recurring patterns, update or create MOCs, write pattern notes, identify knowledge gaps, and produce a monthly intelligence report. Use when [OWNER] says "knowledge consolidation", "monthly consolidation", "consolidación mensual", or "reporte mensual". Saves report to 06-goals/monthly/.
 ---
 
 # Monthly Consolidation
@@ -18,15 +18,15 @@ Where the second brain stops being a notebook and becomes an intelligence engine
 5. **Pattern detection** — identify:
    - Topics that show up in 3+ permanent notes from this month
    - Tag clusters that didn't exist last month
-   - Contradictions or evolutions in Eduardo's thinking on a topic
-   - Cross-domain links (e.g., a Korvex insight that also applies to University)
+   - Contradictions or evolutions in [OWNER]'s thinking on a topic
+   - Cross-domain links (e.g., a [YOUR_PROJECT] insight that also applies to University)
 6. **For each detected pattern (≥ 3 supporting notes)**:
    - If a relevant MOC exists in `03-knowledge/maps-of-content/`, **update it** — add the new wikilinks under the right section, bump `modified` in frontmatter.
    - If no MOC exists, **create** `MOC-{{Topic}}.md` using the MOC template (see below).
    - If the pattern is itself an insight (not just a topic), create a pattern note in `03-knowledge/patterns/{{pattern-name}}.md`.
 7. **Identify knowledge gaps** — topics Eduardo *captured raw* this month (in inbox or resources) but never processed into permanent notes. These are debt.
 8. **Write the monthly report** to `06-goals/monthly/YYYY-MM-monthly-report.md` (use the month being consolidated, not today).
-9. **Echo a compact summary** to Eduardo: # patterns found, # MOCs updated/created, # gaps flagged.
+9. **Echo a compact summary** to [OWNER]: # patterns found, # MOCs updated/created, # gaps flagged.
 
 ## MOC template
 
@@ -117,7 +117,7 @@ related: []
 - {{...}}
 
 ## 🧭 Direction signal
-{{2-4 sentences on what these patterns reveal about where Eduardo's thinking is heading and what to lean into next month}}
+{{2-4 sentences on what these patterns reveal about where [OWNER]'s thinking is heading and what to lean into next month}}
 ```
 
 ## Rules
@@ -130,7 +130,7 @@ related: []
 ## Example invocation
 
 ```
-Eduardo: knowledge consolidation
+[OWNER]: knowledge consolidation
 → Glob 03-knowledge/permanent-notes/, filter by created in 2026-04
 → Read all, detect patterns with ≥3 supporting notes
 → Update existing MOCs, create new ones, write pattern notes

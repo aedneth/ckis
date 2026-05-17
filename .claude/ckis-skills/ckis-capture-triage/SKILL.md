@@ -1,6 +1,6 @@
 ---
 name: ckis-capture-triage
-description: Lightweight pre-process-inbox triage. Move mis-routed inbox items into the right inbox subfolder (screenshots → social-media-queue, URL dumps → url-dumps, PDFs/DOCX → convert-queue) without classifying or moving to a final folder. Use when Eduardo says "triage inbox" or wants to clean up the inbox before a full processing run. Never moves files out of 00-inbox/, never deletes anything.
+description: Lightweight pre-process-inbox triage. Move mis-routed inbox items into the right inbox subfolder (screenshots → social-media-queue, URL dumps → url-dumps, PDFs/DOCX → convert-queue) without classifying or moving to a final folder. Use when [OWNER] says "triage inbox" or wants to clean up the inbox before a full processing run. Never moves files out of 00-inbox/, never deletes anything.
 ---
 
 # CKIS Capture Triage

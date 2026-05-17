@@ -23,8 +23,8 @@ related: ["[[2026-annual]]", "[[_MEMORY]]", "[[{{date-1month:YYYY-MM}}]]"]
 - Ver [[2026-annual]] sección correspondiente
 
 ## Proyectos activos
-- [[02-projects/korvex/_overview]]
-- [[02-projects/brisas-del-golfo/_overview]]
+- [[02-projects/[your-project]/_overview]]
+- [[02-projects/[client-site]/_overview]]
 - [[02-projects/university/_overview]]
 - [[02-projects/personal-brand/_overview]]
 

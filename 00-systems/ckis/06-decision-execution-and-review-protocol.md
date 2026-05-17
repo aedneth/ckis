@@ -21,7 +21,7 @@ A decision log entry is a permanent note (or a section of a project `_overview.m
 ## Decision: <one-line title>
 
 - Date: YYYY-MM-DD
-- Project / area: korvex | brisas | tourdy | university | personal | …
+- Project / area: [your-project] | brisas | [archived-project] | university | personal | …
 - Status: proposed | adopted | superseded | reverted
 - Decision: <what was decided>
 - Why: <rationale, max 3 bullets>
@@ -43,7 +43,7 @@ Where it lives:
 Mandatory:
 
 - Choosing or replacing a tool, framework, or service.
-- Locking pricing, packaging, or service catalog for Korvex.
+- Locking pricing, packaging, or service catalog for [YOUR_PROJECT].
 - Pausing or reactivating a project.
 - Architecture changes to CKIS or to a code repo.
 - Anything you'd hate to re-debate in 3 months.
@@ -107,8 +107,8 @@ Procedure:
 
 Run a retrospective when:
 
-- A project ships (e.g., Brisas del Golfo postmortem already exists).
-- A project is paused (Tourdy).
+- A project ships (e.g., [CLIENT_SITE] postmortem already exists).
+- A project is paused ([ARCHIVED_PROJECT]).
 - A quarterly target is hit or missed.
 
 Format: ship/skip/learn or "what worked / what didn't / what to change." Save under the project folder as `<project>_postmortem.md` or similar.

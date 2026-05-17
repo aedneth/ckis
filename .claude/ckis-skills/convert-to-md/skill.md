@@ -1,6 +1,6 @@
 ---
 name: convert-to-md
-description: Convert non-markdown files in 00-inbox/convert-queue/ (.pdf, .docx, .txt, .rtf) to .md and move them to 00-inbox/ for processing. Use when Eduardo says "convert files", "convierte archivos", or wants to ingest documents into the vault.
+description: Convert non-markdown files in 00-inbox/convert-queue/ (.pdf, .docx, .txt, .rtf) to .md and move them to 00-inbox/ for processing. Use when [OWNER] says "convert files", "convierte archivos", or wants to ingest documents into the vault.
 ---
 
 # Convert Files to Markdown

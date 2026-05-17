@@ -1,6 +1,6 @@
 ---
 name: weekly-review
-description: Run Eduardo's Sunday weekly review — scan the past 7 days of daily notes, check goal progress, audit knowledge captured vs processed, flag stale inbox, surface recurring themes, and write next week's focus. Use when Eduardo says "weekly review", "review semanal", or "revisión de la semana". Saves report to 06-goals/weekly/.
+description: Run [OWNER]'s Sunday weekly review — scan the past 7 days of daily notes, check goal progress, audit knowledge captured vs processed, flag stale inbox, surface recurring themes, and write next week's focus. Use when [OWNER] says "weekly review", "review semanal", or "revisión de la semana". Saves report to 06-goals/weekly/.
 ---
 
 # Weekly Review
@@ -77,7 +77,7 @@ related: []
 ## Example invocation
 
 ```
-Eduardo: weekly review
+[OWNER]: weekly review
 → Read all 01-daily/2026-03-30.md through 2026-04-05.md, logs from same window
 → Read 06-goals/2026-annual.md, last weekly review
 → Glob 00-inbox/, count knowledge/ modifications

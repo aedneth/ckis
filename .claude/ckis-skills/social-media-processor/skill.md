@@ -1,6 +1,6 @@
 ---
 name: social-media-processor
-description: Read items dropped into 00-inbox/social-media-queue/, strip engagement bait, classify each as actionable knowledge or entertainment, and either promote (literature note → permanent note) or recommend discard. Apply the 90-day utility filter. Use when Eduardo says "process social", "procesa el social queue", or after dropping new files into 00-inbox/social-media-queue/.
+description: Read items dropped into 00-inbox/social-media-queue/, strip engagement bait, classify each as actionable knowledge or entertainment, and either promote (literature note → permanent note) or recommend discard. Apply the 90-day utility filter. Use when [OWNER] says "process social", "procesa el social queue", or after dropping new files into 00-inbox/social-media-queue/.
 ---
 
 # Social Media Processor
@@ -24,8 +24,8 @@ Social media is mostly noise with occasional signal. The processor's job is to r
    - Create a **literature note** in `04-resources/social-captures/` using the template below
    - If the insight is novel (Grep check), create a **permanent note** in `03-knowledge/permanent-notes/`
    - Update relevant MOCs
-   - Move the original from `00-inbox/social-media-queue/` to `09-archive/social-originals/{{YYYY-MM}}/` (don't delete — Eduardo's source-of-truth audit trail)
-7. **For discarded items**: list them in the report. Do NOT auto-delete — Eduardo confirms.
+   - Move the original from `00-inbox/social-media-queue/` to `09-archive/social-originals/{{YYYY-MM}}/` (don't delete — [OWNER]'s source-of-truth audit trail)
+7. **For discarded items**: list them in the report. Do NOT auto-delete — [OWNER] confirms.
 8. **Output the processing report** (format below).
 
 ## Literature note template
@@ -50,7 +50,7 @@ related: []
 > **Actionability:** {{score}}/5
 
 ## The insight (stripped)
-{{1-2 paragraphs in plain language. NOT a transcript of the post. The idea, in Eduardo's voice.}}
+{{1-2 paragraphs in plain language. NOT a transcript of the post. The idea, in [OWNER]'s voice.}}
 
 ## How Eduardo could use it
 - {{specific application within 90 days}}
@@ -73,13 +73,13 @@ related: []
   → permanent note: `03-knowledge/permanent-notes/atomic-idea.md`
 - ...
 
-## 🗑️ Recommended discard (awaiting Eduardo's confirmation)
+## 🗑️ Recommended discard (awaiting [OWNER]'s confirmation)
 - `screenshot-1.png` — generic motivation post, no actionable content
 - `tweet-2.md` — opinion take, no transferable framework
 - ...
 
 ## 🤔 Borderline
-- `carousel-3.md` — interesting angle on Korvex pricing but author has no credibility signal; promote anyway?
+- `carousel-3.md` — interesting angle on [YOUR_PROJECT] pricing but author has no credibility signal; promote anyway?
 ```
 
 ## Rules
@@ -94,7 +94,7 @@ related: []
 ## Example invocation
 
 ```
-Eduardo: process social
+[OWNER]: process social
 → Glob 00-inbox/social-media-queue/**/*
 → For each: read, strip bait, classify, apply 90-day filter
 → Promote 3 items, recommend discard for 8, flag 1 borderline

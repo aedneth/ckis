@@ -9,15 +9,15 @@ related: ["[[01-ckis-user-profile-and-operating-context]]", "[[02-obsidian-vault
 
 # 00 — CKIS Master Context
 
-> Canonical, single-source description of Eduardo's **Central Knowledge & Intelligence System (CKIS)** — also referred to verbatim as "My Second Brain" or "Personal Vault." All other CKIS files extend or reference this one. If a fact in another CKIS file contradicts this one, this file wins until it is updated.
+> Canonical, single-source description of [OWNER]'s **Central Knowledge & Intelligence System (CKIS)** — also referred to verbatim as "My Second Brain" or "Personal Vault." All other CKIS files extend or reference this one. If a fact in another CKIS file contradicts this one, this file wins until it is updated.
 
 ━━━
 
 ## 1. Identity
 
-CKIS is [OWNER]'s AI-powered personal knowledge and business operating system. Acceptable verbatim names: **CKIS**, **My Second Brain**, **Personal Vault**, "the vault." CKIS is **not** a note-taking app — it is a self-evolving system that captures, processes, synthesizes, and acts on knowledge across professional work (Korvex), university (UGB), and personal development.
+CKIS is [OWNER]'s AI-powered personal knowledge and business operating system. Acceptable verbatim names: **CKIS**, **My Second Brain**, **Personal Vault**, "the vault." CKIS is **not** a note-taking app — it is a self-evolving system that captures, processes, synthesizes, and acts on knowledge across professional work ([YOUR_PROJECT]), university ([YOUR_UNIVERSITY]), and personal development.
 
-Korvex is **not** a "web agency." Eduardo's vision for Korvex goes beyond that simplicity — treat it as a software / digitalization startup. Do not introduce "agency" framing in new CKIS content.
+[YOUR_PROJECT] is **not** a "web agency." [OWNER]'s vision for [YOUR_PROJECT] goes beyond that simplicity — treat it as a software / digitalization startup. Do not introduce "agency" framing in new CKIS content.
 
 Stored as: plain markdown files on disk, under Git, opened with Obsidian.
 
@@ -32,14 +32,14 @@ CKIS exists to:
 - Keep project overviews automatically current as new files are added.
 - Process raw captures (notes, docs, URLs, videos, social posts) into structured, linked knowledge.
 - Surface patterns, connections, and insights Eduardo would miss manually.
-- Serve as the single source of truth for Korvex business state, university progress, and personal goals.
+- Serve as the single source of truth for [YOUR_PROJECT] business state, university progress, and personal goals.
 
 ## 3. Scope
 
 In scope:
 
 - Knowledge capture, processing, and synthesis.
-- Project state for Korvex, Brisas del Golfo, University, Personal Brand. Tourdy and HidroPlus archived (`09-archive/`).
+- Project state for [YOUR_PROJECT], [CLIENT_SITE], University, Personal Brand. [ARCHIVED_PROJECT] and HidroPlus archived (`09-archive/`).
 - Decision logs, weekly reviews, monthly consolidations.
 - Cross-model handoff (Claude ↔ ChatGPT) with Obsidian as canonical store.
 - Reusable Claude Code skills for the workflows above.
@@ -126,20 +126,20 @@ The CKIS vault is the **canonical source of truth** for strategic knowledge. Eve
 
 ## 8. Confirmed Facts
 
-Confirmed (sourced from `CKIS_CONVERSATION_EXTRACT.md`, `Second_Brain_Final_Execution_Plan.md`, `Second_Brain_Context_Transfer.md`, observed vault state, Eduardo's resolutions on 2026-05-02, and full `.brain/` deployment on 2026-05-03/04):
+Confirmed (sourced from `CKIS_CONVERSATION_EXTRACT.md`, `Second_Brain_Final_Execution_Plan.md`, `Second_Brain_Context_Transfer.md`, observed vault state, [OWNER]'s resolutions on 2026-05-02, and full `.brain/` deployment on 2026-05-03/04):
 
 - Vault structure, folder names, frontmatter spec, naming conventions.
 - Skill list (13 operational skills + 6 CKIS skills under `.claude/skills/`; plus global `graphify` and `wiki-brain` skills at `~/.claude/skills/`).
 - Platform division of labor (three-layer memory: CKIS → Dev Brain → `.brain/`).
-- Active project set: **Korvex, Brisas del Golfo, University, Personal Brand**. Tourdy and HidroPlus archived (2026-05-02).
+- Active project set: **[YOUR_PROJECT], [CLIENT_SITE], University, Personal Brand**. [ARCHIVED_PROJECT] and HidroPlus archived (2026-05-02).
 - "NEVER delete files without backup" rule.
 - 7-day inbox rule.
 - `_MEMORY.md` is read every session.
 - **CKIS** is the canonical acronym: "Central Knowledge & Intelligence System." Aliases "My Second Brain" / "Personal Vault" are acceptable verbatim.
 - Folder name is `00-system/ckis/` (kebab-case, consistent with vault convention).
-- Korvex is **not** a web agency — treat it as a software / digitalization startup.
+- [YOUR_PROJECT] is **not** a web agency — treat it as a software / digitalization startup.
 - Web Clipper = Obsidian Web Clipper Firefox extension (configured); Claude API Interpreter is **not** used.
-- Per-project `.brain/` second brain: deployed on korvex-web (122 nodes) and brisas-del-golfo (190 nodes) as of 2026-05-03/04. Spec at `[[per-project-second-brain]]`.
+- Per-project `.brain/` second brain: deployed on [your-project] (122 nodes) and [client-site] (190 nodes) as of 2026-05-03/04. Spec at `[[per-project-second-brain]]`.
 - Dev Brain vault at `~/Documents/Dev Brain/` — separate from CKIS, holds code graphs + engineering wiki.
 - Graphify pinned at `graphifyy==0.6.7`. CLI `update` does NOT have `--obsidian`; Obsidian export via Python API only.
 - wiki-brain skill at `~/.claude/skills/wiki-brain/`; `SessionEnd` global hook wired in `~/.claude/settings.json`.
@@ -148,18 +148,18 @@ Confirmed (sourced from `CKIS_CONVERSATION_EXTRACT.md`, `Second_Brain_Final_Exec
 
 1. **Folder name** → `00-system/ckis/` (kebab-case adopted for consistency with the rest of the vault).
 2. **CKIS acronym** → **adopted** as canonical. Aliases "My Second Brain" / "Personal Vault" acceptable.
-3. **Project-level `.brain/` + Graphify per-repo second brain** → **FULLY DEPLOYED (2026-05-03/04).** korvex-web (122 nodes) and brisas-del-golfo (190 nodes) live. korvex-crm pending soak. Full spec: `[[per-project-second-brain]]`.
+3. **Project-level `.brain/` + Graphify per-repo second brain** → **FULLY DEPLOYED (2026-05-03/04).** [your-project] (122 nodes) and [client-site] (190 nodes) live. [your-project]-crm pending soak. Full spec: `[[per-project-second-brain]]`.
 4. **Obsidian Mobile + sync** → not implemented. Deferred.
 5. **Gemini API key (YouTube fallback)** → not implemented. Pipeline incomplete; deferred until project work allows.
 6. **AssemblyAI replacement (social-video transcription)** → no replacement; deferred. Project work takes priority.
 7. **Web Clipper** → Obsidian Web Clipper Firefox extension configured. Claude API Interpreter **not** used.
-8. **Tourdy reactivation trigger** → manual ("when Eduardo says so"). Tourdy archived 2026-05-02 (`09-archive/tourdy/`). HidroPlus already archived.
+8. **[ARCHIVED_PROJECT] reactivation trigger** → manual ("when [OWNER] says so"). [ARCHIVED_PROJECT] archived 2026-05-02 (`09-archive/[archived-project]/`). HidroPlus already archived.
 9. **YAML `tags:` on existing 13 skills** → no. Skills are agent-only and don't appear in the Obsidian graph; the existing `name:` + `description:` frontmatter is sufficient.
 
 Newer open items (post-resolution):
 
-- **Korvex full positioning statement** — what *is* Korvex precisely, beyond "not a web agency"? Capture in `02-projects/korvex/_overview.md` when Eduardo decides.
-- **korvex-crm `.brain/` replication** — pending 1-week soak on korvex-web + brisas-del-golfo.
+- **[YOUR_PROJECT] full positioning statement** — what *is* [YOUR_PROJECT] precisely, beyond "not a web agency"? Capture in `02-projects/[your-project]/_overview.md` when Eduardo decides.
+- **[your-project]-crm `.brain/` replication** — pending 1-week soak on [your-project] + [client-site].
 - **Dev Brain Obsidian UI setup** — open vault → BRAT → 3D Graph plugin (v2.4.1, Aryan Gupta) → color groups. Must be done manually.
 - **wiki-brain first ingest** — drop source into `~/Documents/Dev Brain/raw/` and run `/wiki-brain ingest`.
 

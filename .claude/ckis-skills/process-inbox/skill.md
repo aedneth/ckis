@@ -1,6 +1,6 @@
 ---
 name: process-inbox
-description: Read every file in 00-inbox/ and classify it as Type A (raw capture — full processing) or Type B (curated document — index only, body sacred). Type A gets restructured and rewritten. Type B gets only frontmatter + wikilinks added via Edit — the body is NEVER touched. Then move each item to its correct final folder. Use when Eduardo says "process inbox", "procesa el inbox", "vacía la bandeja", or asks for an end-of-day cleanup.
+description: Read every file in 00-inbox/ and classify it as Type A (raw capture — full processing) or Type B (curated document — index only, body sacred). Type A gets restructured and rewritten. Type B gets only frontmatter + wikilinks added via Edit — the body is NEVER touched. Then move each item to its correct final folder. Use when [OWNER] says "process inbox", "procesa el inbox", "vacía la bandeja", or asks for an end-of-day cleanup.
 ---
 
 # Process Inbox — v2 (Type A / Type B branched)
@@ -159,7 +159,7 @@ These are absolute. For any Type B file, the agent MUST NOT:
 
 ━━━
 
-## Preserve marker (Eduardo's manual override)
+## Preserve marker ([OWNER]'s manual override)
 
 Either of these forces Type B regardless of all other signals:
 - frontmatter field: `processing: index-only`
@@ -176,7 +176,7 @@ The agent never removes these markers.
 | Idea / insight, evergreen and atomic | `03-knowledge/permanent-notes/` | A |
 | Notes from article, book, video, podcast | `03-knowledge/literature-notes/` | B if ≥80 lines |
 | Long-form synthesis / reference guide | `03-knowledge/guides/` | B |
-| Anything tied to Korvex / Brisas / University | `02-projects/<project>/` | varies |
+| Anything tied to [YOUR_PROJECT] / Brisas / University | `02-projects/<project>/` | varies |
 | Tool, app, software reference | `04-resources/tools/` | B |
 | Course material | `04-resources/courses/` | B |
 | Web clips, transcripts, ChatGPT exports | `04-resources/articles/` or `03-knowledge/literature-notes/` | B |
@@ -238,15 +238,15 @@ Every file moved out of the inbox MUST end up with ≥1 `related:` link to a hub
 |---|---|
 | `#tool`, `#linux`, `#pop-os`, `#bash`, `#cli` | `[[MOC-Tools-and-Resources]]` |
 | `#vibe-coding`, `#claude-code`, `#ai-agents`, `#mcp`, `#prompt-engineering` | `[[MOC-AI-Coding-Vibecoding]]` |
-| `#korvex` | `[[02-projects/korvex/_overview]]` + `[[MOC-Carrera-AI-Income]]` |
-| `#brisas` | `[[02-projects/brisas-del-golfo/_overview]]` |
+| `#[your-project]` | `[[02-projects/[your-project]/_overview]]` + `[[MOC-Carrera-AI-Income]]` |
+| `#your-project-tag` | `[[02-projects/[client-site]/_overview]]` |
 | `#university`, `#ugb` | `[[02-projects/university/_overview]]` + `[[05-areas/learning]]` |
 | `#fitness`, `#salud`, `#looksmaxxing`, `#hormones` | `[[MOC-Biohacking-Optimizacion-Personal]]` + `[[05-areas/health-fitness]]` |
 | `#alter-ego`, `#personal-brand`, `#viral-scripts` | `[[MOC-Identidad-Alter-Ego]]` + `[[02-projects/personal-brand/_overview]]` |
 | `#freight`, `#transporte`, `#latam-transit` | `[[MOC-Startups-Transporte-LATAM]]` + `[[MOC-Business-Strategy]]` |
 | `#business`, `#strategy`, `#monetization`, `#upwork` | `[[MOC-Business-Strategy]]` |
 | `#finance` (personal) | `[[05-areas/finance-personal]]` |
-| `#finance-business`, `#korvex-finance` | `[[05-areas/finance-business]]` |
+| `#finance-business`, `#[your-project]-finance` | `[[05-areas/finance-business]]` |
 
 ### Verification step (run BEFORE writing the final report)
 
@@ -256,7 +256,7 @@ For each moved file:
 3. If a new permanent-note was created (Type A), append its wikilink as a bullet under the best-fit MOC's `## Core notes` (append-only).
 4. **Type B only:** re-Read the first 5 and last 5 lines of the moved file. Confirm the body is byte-identical to the pre-edit body (modulo allowed `[[phrase]]` wraps). If unexpected drift is detected → abort, leave file in inbox, flag in report.
 
-If a file still cannot be linked → **move it anyway**, flag under `🤔 Needs Eduardo's input` with a suggested new MOC or hub. The system self-evolves: when 3+ flagged files share a theme, propose creating a new MOC. Connections are created over time, not enforced upfront.
+If a file still cannot be linked → **move it anyway**, flag under `🤔 Needs [OWNER]'s input` with a suggested new MOC or hub. The system self-evolves: when 3+ flagged files share a theme, propose creating a new MOC. Connections are created over time, not enforced upfront.
 
 ━━━
 
@@ -285,7 +285,7 @@ If a file still cannot be linked → **move it anyway**, flag under `🤔 Needs 
 
 - `2026-03-20-something.md` (17 days old) — one-line summary
 
-## 🤔 Needs Eduardo's input
+## 🤔 Needs [OWNER]'s input
 
 - `ambiguous-file.md` — could not be linked to any hub after all rules; suggest creating MOC-X if more files on this topic arrive
 ```
@@ -299,7 +299,7 @@ The `signals:` annotation in the Type B section gives Eduardo a fast audit trail
 - Never delete files. Stale items get flagged, not removed.
 - Never move `_PROFILE.md`, `_INTERESTS.md`, `_ACTIVE-PROJECTS.md`, `_MEMORY.md`.
 - Preserve original language (Spanish/English bilingual is fine).
-- If a file has zero meaningful content (empty, single word, stray test) → flag under "Needs Eduardo's input."
+- If a file has zero meaningful content (empty, single word, stray test) → flag under "Needs [OWNER]'s input."
 - Type A filename: strip Notion hash suffixes, "Untitled", bare timestamps → clean kebab-case.
 - Type B filename: keep as-is unless clearly noise (see Branch B filename rule).
 - If a destination filename collides, append `-2`, `-3`, etc.

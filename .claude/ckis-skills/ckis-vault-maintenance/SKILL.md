@@ -1,6 +1,6 @@
 ---
 name: ckis-vault-maintenance
-description: Targeted CKIS maintenance operations — add a new project, archive a project, run the monthly health check, or normalize frontmatter across a folder. Use when Eduardo says "vault maintenance <action>" with one of: add-project <slug>, archive-project <slug>, health-check, normalize-frontmatter <folder>. Confirms before bulk moves; never deletes; CHANGELOG entry for non-trivial changes.
+description: Targeted CKIS maintenance operations — add a new project, archive a project, run the monthly health check, or normalize frontmatter across a folder. Use when [OWNER] says "vault maintenance <action>" with one of: add-project <slug>, archive-project <slug>, health-check, normalize-frontmatter <folder>. Confirms before bulk moves; never deletes; CHANGELOG entry for non-trivial changes.
 ---
 
 # CKIS Vault Maintenance
@@ -55,7 +55,7 @@ Read-only. Runs the checklist from CKIS file 13 §8:
 - ChatGPT upload package matches CKIS file 11 §1?
   - Sub-check: does the package under `00-systems/ckis/chatgpt-project-upload/` include files 17, 18, and 19? If not, flag: "run `ckis-context-export` to refresh."
 - Are Cron 5 (memory-consolidation) outputs current? Check `00-inbox/_MEMORY.md` `modified:` date — if >35 days old, flag for manual consolidation.
-- Does `_MEMORY.md` still reflect reality? (heuristic only — surface for Eduardo)
+- Does `_MEMORY.md` still reflect reality? (heuristic only — surface for [OWNER])
 - Templates in `08-templates/` consistent with CKIS file 08?
 
 Output a report; **make no changes**.

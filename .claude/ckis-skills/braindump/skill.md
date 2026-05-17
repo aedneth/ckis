@@ -1,17 +1,17 @@
 ---
 name: braindump
-description: Capture raw, unstructured thoughts from Eduardo into the inbox with light classification and frontmatter. Use when Eduardo says "braindump", "brain dump", "quick capture", "vacía la cabeza", or otherwise signals he wants to dump ideas without organizing them. Does NOT file the note into a final folder — that is the job of process-inbox.
+description: Capture raw, unstructured thoughts from Eduardo into the inbox with light classification and frontmatter. Use when [OWNER] says "braindump", "brain dump", "quick capture", "vacía la cabeza", or otherwise signals he wants to dump ideas without organizing them. Does NOT file the note into a final folder — that is the job of process-inbox.
 ---
 
 # Braindump
 
-Capture raw thoughts fast. The braindump skill is the lowest-friction entry point into the vault: take what Eduardo says, write it down, classify it just enough to be retrievable later, and stop. Never try to perfect, organize, or move the note out of `00-inbox/quick-capture/`.
+Capture raw thoughts fast. The braindump skill is the lowest-friction entry point into the vault: take what [OWNER] says, write it down, classify it just enough to be retrievable later, and stop. Never try to perfect, organize, or move the note out of `00-inbox/quick-capture/`.
 
 > The cost of capturing badly is near zero. The cost of *not* capturing because the system felt heavy is everything. Optimize for speed.
 
 ## Workflow
 
-1. **Receive the dump.** Take whatever Eduardo says verbatim. Do not summarize away nuance, do not translate — keep the original language (Spanish or English).
+1. **Receive the dump.** Take whatever [OWNER] says verbatim. Do not summarize away nuance, do not translate — keep the original language (Spanish or English).
 2. **Ask at most ONE clarifying question** only if the content is ambiguous to the point of being unfileable. Otherwise, just capture.
 3. **Classify** the dump into one of these types:
    - `idea` — a new concept, business angle, hypothesis
@@ -52,24 +52,24 @@ related: []
 ## Rules
 
 - Never file outside `00-inbox/quick-capture/`. Filing is `process-inbox`'s job.
-- Never delete or condense Eduardo's words. Capture-fidelity > tidiness.
+- Never delete or condense [OWNER]'s words. Capture-fidelity > tidiness.
 - Bilingual: write in whatever language Eduardo used. Don't translate.
-- Tags should be specific (`#korvex`, `#supabase-rls`) not generic (`#idea`, `#note`).
+- Tags should be specific (`#[your-project]`, `#supabase-rls`) not generic (`#idea`, `#note`).
 - If the dump contains 3+ distinct ideas, create 3+ separate files — one idea per note.
 - Never block on missing info. Capture what you have.
 
 ## Example invocations
 
 ```
-Eduardo: braindump — clients keep asking for SEO audits as upsell, maybe productize as a $200 fixed-scope deliverable
-→ Create 00-inbox/quick-capture/2026-04-06-1430-korvex-seo-audit-productized.md
-  type: capture, subtype: idea, tags: [#korvex, #productized-services, #seo]
+[OWNER]: braindump — clients keep asking for SEO audits as upsell, maybe productize as a $200 fixed-scope deliverable
+→ Create 00-inbox/quick-capture/2026-04-06-1430-[your-project]-seo-audit-productized.md
+  type: capture, subtype: idea, tags: [#[your-project], #productized-services, #seo]
 ```
 
 ```
-Eduardo: brain dump, tres cosas: leer Range, Brisas necesita formulario de reservas, y Joaquín pidió cotización
+[OWNER]: brain dump, tres cosas: leer [Book], [CLIENT_SITE] necesita formulario de reservas, y [Client] pidió cotización
 → Crear 3 archivos separados:
   - 2026-04-06-1431-leer-range-david-epstein.md (subtype: resource)
-  - 2026-04-06-1431-brisas-formulario-reservas.md (subtype: task)
+  - 2026-04-06-1431-[client-site]-formulario-reservas.md (subtype: task)
   - 2026-04-06-1431-joaquin-cotizacion-pendiente.md (subtype: task)
 ```

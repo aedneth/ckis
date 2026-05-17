@@ -312,8 +312,8 @@ knowledge consolidation
 
 **Trigger:**
 ```
-project context korvex
-project context brisas
+project context [your-project]
+project context [your-project]
 project context recmp3-cli
 project context university
 ```
@@ -329,9 +329,9 @@ project context university
 **Output incluye (si Dev Brain está presente):**
 ```
 ## 🧠 Recent coding sessions (Dev Brain)
-- 2026-05-17T04:10Z | korvex-web | session summary line...
+- 2026-05-17T04:10Z | [your-project] | session summary line...
 → Para código: graphify query "autenticación" en /ruta/al/repo
-→ Wiki completo: cat ~/Documents/Dev\ Brain/wiki/korvex-web.md
+→ Wiki completo: cat ~/Documents/Dev\ Brain/wiki/[your-project].md
 ```
 
 ---
@@ -357,7 +357,7 @@ sync overviews
 
 ### `onboard client`
 
-**Cuándo:** Empieza el engagement con un nuevo cliente de Korvex.
+**Cuándo:** Empieza el engagement con un nuevo cliente de [YOUR_PROJECT].
 
 **Trigger:**
 ```
@@ -403,7 +403,7 @@ log decision productizar SEO audits como servicio de $200
 
 **Trigger:**
 ```
-cross-model handoff chatgpt pricing korvex bloque 3
+cross-model handoff chatgpt pricing [your-project] bloque 3
 cross-model handoff claude-chat arquitectura auth supabase
 ```
 
@@ -465,7 +465,7 @@ vault maintenance health-check
 **Trigger:**
 ```
 vault maintenance add-project recmp3-cli
-vault maintenance add-project korvex-crm
+vault maintenance add-project [your-project]-crm
 ```
 
 **Lo que hace:**
@@ -483,7 +483,7 @@ vault maintenance add-project korvex-crm
 
 **Trigger:**
 ```
-vault maintenance archive-project tourdy
+vault maintenance archive-project [archived-project]
 ```
 
 **Siempre confirma antes de ejecutar.** Mueve el folder completo a `09-archive/<slug>/`.
@@ -560,7 +560,7 @@ vault maintenance add-project [slug]
 | `knowledge consolidation` | monthly-consolidation | Fin de mes | MOCs actualizados + reporte en `06-goals/monthly/` |
 | `project context [nombre]` | project-context | Antes de sesión de trabajo | Brief 300 palabras + Dev Brain refs |
 | `sync overviews` | sync-overviews | Overviews desactualizados | `_overview.md` actualizados |
-| `onboard client` | client-onboarding | Nuevo cliente Korvex | Estructura en `02-projects/` |
+| `onboard client` | client-onboarding | Nuevo cliente [YOUR_PROJECT] | Estructura en `02-projects/` |
 | `log decision [título]` | ckis-decision-log | Decisión tomada | Entry en destino + `_MEMORY.md` actualizado |
 | `cross-model handoff [dest] [tema]` | ckis-cross-model-handoff | Continuar en otro modelo | Bloque copy-pasteable |
 | `export context` | ckis-context-export | Cambios en CKIS, antes de ChatGPT | Paquete en `chatgpt-project-upload/` |
@@ -580,7 +580,7 @@ vault maintenance add-project [slug]
 → Verifica que el cwd es la raíz del vault: `pwd` debe mostrar `.../Second Brain`
 → Si estás en otro directorio, `cd ~/Documents/Second\ Brain` antes de abrir Claude
 
-### `daily brief` muestra proyectos hardcodeados (Korvex, Brisas, University)
+### `daily brief` muestra proyectos hardcodeados ([YOUR_PROJECT], Brisas, University)
 → La guía está desactualizada. A partir de v2.2 el brief lee dinámicamente `_ACTIVE-PROJECTS.md` 🟢
 → Si sigues viendo proyectos hardcodeados, el skill necesita actualizarse — reportar
 

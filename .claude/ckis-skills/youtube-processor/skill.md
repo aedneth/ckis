@@ -1,11 +1,11 @@
 ---
 name: youtube-processor
-description: Extract a YouTube transcript via the youtube-transcript CLI, distill it into a literature note (key concepts, frameworks, actionable insights), file it under 04-resources/youtube/, and promote novel insights to permanent notes. Use when Eduardo says "process YouTube [url]", "process this video [url]", or "procesa este video [url]".
+description: Extract a YouTube transcript via the youtube-transcript CLI, distill it into a literature note (key concepts, frameworks, actionable insights), file it under 04-resources/youtube/, and promote novel insights to permanent notes. Use when [OWNER] says "process YouTube [url]", "process this video [url]", or "procesa este video [url]".
 ---
 
 # YouTube Processor
 
-YouTube videos are high-density knowledge but low-density information per minute watched. The processor's job is to compress an hour of video into a 5-minute readable note that Eduardo can revisit and link to.
+YouTube videos are high-density knowledge but low-density information per minute watched. The processor's job is to compress an hour of video into a 5-minute readable note that [OWNER] can revisit and link to.
 
 ## Workflow
 
@@ -24,7 +24,7 @@ YouTube videos are high-density knowledge but low-density information per minute
 6. **Write the literature note** to `04-resources/youtube/` using the template below.
 7. **Promote novel insights** to permanent notes in `03-knowledge/permanent-notes/`. Same criterion as `url-processor`: atomic, not duplicated in vault (Grep first), usable without re-watching.
 8. **Update relevant MOCs** with `[[wikilinks]]`.
-9. **Echo a 3-line summary** to Eduardo: title, channel, score, where filed, # permanent notes promoted.
+9. **Echo a 3-line summary** to [OWNER]: title, channel, score, where filed, # permanent notes promoted.
 
 ## Literature note template
 
@@ -80,12 +80,12 @@ related: []
 - If the transcript is auto-generated and full of errors, note it: `> ⚠️ Transcript auto-generated, some terms may be misspelled.`
 - Never paste the full transcript into the note. The literature note is a *replacement* for the transcript, not an addition to it.
 - If actionability is 1, file the note but skip permanent-note promotion.
-- If `npx youtube-transcript` isn't installed, run `npm install -g youtube-transcript` only with Eduardo's confirmation.
+- If `npx youtube-transcript` isn't installed, run `npm install -g youtube-transcript` only with [OWNER]'s confirmation.
 
 ## Example invocation
 
 ```
-Eduardo: process YouTube https://www.youtube.com/watch?v=abc123
+[OWNER]: process YouTube https://www.youtube.com/watch?v=abc123
 → npx youtube-transcript https://www.youtube.com/watch?v=abc123
 → Extract concepts, frameworks, insights, score
 → Write 04-resources/youtube/how-to-price-saas-products.md

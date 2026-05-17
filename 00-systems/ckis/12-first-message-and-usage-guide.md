@@ -35,10 +35,10 @@ daily brief
 process inbox
 ```
 
-### Pre-coding session brief for Korvex
+### Pre-coding session brief for [YOUR_PROJECT]
 
 ```
-project context korvex
+project context [your-project]
 ```
 
 ### Synthesize a topic across the vault
@@ -93,10 +93,10 @@ Audit 00-system/ckis/<file>.md against the rest of the CKIS files attached. Find
 Design a Claude Code skill prompt for <task>. Follow the existing skill format I see in 16 - Skill Cards. Output the full SKILL.md content.
 ```
 
-### Writing support (LinkedIn / Korvex)
+### Writing support (LinkedIn / [YOUR_PROJECT])
 
 ```
-Draft a LinkedIn post about <topic>. Tone: founder + developer (per CKIS file 01). Length: 120–180 words. Include one specific example from my work (Korvex, Brisas, etc.) — ask me which if you need to.
+Draft a LinkedIn post about <topic>. Tone: founder + developer (per CKIS file 01). Length: 120–180 words. Include one specific example from my work ([YOUR_PROJECT], Brisas, etc.) — ask me which if you need to.
 ```
 
 ## 3. ChatGPT Project

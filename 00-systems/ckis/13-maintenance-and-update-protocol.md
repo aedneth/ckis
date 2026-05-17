@@ -39,7 +39,7 @@ related: ["[[00-ckis-master-context]]", "[[09-cross-model-shared-context-protoco
 
 System files in `00-inbox/` (`_PROFILE.md`, `_INTERESTS.md`, `_ACTIVE-PROJECTS.md`, `_MEMORY.md`):
 
-- Edited manually by Eduardo (typically during the weekly review).
+- Edited manually by [OWNER] (typically during the weekly review).
 - Update `modified` to today.
 - Don't truncate. Append new state, retire stale entries by editing in place.
 - `_MEMORY.md` has a 150-line cap — if it exceeds, compress by promoting durable items to permanent notes and demoting the rest.

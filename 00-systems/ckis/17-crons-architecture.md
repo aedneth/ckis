@@ -89,8 +89,8 @@ Sources `~/.claude/.env` to load the API key, then calls `claude -p` with a stru
 1. Read daily notes from `01-daily/` for the past 7 days.
 2. Read session logs from `01-daily/logs/` for the past 7 days.
 3. Read `00-inbox/_MEMORY.md` for current business state.
-4. Read `02-projects/korvex/_overview.md` and `02-projects/brisas-del-golfo/_overview.md`.
-5. Write a weekly review note to `06-goals/weekly/week-YYYY-WW.md` with sections: Summary, Wins, Blockers, Korvex Progress, University Progress, Next Week Priorities, Patterns Noticed.
+4. Read `02-projects/[your-project]/_overview.md` and `02-projects/[client-site]/_overview.md`.
+5. Write a weekly review note to `06-goals/weekly/week-YYYY-WW.md` with sections: Summary, Wins, Blockers, [YOUR_PROJECT] Progress, University Progress, Next Week Priorities, Patterns Noticed.
 
 The output file includes YAML frontmatter with `type: weekly-review` and `tags: [weekly-review, goals]`. No existing files are modified.
 
@@ -106,8 +106,8 @@ The output file includes YAML frontmatter with `type: weekly-review` and `tags: 
 
 Sources `~/.claude/.env`, then calls `claude -p`. The prompt instructs the agent to:
 
-1. Read `02-projects/korvex/_overview.md`.
-2. Read `02-projects/brisas-del-golfo/_overview.md`.
+1. Read `02-projects/[your-project]/_overview.md`.
+2. Read `02-projects/[client-site]/_overview.md`.
 3. Read the 3 most recent session logs in `01-daily/logs/`.
 4. Read the current `00-inbox/_MEMORY.md`.
 5. Rewrite `_MEMORY.md` in place, keeping the bullet-index Memory Index format, updating project state, staying within the 150-line hard limit, and never adding secrets or API keys.

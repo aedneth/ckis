@@ -1,6 +1,6 @@
 ---
 name: daily-brief
-description: Generate Eduardo's morning brief — top 3 priorities, blockers, inbox status — by reading yesterday's daily note, recent session logs, and active project overviews. Use when Eduardo says "daily brief", "morning brief", "brief del día", or "qué hago hoy". Writes the brief into today's daily note.
+description: Generate [OWNER]'s morning brief — top 3 priorities, blockers, inbox status — by reading yesterday's daily note, recent session logs, and active project overviews. Use when [OWNER] says "daily brief", "morning brief", "brief del día", or "qué hago hoy". Writes the brief into today's daily note.
 ---
 
 # Daily Brief
@@ -18,7 +18,7 @@ A 2-minute morning ritual. Pull together what Eduardo left open yesterday, what'
    - `00-inbox/_ACTIVE-PROJECTS.md` for the current project roster
 3. **Scan the inbox**: Glob `00-inbox/**/*.md` (excluding `_PROFILE.md`, `_INTERESTS.md`, `_ACTIVE-PROJECTS.md`). Count items and flag any > 7 days old.
 4. **Read each active project's `_overview.md`** in `02-projects/<project>/_overview.md`. Look for `status:`, open decisions, blockers.
-   - **Source the project list dynamically from `00-inbox/_ACTIVE-PROJECTS.md` 🟢 section** — do NOT hardcode project names. The brief's "Project pulse" must reflect whatever is currently 🟢 Active in that file (e.g. as of 2026-05: Korvex, Brisas del Golfo, recmp3-cli, University). If a project listed there has no `_overview.md`, surface that as a gap in the brief instead of skipping it silently.
+   - **Source the project list dynamically from `00-inbox/_ACTIVE-PROJECTS.md` 🟢 section** — do NOT hardcode project names. The brief's "Project pulse" must reflect whatever is currently 🟢 Active in that file (e.g. as of 2026-05: [YOUR_PROJECT], [CLIENT_SITE], recmp3-cli, University). If a project listed there has no `_overview.md`, surface that as a gap in the brief instead of skipping it silently.
 5. **Synthesize** the brief in the format below. Be ruthless — top 3 priorities only. If you can't justify why something is in the top 3, drop it.
 6. **Write to today's daily note**: `01-daily/{{today}}.md`.
    - If the file exists, prepend the brief under a `## Morning Brief — HH:MM` heading.
@@ -61,7 +61,7 @@ A 2-minute morning ritual. Pull together what Eduardo left open yesterday, what'
 ## Example invocation
 
 ```
-Eduardo: daily brief
+[OWNER]: daily brief
 → Read 01-daily/2026-04-05.md, 01-daily/logs/ (2 latest), _ACTIVE-PROJECTS.md, all _overview.md files
 → Glob 00-inbox/ to count
 → Synthesize and write Morning Brief into 01-daily/2026-04-06.md

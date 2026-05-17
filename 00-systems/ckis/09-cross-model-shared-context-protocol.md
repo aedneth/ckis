@@ -38,8 +38,8 @@ Obsidian is the only durable store. A thread closes; the vault stays.
 ## 3. What Stays in Obsidian Only
 
 - The full vault content.
-- `_MEMORY.md`, `_PROFILE.md`, `_INTERESTS.md`, `_ACTIVE-PROJECTS.md` — durable, do not paste these in their entirety into ChatGPT unless Eduardo wants the project to know that level of detail.
-- Code in `~/korvex/`, `~/brisas-del-golfo/`, etc. (separate from the vault).
+- `_MEMORY.md`, `_PROFILE.md`, `_INTERESTS.md`, `_ACTIVE-PROJECTS.md` — durable, do not paste these in their entirety into ChatGPT unless [OWNER] wants the project to know that level of detail.
+- Code in `~/[your-project]/`, `~/[client-site]/`, etc. (separate from the vault).
 - Anything sensitive (see `[[05-ckis-memory-and-context-rules]]` §8).
 
 ## 4. What Gets Attached Temporarily
@@ -78,7 +78,7 @@ When Claude Chat or ChatGPT proposes a change to CKIS architecture:
 | **Claude Code → Claude Chat** | Need strategy / second-pass review on a draft. Open chat, paste the draft and the relevant `_overview.md`. |
 | **Claude → ChatGPT (second opinion)** | High-stakes decision, want independent framing. Use `[[14-active-working-slot]]` as the briefing, paste into ChatGPT. |
 | **ChatGPT → Claude** | Use ChatGPT for breadth (research scan), Claude for depth (synthesis + write to vault). |
-| **All three → Eduardo** | Final adjudication is Eduardo's. The vault records the rationale. |
+| **All three → Eduardo** | Final adjudication is [OWNER]'s. The vault records the rationale. |
 
 ## 8. Conflict Resolution
 
@@ -93,7 +93,7 @@ When models disagree:
 
 - Never upload a `.env` file or any credentials to any chat.
 - Treat ChatGPT and Claude Chat as third-party processors — anything sent is potentially logged on their end.
-- For Korvex client work that involves PII or contracts: redact identifiers before pasting; or keep that work entirely in Claude Code where files don't leave the local machine.
+- For [YOUR_PROJECT] client work that involves PII or contracts: redact identifiers before pasting; or keep that work entirely in Claude Code where files don't leave the local machine.
 
 ## 10. Quick Checklist for Cross-Model Work
 

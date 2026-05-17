@@ -112,7 +112,7 @@ Each lives at `.claude/skills/<skill-name>/SKILL.md`. Skill format follows the e
   2. Append CKIS health items per CKIS file 13 §8 — only the lightweight ones for weekly cadence.
   3. List `_MEMORY.md` fields likely needing edits based on the past week's activity.
   4. Save to `06-goals/weekly/YYYY-MM-DD-weekly-review.md`.
-  5. Surface to Eduardo: "Update `_MEMORY.md` now with these proposed edits? (y/n)" — never write to `_MEMORY.md` automatically.
+  5. Surface to [OWNER]: "Update `_MEMORY.md` now with these proposed edits? (y/n)" — never write to `_MEMORY.md` automatically.
 - **Tools:** Read, Glob, Grep, Write.
 - **Output:** weekly review note + suggested `_MEMORY.md` edits.
 - **QA checklist:** No automatic edits to `_MEMORY.md`. All CKIS file references use wikilinks.
@@ -167,7 +167,7 @@ description: <one paragraph; include trigger phrases verbatim>
 <Body — workflow steps, rules, output spec>
 ```
 
-The new CKIS skills follow this format. They use `SKILL.md` (uppercase) per the spec; existing operational skills use `skill.md` (lowercase). Eduardo: pick one casing for the CKIS skills and rename if you prefer the existing `skill.md` convention.
+The new CKIS skills follow this format. They use `SKILL.md` (uppercase) per the spec; existing operational skills use `skill.md` (lowercase). [OWNER]: pick one casing for the CKIS skills and rename if you prefer the existing `skill.md` convention.
 
 ## 4. Composition
 

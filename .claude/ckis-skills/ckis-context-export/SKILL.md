@@ -1,6 +1,6 @@
 ---
 name: ckis-context-export
-description: Regenerate the ChatGPT upload package under 00-systems/ckis/chatgpt-project-upload/ from the latest CKIS files. Diffs against the previous version and writes a CHANGELOG entry. Use when Eduardo says "export context" or after any material CKIS change. Copy-only — does not modify the source CKIS files.
+description: Regenerate the ChatGPT upload package under 00-systems/ckis/chatgpt-project-upload/ from the latest CKIS files. Diffs against the previous version and writes a CHANGELOG entry. Use when [OWNER] says "export context" or after any material CKIS change. Copy-only — does not modify the source CKIS files.
 ---
 
 # CKIS Context Export

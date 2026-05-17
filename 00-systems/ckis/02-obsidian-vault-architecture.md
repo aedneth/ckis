@@ -35,9 +35,9 @@ related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-
 ├── 01-daily/                    # YYYY-MM-DD.md daily notes
 │   └── logs/                    # Claude Code session logs
 ├── 02-projects/                 # Active projects
-│   ├── korvex/
-│   ├── brisas-del-golfo/
-│   ├── tourdy/
+│   ├── [your-project]/
+│   ├── [client-site]/
+│   ├── [archived-project]/
 │   ├── university/
 │   ├── personal-brand/
 │   └── (hidroplus/ — referenced in extract; verify)
@@ -93,7 +93,7 @@ related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-
 
 - Folders use `kebab-case` with a numeric prefix (`00-inbox`, `01-daily`, …, `09-archive`). The numeric prefix forces deterministic ordering.
 - One exception: `00-system/ckis/` uses `_System` because it holds system meta-files about CKIS itself, not vault content. Marked as inferred — see `[[15-source-map-and-generation-audit]]` open question.
-- Subfolders inside content folders (`02-projects/korvex/`, `07-people/clients/`) are also kebab-case.
+- Subfolders inside content folders (`02-projects/[your-project]/`, `07-people/clients/`) are also kebab-case.
 
 ## 4. File Naming
 
@@ -101,7 +101,7 @@ related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-
 |---|---|---|
 | Daily note | `YYYY-MM-DD.md` | `2026-05-02.md` |
 | MOC | `MOC-Topic-Name.md` | `MOC-AI-Agents.md` |
-| Project meta | `_overview.md` (underscore prefix) | `02-projects/korvex/_overview.md` |
+| Project meta | `_overview.md` (underscore prefix) | `02-projects/[your-project]/_overview.md` |
 | System file | `_NAME.md` (underscore + caps) | `_PROFILE.md`, `_MEMORY.md` |
 | Permanent note | `descriptive-name.md` (kebab-case, no hashes) | `jackson-steele-alter-ego.md` |
 | Literature note | `source-or-topic-name.md` | `lex-fridman-ep-300.md` |
@@ -140,7 +140,7 @@ Notes:
 ## 6. Tags
 
 - Format: `#kebab-case` in note body, `kebab-case` (no `#`) in frontmatter `tags:` array.
-- Tag families in active use: `#korvex`, `#brisas`, `#tourdy`, `#university`, `#ai-agents`, `#vibe-coding`, `#claude-code`, `#automation`, `#looksmaxxing`, `#hormone-optimization`, `#viral-scripts`.
+- Tag families in active use: `#[your-project]`, `#your-project-tag`, `#[archived-project]`, `#university`, `#ai-agents`, `#vibe-coding`, `#claude-code`, `#automation`, `#looksmaxxing`, `#hormone-optimization`, `#viral-scripts`.
 - Avoid creating new tag families lightly. Prefer reusing an existing one.
 
 ## 7. Links
@@ -185,4 +185,4 @@ Notes:
 - Transaction-level financial accounting (spreadsheet / Wave).
 - Secrets, API keys, OAuth tokens (env files outside the vault, gitignored).
 - Real-time communication (WhatsApp, email).
-- Code repositories for actual projects (`~/korvex/`, `~/brisas-del-golfo/`, etc.) — these reference the vault but are stored separately.
+- Code repositories for actual projects (`~/[your-project]/`, `~/[client-site]/`, etc.) — these reference the vault but are stored separately.

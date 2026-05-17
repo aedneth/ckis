@@ -19,8 +19,8 @@ Orchestrator
   │     └── git log --name-only --since="<modified>" per project
   │
   ├── Step 2: Spawn subagents in parallel (one per project with changes)
-  │     ├── Subagent: korvex    → reads N new files → returns updated overview
-  │     ├── Subagent: brisas    → reads M new files → returns updated overview
+  │     ├── Subagent: [your-project]    → reads N new files → returns updated overview
+  │     ├── Subagent: [client-site]    → reads M new files → returns updated overview
   │     └── Subagent: ...
   │
   └── Step 3: Write + commit
@@ -195,7 +195,7 @@ git add -A && git commit -m "sync: overviews updated YYYY-MM-DD"
 - **Never read files committed before the `modified` date** — only the git log delta matters.
 - **Subagents read ALL new files** — no per-project cap. The parallel architecture makes this affordable.
 - **Never overwrite existing overview content** — append to Recent progress, update Status/Blockers in place. History is permanent.
-- **Preserve editorial voice** — don't paraphrase Eduardo's language. Append raw facts; he'll synthesize.
+- **Preserve editorial voice** — don't paraphrase [OWNER]'s language. Append raw facts; he'll synthesize.
 - **Modified date = commit date, not file mtime** — use git, not filesystem timestamps.
 - **If git is not available**, fall back to Glob `02-projects/<project>/**/*.md` sorted by mtime, compare against `modified` date manually.
 - **This skill is write-only on `_overview.md` files** — subagents never touch other project files.
@@ -224,17 +224,17 @@ If no projects had changes, omit the section entirely.
 ## Example invocation
 
 ```
-Eduardo: sync overviews
-→ Orchestrator scans 02-projects/: korvex, brisas, university, tourdy, personal-brand
+[OWNER]: sync overviews
+→ Orchestrator scans 02-projects/: [your-project], brisas, university, [archived-project], personal-brand
 → git log for each:
-    korvex: 8 new files → spawn subagent
-    brisas: 1 new file → spawn subagent
+    [your-project]: 8 new files → spawn subagent
+    [client-site]: 1 new file → spawn subagent
     university: 0 new files → skip
-    tourdy: 0 new files → skip
+    [archived-project]: 0 new files → skip
     personal-brand: 0 new files → skip
-→ Spawn korvex subagent + brisas subagent IN PARALLEL (single message)
-→ korvex subagent: reads 8 files → updates status + recent progress + blockers
-→ brisas subagent: reads 1 file → updates open decisions + recent progress
+→ Spawn [your-project] subagent + brisas subagent IN PARALLEL (single message)
+→ [your-project] subagent: reads 8 files → updates status + recent progress + blockers
+→ [client-site] subagent: reads 1 file → updates open decisions + recent progress
 → Both return → orchestrator writes both _overview.md files
 → git commit
 → Output sync report

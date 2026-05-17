@@ -2,10 +2,10 @@
 type: person
 created: {{date:YYYY-MM-DD}}
 modified: {{date:YYYY-MM-DD}}
-tags: [cliente, korvex]
+tags: [cliente, [your-project]]
 source: ""
 status: prospecto
-related: ["[[MOC-People-and-Network]]", "[[02-projects/korvex/_overview]]"]
+related: ["[[MOC-People-and-Network]]", "[[02-projects/[your-project]/_overview]]"]
 ---
 
 # {{title}}

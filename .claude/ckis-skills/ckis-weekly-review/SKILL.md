@@ -1,6 +1,6 @@
 ---
 name: ckis-weekly-review
-description: CKIS-aware weekly review. Wraps the operational weekly-review skill with CKIS-specific health checks and proposed _MEMORY.md edits. Use when Eduardo says "ckis weekly review" or runs the Sunday cadence. Never writes to _MEMORY.md automatically; surfaces edits for confirmation.
+description: CKIS-aware weekly review. Wraps the operational weekly-review skill with CKIS-specific health checks and proposed _MEMORY.md edits. Use when [OWNER] says "ckis weekly review" or runs the Sunday cadence. Never writes to _MEMORY.md automatically; surfaces edits for confirmation.
 ---
 
 # CKIS Weekly Review
@@ -11,7 +11,7 @@ Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/ckis-skills/w
 
 0. **De-duplication check (Cron 4 coordination).** Cron 4 runs this skill automatically every Friday at 17:00 via headless `claude -p`. Before doing anything else:
    - Glob `06-goals/weekly/YYYY-MM-DD-weekly-review.md` for today's date.
-   - If a file already exists for today (likely written by Cron 4), STOP and surface to Eduardo: show the existing path and ask explicitly: "A weekly review already exists for today — likely from Cron 4. Overwrite, append addendum, or abort? (overwrite/append/abort)"
+   - If a file already exists for today (likely written by Cron 4), STOP and surface to [OWNER]: show the existing path and ask explicitly: "A weekly review already exists for today — likely from Cron 4. Overwrite, append addendum, or abort? (overwrite/append/abort)"
    - Only proceed when Eduardo answers. Default behavior on no-answer is `abort`.
 
 1. **Run the operational `weekly-review` skill.** Either invoke it (if the harness supports nested skills) or replicate its core logic:
@@ -43,7 +43,7 @@ Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/ckis-skills/w
    - Top 3 priorities for next week.
    - Single explicit ask: "Apply these `_MEMORY.md` edits? (y/n)"
 
-6. **Apply `_MEMORY.md` edits only if Eduardo says yes.** Never silent-apply.
+6. **Apply `_MEMORY.md` edits only if [OWNER] says yes.** Never silent-apply.
 
 ## Rules
 
@@ -96,7 +96,7 @@ Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/ckis-skills/w
 
 - [ ] Review saved to correct path.
 - [ ] No `_MEMORY.md` writes without confirmation.
-- [ ] Top 3 priorities are concrete (not "work on Korvex").
+- [ ] Top 3 priorities are concrete (not "work on [YOUR_PROJECT]").
 - [ ] CKIS health checked.
 - [ ] Stale items surfaced, not auto-deleted.
 

@@ -14,7 +14,7 @@ Format per entry: date · files created · files updated · sources used · open
 **Trigger:** After incorrectly retiring Dev Brain in v2.1 (misunderstanding its purpose), Eduardo clarified: Dev Brain is an agent-queryable code knowledge database populated autonomously by graphify, NOT a manual wiki. This entry corrects the retirement and implements the proper autonomous architecture.
 
 **What Dev Brain actually is** (clarified):
-- Autonomous agent-queryable index of ALL codebases (korvex + brisas-del-golfo, and future projects)
+- Autonomous agent-queryable index of ALL codebases ([your-project] + [client-site], and future projects)
 - Populated automatically: git commit → graphify → code-graph/ (one .md per code node)
 - Any agent can `graphify query "question"` in a project dir or `query-all.sh "question"` cross-project
 - NOT for manual human curation — zero manual work required
@@ -24,13 +24,13 @@ Format per entry: date · files created · files updated · sources used · open
 - `projects.json` — registry of all connected projects (slug, paths, graph locations)
 - `sessions/index.md` — append-only session feed (one line per session from any project's Stop hook)
 - `sessions/` — pointer stub per session (10 lines, `source:` path to full session log)
-- `wiki/korvex.md` + `wiki/brisas-del-golfo.md` — auto-generated digests (god nodes + sessions)
+- `wiki/[your-project].md` + `wiki/[client-site].md` — auto-generated digests (god nodes + sessions)
 - `wiki/index.md` — links to all wiki pages
 - `scripts/query-all.sh` — cross-project graphify query using `merge-graphs`
 - `scripts/register-project.sh` — idempotent project registration (upserts projects.json + AGENT_README.md)
 - `scripts/build-wiki-page.sh` — generates wiki/<slug>.md from GRAPH_REPORT.md + session index
 
-**Files patched in both projects** (korvex-web + brisas-del-golfo):
+**Files patched in both projects** ([your-project] + [client-site]):
 - `.brain/scripts/log-session.sh` — appends session pointer to Dev Brain `sessions/index.md` on every Stop hook
 - `.brain/scripts/sync-obsidian-graph.sh` — calls `build-wiki-page.sh` after Obsidian sync (cadence-gated)
 - `.brain/scripts/register-to-dev-brain.sh` — new 5-line wrapper to register project (run once per project)
@@ -64,7 +64,7 @@ git commit in project → post-commit → graphify rebuild (background)
 **Trigger:** Pre-publication audit revealed that Second Brain session logs were timestamps-only (no content), Dev Brain was a ghost town (zero wiki entries), and key docs (_MEMORY.md, _PROFILE.md, etc.) weren't updating over time.
 
 **Audit findings (Explore agent + Opus design):**
-- ✅ korvex-web .brain/ — 53 sessions, 74 compactions, excellent (no changes needed)
+- ✅ [your-project] .brain/ — 53 sessions, 74 compactions, excellent (no changes needed)
 - ✅ Auto-memory — healthy, 7 typed memory files
 - ❌ Second Brain session logs — timestamps only, no work summaries (7 sessions/day, 0 content)
 - ❌ Dev Brain wiki — 0 wiki pages, 4 log entries, never used
@@ -83,14 +83,14 @@ git commit in project → post-commit → graphify rebuild (background)
    - Instructs Claude to propose surgical edits to _PROFILE.md/_INTERESTS.md when relevant facts appear
 
 3. **Cron 5 extended** (Fix 2A + 5 — HIGH)
-   - Now reads BOTH project overviews AND korvex-web `.brain/sessions/` (5 most recent) for live signal
+   - Now reads BOTH project overviews AND [your-project] `.brain/sessions/` (5 most recent) for live signal
    - Rewrites BOTH `_MEMORY.md` AND `_ACTIVE-PROJECTS.md` in one pass
    - Flags stale overviews with ⚠ banner in _MEMORY.md instead of silently using stale data
 
 4. **Dev Brain retired** (Fix 3 — MEDIUM)
    - `~/.claude/CLAUDE.md` wiki-brain section replaced with accurate description of actual memory architecture
    - `~/.claude/settings.json` SessionEnd hook (→ wiki-brain) removed
-   - Dev Brain directory left in place (Eduardo can archive manually when ready)
+   - Dev Brain directory left in place ([OWNER] can archive manually when ready)
 
 5. **19-agent-habits-guide.md created** — structured daily/weekly habits for terminal + agent use
 
@@ -129,7 +129,7 @@ git commit in project → post-commit → graphify rebuild (background)
 - `03-knowledge/permanent-notes/agentic-os-compound-memory.md` — synthesis of Max Mitcham's agentic OS article; maps raw/wiki/output to CKIS structure
 - `03-knowledge/permanent-notes/github-repo-growth-standard.md` — research-backed standards for 100K-star repos; launch standard for ckis-vault-public
 - `03-knowledge/guides/crons-setup-guide.md` — actionable guide for all 5 crons adapted to CKIS
-- `04-resources/articles/claude-for-small-business-2026.md` — Anthropic SMB product note + Korvex positioning
+- `04-resources/articles/claude-for-small-business-2026.md` — Anthropic SMB product note + [YOUR_PROJECT] positioning
 - `04-resources/tools/mattpocock-skills.md` — reference for 18 installed Matt Pocock skills
 
 **Files updated (vault):**
@@ -155,7 +155,7 @@ git commit in project → post-commit → graphify rebuild (background)
 
 **Next recommended actions:**
 1. Run cron-env-check.sh, create ~/.claude/.env, install crontab
-2. Run `setup-matt-pocock-skills` skill in korvex-web and brisas-del-golfo repos
+2. Run `setup-matt-pocock-skills` skill in [your-project] and [client-site] repos
 3. Begin CKIS public repo preparation using github-repo-growth-standard.md as launch checklist
 
 ━━━
@@ -193,13 +193,13 @@ git commit in project → post-commit → graphify rebuild (background)
 
 ━━━
 
-## 2026-05-16 — Vercel security audit + brisas-del-golfo hardening
+## 2026-05-16 — Vercel security audit + [client-site] hardening
 
 **Type:** security incident response — project audit + tool documentation.
 
 **Trigger:** Vercel April 2026 security breach (ShinyHunters obtained Vercel internal database — NPM/GitHub tokens). Eduardo received Security Update email 2026-04-20. Audit deferred until 2026-05-16.
 
-**Audit scope:** brisas-del-golfo — Next.js + Supabase + Wompi SV + Vercel.
+**Audit scope:** [client-site] — Next.js + Supabase + Wompi SV + Vercel.
 
 **Findings (all clear on critical items):**
 - ✅ No `.env` files committed to git history
@@ -215,14 +215,14 @@ git commit in project → post-commit → graphify rebuild (background)
 - `04-resources/tools/vercel-security-dashboard.md` — reference note for `~/tools/vercel-security-dashboard` (installed from github.com/0xm1kr/vercel-security-dashboard). Local-first Vercel REST API dashboard for env var rotation. AES-256-GCM encrypted creds, no value persistence.
 
 **Files updated (1):**
-- `02-projects/brisas-del-golfo/_overview.md` — new §Security with audit findings, env var rotation table per service, tool reference, action items.
+- `02-projects/[client-site]/_overview.md` — new §Security with audit findings, env var rotation table per service, tool reference, action items.
 
 **Tool installed:** `~/tools/vercel-security-dashboard` — run `npm start` → http://127.0.0.1:4319.
 
 **Next recommended action:**
 1. Eduardo manually rotates secrets at each service (Supabase Dashboard → API keys, Wompi Dashboard → Credenciales, CallMeBot → regenerate)
 2. Use vercel-security-dashboard to update Vercel env vars with new values, marking them as **Sensitive**
-3. Redeploy brisas-del-golfo after rotation
+3. Redeploy [client-site] after rotation
 4. Check `admin.google.com` → Security → Access and Data Control → API Controls → Accessed Apps for any suspicious OAuth app with access to [your-github-email]
 
 ━━━
@@ -245,13 +245,13 @@ git commit in project → post-commit → graphify rebuild (background)
 **Migrations performed:**
 - `gstack`, `marketingskills` moved from `.claude/general-skills/` → `~/.claude/skills/`
 - `find-skills` moved from vault `.agents/skills/` → `~/.claude/skills/`
-- `privacy-policy` (`phuryn/pm-skills`, 937 installs) installed → `~/.claude/skills/` (for upcoming korvex-web legal review)
+- `privacy-policy` (`phuryn/pm-skills`, 937 installs) installed → `~/.claude/skills/` (for upcoming [your-project] legal review)
 - `.claude/general-skills/`, `.claude/skills/`, `.agents/` removed from vault
 
 **`npx skills add` post-install procedure documented in §6** — convert symlink to real dir, remove `~/.agents/`, remove vault artifacts.
 
 **Next recommended action:**
-1. In next korvex-web session: invoke `/privacy-policy` skill to review and align legal pages.
+1. In next [your-project] session: invoke `/privacy-policy` skill to review and align legal pages.
 2. When installing future skills: follow the §6 cleanup procedure immediately after `npx skills add`.
 
 ━━━
@@ -398,7 +398,7 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 - 50 workflow module files — YAML frontmatter prepended (body untouched); previously these files had no frontmatter.
 - `CLAUDE.md` (root) — all 8 `00-system/ckis/` path references updated to `00-systems/ckis/`.
-- `.claude/CLAUDE.md` — "About Eduardo" corrected (Korvex non-agency framing; Tourdy archived); `00-systems/` added to vault structure; `02-projects/` list corrected (tourdy removed).
+- `.claude/CLAUDE.md` — "About Eduardo" corrected ([YOUR_PROJECT] non-agency framing; [ARCHIVED_PROJECT] archived); `00-systems/` added to vault structure; `02-projects/` list corrected ([archived-project] removed).
 
 **Terminology clarification encoded:**
 
@@ -440,7 +440,7 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 - `05-areas/*.md` (all 6) — added `related:` arrays pointing to MOCs, permanent-notes, goals, sibling areas
 - `03-knowledge/guides/*.md` (all 3) — inserted standard YAML frontmatter with `related:` to `MOC-AI-Coding-Vibecoding`
 - `04-resources/tools/*.md` (all 4) — added/normalized frontmatter + `related: ["[[MOC-Tools-and-Resources]]"]`
-- `01-daily/2026-04-*.md` (7) + `01-daily/2026-05-02.md` — added `related:` with monthly hub + `_MEMORY` + korvex overview
+- `01-daily/2026-04-*.md` (7) + `01-daily/2026-05-02.md` — added `related:` with monthly hub + `_MEMORY` + [your-project] overview
 - `03-knowledge/maps-of-content/MOC-*.md` (all 4 existing) — extended `related:` arrays to link back to area files, goals, monthly reports
 - `03-knowledge/permanent-notes/ai-specialization-automation-engineering.md` — replaced `[[MOC-AI-Agents]]` (dead) with `[[MOC-AI-Coding-Vibecoding]]` + `[[MOC-Carrera-AI-Income]]` + `[[05-areas/learning]]`
 - `03-knowledge/literature-notes/ai-entrepreneur-beginner-2025.md` — replaced `[[MOC-AI-Agents]]` (dead) with `[[MOC-AI-Coding-Vibecoding]]`
@@ -451,7 +451,7 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 **Broken links repaired (3 real, 3 false positives):**
 - `[[MOC-AI-Agents]]` → `[[MOC-AI-Coding-Vibecoding]]` (2 files)
 - `[[Información adicional transporte]]` → `[[MOC-Startups-Transporte-LATAM]]` (1 file)
-- `[[Korvex-Optimized-Context]]`, `[[Plan-Negocio-Operaciones]]`, `[[tourdy-ceo-cto-strategy]]`, `[[plan-digitalizar-transporte-publico-sv]]` — confirmed as false positives (files exist, Obsidian resolves by basename)
+- `[[[YOUR_PROJECT]-Optimized-Context]]`, `[[Plan-Negocio-Operaciones]]`, `[[[archived-project]-ceo-cto-strategy]]`, `[[plan-digitalizar-transporte-publico-sv]]` — confirmed as false positives (files exist, Obsidian resolves by basename)
 
 **Permanence mechanism:**
 - Process-inbox skill now enforces: no file leaves inbox as a graph island
@@ -474,7 +474,7 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 **Type:** architecture documentation + deployment completion.
 
-**Trigger:** Both korvex-web and brisas-del-golfo deployments complete. Session requested a full distillation of the three-layer memory system into canonical, open-source-quality documentation.
+**Trigger:** Both [your-project] and [client-site] deployments complete. Session requested a full distillation of the three-layer memory system into canonical, open-source-quality documentation.
 
 **Files updated:**
 
@@ -484,14 +484,14 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 **What was deployed this session (2026-05-03/04):**
 
-- `korvex-web/.brain/` — 6 scripts, hooks, config, BRAIN.md; all hooks wired; graphify running.
-- `brisas-del-golfo/.brain/` — identical skeleton replicated; 190-node graph built.
+- `[your-project]/.brain/` — 6 scripts, hooks, config, BRAIN.md; all hooks wired; graphify running.
+- `[client-site]/.brain/` — identical skeleton replicated; 190-node graph built.
 - Dev Brain vault at `~/Documents/Dev Brain/` — created; 122 + 190 code graph notes seeded.
 - wiki-brain skill at `~/.claude/skills/wiki-brain/` — installed; `SessionEnd` global hook wired.
 - `~/.claude/CLAUDE.md` — graphify section + full wiki-brain section appended.
 - `~/.claude/settings.json` — `SessionEnd` hook wired.
-- CKIS `02-projects/korvex/graph-report.md` — seeded by `sync-graph-to-vault.sh`.
-- CKIS `02-projects/brisas-del-golfo/graph-report.md` — seeded by `sync-graph-to-vault.sh`.
+- CKIS `02-projects/[your-project]/graph-report.md` — seeded by `sync-graph-to-vault.sh`.
+- CKIS `02-projects/[client-site]/graph-report.md` — seeded by `sync-graph-to-vault.sh`.
 
 **Key technical discoveries documented:**
 
@@ -508,14 +508,14 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 **Newer open items:**
 
-- korvex-crm: `.brain/` skeleton not yet replicated (pending soak on first two repos).
+- [your-project]-crm: `.brain/` skeleton not yet replicated (pending soak on first two repos).
 - Manual Obsidian UI steps: open Dev Brain vault → BRAT → 3D Graph plugin install (cannot be scripted).
 - `/wiki-brain ingest` first use: drop a source into `~/Documents/Dev Brain/raw/` to start compounding.
 
 **Next recommended action:**
 
 1. Open `~/Documents/Dev Brain/` as Obsidian vault → install BRAT → install 3D Graph plugin (v2.4.1, Aryan Gupta) → configure color groups.
-2. After 1 week of soak (korvex-web + brisas-del-golfo): replicate `.brain/` skeleton to korvex-crm.
+2. After 1 week of soak ([your-project] + [client-site]): replicate `.brain/` skeleton to [your-project]-crm.
 3. Drop first engineering article/transcript into `~/Documents/Dev Brain/raw/` and run `/wiki-brain ingest`.
 
 ━━━
@@ -524,20 +524,20 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 **Type:** architecture decision + first implementation.
 
-**Trigger:** Open Decision in `_MEMORY.md` ("Graphify tool: project-level CLAUDE.md bridge implementation timing") resolved after research comparing `safishamsi/graphify` (MIT, native Obsidian) vs `abhigyanpatwari/GitNexus` (PolyForm Noncommercial — blocker for Korvex commercial use, no Obsidian). Graphify selected.
+**Trigger:** Open Decision in `_MEMORY.md` ("Graphify tool: project-level CLAUDE.md bridge implementation timing") resolved after research comparing `safishamsi/graphify` (MIT, native Obsidian) vs `abhigyanpatwari/GitNexus` (PolyForm Noncommercial — blocker for [YOUR_PROJECT] commercial use, no Obsidian). Graphify selected.
 
 **Files created:**
 
-- `03-knowledge/permanent-notes/per-project-second-brain.md` — canonical architecture spec; linked into the graph via `related:` to CKIS master context, vault architecture, agent rules, decision protocol, cross-model protocol, Korvex/Brisas overviews, AI specialization permanent note.
+- `03-knowledge/permanent-notes/per-project-second-brain.md` — canonical architecture spec; linked into the graph via `related:` to CKIS master context, vault architecture, agent rules, decision protocol, cross-model protocol, [YOUR_PROJECT]/Brisas overviews, AI specialization permanent note.
 
 **Files updated:**
 
 - `00-inbox/_MEMORY.md` — Graphify Open Decision marked adopted with link to the permanent note; "Last updated" line refreshed.
-- `02-projects/korvex/_overview.md` — `## Decisions` section added with full CKIS decision-log entry; permanent note added to Key files; modified date bumped.
-- `02-projects/brisas-del-golfo/_overview.md` — `related:` frontmatter added pointing to the permanent note (this layer applies to brisas-del-golfo's repo too); modified date bumped.
+- `02-projects/[your-project]/_overview.md` — `## Decisions` section added with full CKIS decision-log entry; permanent note added to Key files; modified date bumped.
+- `02-projects/[client-site]/_overview.md` — `related:` frontmatter added pointing to the permanent note (this layer applies to [client-site]'s repo too); modified date bumped.
 - `00-system/ckis/CHANGELOG.md` — this entry.
 
-**Outside the vault (korvex-web repo):**
+**Outside the vault ([your-project] repo):**
 
 - `.brain/{README.md, BRAIN.md, config.sh}` — agent workflow rules + per-project config.
 - `.brain/decisions/README.md`, `.brain/bugs/README.md` — index files with frontmatter spec.
@@ -560,9 +560,9 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 **Next recommended action:**
 
-1. Next Korvex Web Claude Code session: `uv tool install graphifyy`, then in repo `graphify .` and `graphify hook install`. Confirm `.brain/graph/GRAPH_REPORT.md` is produced and `_CONTEXT.md` picks it up.
-2. Symlink the Graphify Obsidian vault into CKIS: `ln -s "$HOME/Documents/Startups/Korvex/Systems/Korvex Web/korvex-web/.brain/graph/vault" "$HOME/Documents/Second Brain/02-projects/korvex/graph"` (after Graphify produces the vault).
-3. After 1 week of soak on Korvex Web: replicate `.brain/` skeleton to `korvex-crm` and `brisas-del-golfo`'s repo (parameterized by `config.sh`).
+1. Next [YOUR_PROJECT] Web Claude Code session: `uv tool install graphifyy`, then in repo `graphify .` and `graphify hook install`. Confirm `.brain/graph/GRAPH_REPORT.md` is produced and `_CONTEXT.md` picks it up.
+2. Symlink the Graphify Obsidian vault into CKIS: `ln -s "$HOME/Documents/Startups/[YOUR_PROJECT]/Systems/[YOUR_PROJECT] Web/[your-project]/.brain/graph/vault" "$HOME/Documents/Second Brain/02-projects/[your-project]/graph"` (after Graphify produces the vault).
+3. After 1 week of soak on [YOUR_PROJECT] Web: replicate `.brain/` skeleton to `[your-project]-crm` and `[client-site]`'s repo (parameterized by `config.sh`).
 
 ━━━
 
@@ -574,19 +574,19 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 
 **Files updated:**
 
-- `00-system/ckis/00-ckis-master-context.md` — §1 adds CKIS aliases + Korvex non-agency framing; §3 marks Tourdy/HidroPlus archived; §8 consolidated "Confirmed Facts"; §9 replaced with "Resolved Open Questions (2026-05-02)" listing all 9 answers.
-- `00-system/ckis/01-ckis-user-profile-and-operating-context.md` — Tourdy/HidroPlus moved out of active roles; §5 active project list updated; §8 "agency operations" → "Korvex operations."
-- `00-system/ckis/07-projects-areas-resources-archives-map.md` — §2 Projects: Tourdy/HidroPlus moved to Archived section; Korvex framing updated.
-- `00-system/ckis/11-chatgpt-project-instructions.md` — Korvex framing updated; Tourdy line removed (archived).
+- `00-system/ckis/00-ckis-master-context.md` — §1 adds CKIS aliases + [YOUR_PROJECT] non-agency framing; §3 marks [ARCHIVED_PROJECT]/HidroPlus archived; §8 consolidated "Confirmed Facts"; §9 replaced with "Resolved Open Questions (2026-05-02)" listing all 9 answers.
+- `00-system/ckis/01-ckis-user-profile-and-operating-context.md` — [ARCHIVED_PROJECT]/HidroPlus moved out of active roles; §5 active project list updated; §8 "agency operations" → "[YOUR_PROJECT] operations."
+- `00-system/ckis/07-projects-areas-resources-archives-map.md` — §2 Projects: [ARCHIVED_PROJECT]/HidroPlus moved to Archived section; [YOUR_PROJECT] framing updated.
+- `00-system/ckis/11-chatgpt-project-instructions.md` — [YOUR_PROJECT] framing updated; [ARCHIVED_PROJECT] line removed (archived).
 - `00-system/ckis/15-source-map-and-generation-audit.md` — §3 Inferred → Confirmed; §4 Open Questions → Resolved; §6 audit adds resolution-round notes.
 - `00-system/ckis/CHANGELOG.md` — this entry.
-- `00-inbox/_MEMORY.md` — Tourdy archived; Active focus + Open Decisions refreshed.
-- `00-inbox/_ACTIVE-PROJECTS.md` — Tourdy/HidroPlus moved to Archived section.
+- `00-inbox/_MEMORY.md` — [ARCHIVED_PROJECT] archived; Active focus + Open Decisions refreshed.
+- `00-inbox/_ACTIVE-PROJECTS.md` — [ARCHIVED_PROJECT]/HidroPlus moved to Archived section.
 
 **Filesystem changes:**
 
 - `mv 00_System/CKIS 00-system/ckis && rmdir 00_System` (folder rename to kebab-case).
-- `mv 02-projects/tourdy 09-archive/tourdy` (project archive).
+- `mv 02-projects/[archived-project] 09-archive/[archived-project]` (project archive).
 - Path strings updated via `sed` across all CKIS markdown files.
 
 **Resolutions encoded:**
@@ -598,20 +598,20 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 5. Gemini API key → deferred.
 6. AssemblyAI replacement → deferred.
 7. Web Clipper → Firefox extension; no Claude Interpreter.
-8. Tourdy archived; HidroPlus already archived.
+8. [ARCHIVED_PROJECT] archived; HidroPlus already archived.
 9. No YAML `tags:` on existing 13 skills.
 
-**Plus durable feedback memory saved:** `feedback_korvex_framing.md` — "do not call Korvex a web agency."
+**Plus durable feedback memory saved:** `feedback_[your-project]_framing.md` — "do not call [YOUR_PROJECT] a web agency."
 
 **Newer open items:**
 
-- Korvex full positioning statement (capture in `02-projects/korvex/_overview.md`).
+- [YOUR_PROJECT] full positioning statement (capture in `02-projects/[your-project]/_overview.md`).
 - Graphify tool spec.
 
 **Next recommended action:**
 
 1. Refresh ChatGPT upload package (re-copy from updated source files).
-2. Capture Korvex positioning statement when Eduardo decides.
+2. Capture [YOUR_PROJECT] positioning statement when Eduardo decides.
 3. Draft graphify spec when project work allows.
 
 ━━━
@@ -678,7 +678,7 @@ No files deleted. Eduardo manually deleted `00-system/` and `_migration-backups/
 5. Gemini API key for YouTube fallback — status.
 6. AssemblyAI replacement for social-video transcription.
 7. Web Clipper Interpreter (Claude API) configuration status.
-8. Tourdy reactivation trigger — define numerically.
+8. [ARCHIVED_PROJECT] reactivation trigger — define numerically.
 9. Add CKIS-style `tags:` to existing 13 skills?
 
 **Next recommended action:**

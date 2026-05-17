@@ -24,8 +24,8 @@ related: ["[[{{date:YYYY-MM}}]]", "[[_MEMORY]]"]
 - [ ] Vaciar inbox
 
 ## Project pulse
-- [[02-projects/korvex/_overview]] —
-- [[02-projects/brisas-del-golfo/_overview]] —
+- [[02-projects/[your-project]/_overview]] —
+- [[02-projects/[client-site]/_overview]] —
 - [[02-projects/university/_overview]] —
 
 ## Captures del día

@@ -31,7 +31,7 @@ related: ["[[00-ckis-master-context]]", "[[09-cross-model-shared-context-protoco
 
 **`00-inbox/_MEMORY.md`** — durable but volatile. Updated manually during weekly review. ≤150 lines. Holds:
 
-- Korvex / project stages and status.
+- [YOUR_PROJECT] / project stages and status.
 - Active focus for the current week (max 3 items).
 - Open decisions awaiting resolution.
 - Blockers per project.
@@ -90,8 +90,8 @@ A decision becomes durable when it gets a decision-log entry. Format and protoco
 
 Document external systems as **reference notes**, not by copying their contents in:
 
-- `~/korvex/` (code repo)
-- `~/brisas-del-golfo/` (code repo)
+- `~/[your-project]/` (code repo)
+- `~/[client-site]/` (code repo)
 - Wave / spreadsheet (finance)
 - Linear / Trello / similar (if used)
 - Wompi SV portal, Vercel dashboard, Supabase project URLs (sanitized — no keys)

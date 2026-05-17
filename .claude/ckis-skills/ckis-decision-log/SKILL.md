@@ -1,6 +1,6 @@
 ---
 name: ckis-decision-log
-description: Capture a decision in the CKIS decision-log format and route it to the right destination (project _overview.md, permanent note, or CHANGELOG). Use when Eduardo says "log decision <title>" or "I'm deciding to <X> — log it." Asks at most one clarifying question; outputs a copy-pasteable block; updates _MEMORY.md Open Decisions.
+description: Capture a decision in the CKIS decision-log format and route it to the right destination (project _overview.md, permanent note, or CHANGELOG). Use when [OWNER] says "log decision <title>" or "I'm deciding to <X> — log it." Asks at most one clarifying question; outputs a copy-pasteable block; updates _MEMORY.md Open Decisions.
 ---
 
 # CKIS Decision Log
@@ -9,7 +9,7 @@ Capture decisions in a consistent, reviewable format. Route them to the correct 
 
 ## When to invoke
 
-Eduardo says one of:
+[OWNER] says one of:
 
 - `log decision <title>`
 - "Capture this as a decision."
@@ -23,7 +23,7 @@ If the user is just *thinking out loud*, do NOT invoke this skill — that's a d
 2. **Identify required fields**:
    - Date — today by default.
    - Project / area — infer from context; ask if ambiguous.
-   - Status — `proposed` unless Eduardo says it's already adopted.
+   - Status — `proposed` unless [OWNER] says it's already adopted.
    - Decision — verbatim from Eduardo (one line).
    - Why — at most 3 bullets.
    - Alternatives considered — bulleted; ask if missing.
