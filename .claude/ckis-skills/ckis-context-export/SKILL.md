@@ -10,6 +10,7 @@ Refresh the ChatGPT upload package so ChatGPT Projects always reflect the curren
 ## Workflow
 
 1. **Read** `00-systems/ckis/11-chatgpt-project-instructions.md` §1 to get the canonical file list.
+   - **Coverage check:** the canonical list MUST include `17-crons-architecture.md`, `18-memory-architecture.md`, and `19-agent-habits-guide.md`. If any of these three are missing from the list in CKIS file 11 §1, add them to the list (edit CKIS file 11 §1 in place, preserving formatting) and proceed. Note the addition in the final report and in the CHANGELOG entry.
 2. **Verify** every listed file exists in `00-systems/ckis/`. If any are missing, abort and report.
 3. **Confirm or create** the destination directory: `00-systems/ckis/chatgpt-project-upload/`.
 4. **Copy** each listed file from `00-systems/ckis/<file>` to `00-systems/ckis/chatgpt-project-upload/<file>` (overwriting). Use `cp`, not `mv`.

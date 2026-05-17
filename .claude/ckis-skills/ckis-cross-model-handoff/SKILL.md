@@ -19,8 +19,8 @@ Where `<destination>` is one of:
 ## Workflow
 
 1. **Read context:**
-   - `00-system/ckis/14-active-working-slot.md` (in full).
-   - `00-system/ckis/09-cross-model-shared-context-protocol.md` (sections 4, 5, 7).
+   - `00-systems/ckis/14-active-working-slot.md` (in full).
+   - `00-systems/ckis/09-cross-model-shared-context-protocol.md` (sections 4, 5, 7).
    - For each project mentioned in the working slot or topic: `02-projects/<project>/_overview.md`.
 
 2. **Identify the ask.** From the working slot's `Current Task` and `Goal`. If the task is unclear, ask Eduardo a single question; otherwise proceed.

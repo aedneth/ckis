@@ -14,7 +14,7 @@ Empty `00-inbox/` deliberately. Every file is classified before any write happen
 ## Workflow
 
 **Step 0 — Auto-convert non-markdown.**
-Scan `00-inbox/` recursively for `.pdf`, `.docx`, `.txt`, `.rtf`. If found, run `.claude/skills/convert-to-md/skill.md` and wait for completion. Converted files land in `00-inbox/` and are processed as Type B by default (B3 signal — authored content).
+Scan `00-inbox/` recursively for `.pdf`, `.docx`, `.txt`, `.rtf`. If found, run `.claude/ckis-skills/convert-to-md/skill.md` and wait for completion. Converted files land in `00-inbox/` and are processed as Type B by default (B3 signal — authored content).
 
 **Step 1 — List the inbox.**
 `Glob 00-inbox/**/*.md`. Exclude system files: `_PROFILE.md`, `_INTERESTS.md`, `_ACTIVE-PROJECTS.md`, `_MEMORY.md`. These never move.

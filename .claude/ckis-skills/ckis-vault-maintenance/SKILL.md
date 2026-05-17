@@ -20,8 +20,8 @@ Actions:
 
 ## Pre-flight
 
-1. Read `00-system/ckis/13-maintenance-and-update-protocol.md` (full).
-2. Read `00-system/ckis/02-obsidian-vault-architecture.md` (sections 1–5).
+1. Read `00-systems/ckis/13-maintenance-and-update-protocol.md` (full).
+2. Read `00-systems/ckis/02-obsidian-vault-architecture.md` (sections 1–5).
 3. If the action will touch >5 existing files, **confirm with Eduardo** before proceeding.
 
 ## Action: add-project
@@ -50,8 +50,11 @@ Read-only. Runs the checklist from CKIS file 13 §8:
 
 - All active projects in `_ACTIVE-PROJECTS.md` actually active (any project folder silent ≥30 days)?
 - Inbox items older than 7 days?
-- CKIS file list under `00-system/ckis/` matches the index in CKIS file 00 §10?
+- CKIS file list under `00-systems/ckis/` matches the index in CKIS file 00 §10?
+- Are CKIS files 17 (`17-crons-architecture.md`), 18 (`18-memory-architecture.md`), and 19 (`19-agent-habits-guide.md`) present in `00-systems/ckis/`? Flag any that are missing.
 - ChatGPT upload package matches CKIS file 11 §1?
+  - Sub-check: does the package under `00-systems/ckis/chatgpt-project-upload/` include files 17, 18, and 19? If not, flag: "run `ckis-context-export` to refresh."
+- Are Cron 5 (memory-consolidation) outputs current? Check `00-inbox/_MEMORY.md` `modified:` date — if >35 days old, flag for manual consolidation.
 - Does `_MEMORY.md` still reflect reality? (heuristic only — surface for Eduardo)
 - Templates in `08-templates/` consistent with CKIS file 08?
 

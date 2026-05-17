@@ -23,11 +23,21 @@ Before Eduardo starts a coding session on a project, he needs the project paged 
    - Grep them for the project name and any associated tags (e.g., `#korvex`, `#brisas`)
    - Read the matching sections
 5. **Scan session logs** in `01-daily/logs/` (last 14 by mtime) for project mentions.
-6. **Search the wider vault** for tagged notes: Grep for `#<project>` across `03-knowledge/`, `00-inbox/`.
-7. **Check `00-inbox/_ACTIVE-PROJECTS.md`** for the project's current status line.
-8. **Compile the context brief** using the format below.
-9. **Optionally log the session start** to `01-daily/logs/{{YYYY-MM-DD-HHMM}}-{{project}}-session-start.md` if Eduardo confirms (or if invoked at the start of an actual coding session — ask).
-10. **Output the brief inline**. Make it scannable in under 60 seconds.
+6. **Dev Brain integration (optional — runs if `~/Documents/Dev Brain/` exists).**
+   - Check whether `~/Documents/Dev Brain/sessions/index.md` exists. If it does not, skip this step silently.
+   - If it exists, resolve the Dev Brain slug for the project:
+     - `korvex` → `korvex-web`
+     - `brisas` / `brisas-del-golfo` → `brisas-del-golfo`
+     - `recmp3-cli` → `recmp3-cli`
+     - Otherwise, use the project folder slug as-is.
+   - Run: `grep '| <slug> |' ~/Documents/Dev\ Brain/sessions/index.md | tail -5` and capture the result for the brief's "Recent coding sessions" section.
+   - If `~/Documents/Dev Brain/wiki/<slug>.md` exists, include a one-line pointer in the brief suggesting `cat ~/Documents/Dev\ Brain/wiki/<slug>.md` for the full wiki digest and `graphify query "<topic>"` (run from the repo dir) for ad-hoc code-structure questions.
+   - This step is **read-only** and must never write to Dev Brain.
+7. **Search the wider vault** for tagged notes: Grep for `#<project>` across `03-knowledge/`, `00-inbox/`.
+8. **Check `00-inbox/_ACTIVE-PROJECTS.md`** for the project's current status line.
+9. **Compile the context brief** using the format below.
+10. **Optionally log the session start** to `01-daily/logs/{{YYYY-MM-DD-HHMM}}-{{project}}-session-start.md` if Eduardo confirms (or if invoked at the start of an actual coding session — ask).
+11. **Output the brief inline**. Make it scannable in under 60 seconds.
 
 ## Context brief format
 
@@ -58,6 +68,12 @@ Before Eduardo starts a coding session on a project, he needs the project paged 
 ## 🧠 Relevant knowledge from vault
 - [[permanent note]] — why it's relevant
 - ...
+
+## 🧠 Recent coding sessions (Dev Brain)
+- {{UTC timestamp | slug | summary_line}} (from sessions/index.md)
+- ... (last 5 lines)
+→ For code structure: graphify query "<topic>" in <repo-dir>
+→ For full wiki: cat ~/Documents/Dev\ Brain/wiki/<slug>.md
 
 ## ▶ Suggested next action
 {{one concrete next step Eduardo could take in this session}}

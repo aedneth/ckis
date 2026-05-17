@@ -5,6 +5,8 @@ description: Keep all 02-projects/ _overview.md files current using parallel sub
 
 # Sync Overviews
 
+> **BOUNDARY:** This skill updates `_overview.md` files only. It does NOT touch `graph-report.md` — that file is auto-synced on every commit by `.git/hooks/post-commit.brain` → `sync-graph-to-vault.sh` (Dev Brain integration). Do not add `graph-report.md` logic here, do not read/write it from this skill, and do not include it in the subagent's scope.
+
 Keep project overviews accurate without burning tokens. The key insight: the `modified` date in each `_overview.md` frontmatter is the high-water mark — git tells us exactly which project files changed since then. Projects with no changes are skipped entirely. Projects with changes get a dedicated subagent that reads ALL new files in parallel.
 
 ## Architecture

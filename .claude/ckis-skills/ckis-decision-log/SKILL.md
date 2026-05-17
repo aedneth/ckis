@@ -19,7 +19,7 @@ If the user is just *thinking out loud*, do NOT invoke this skill — that's a d
 
 ## Workflow
 
-1. **Read** `00-system/ckis/06-decision-execution-and-review-protocol.md` §1 and §9.
+1. **Read** `00-systems/ckis/06-decision-execution-and-review-protocol.md` §1 and §9.
 2. **Identify required fields**:
    - Date — today by default.
    - Project / area — infer from context; ask if ambiguous.
@@ -56,7 +56,7 @@ If the user is just *thinking out loud*, do NOT invoke this skill — that's a d
 
 5. **Pick destination**:
    - Project-specific → append to `02-projects/<project>/_overview.md` under a `## Decisions` section (create the section if missing).
-   - System-level (touches CKIS itself) → entry in `00-system/ckis/CHANGELOG.md` AND edit the relevant CKIS file.
+   - System-level (touches CKIS itself) → entry in `00-systems/ckis/CHANGELOG.md` AND edit the relevant CKIS file.
    - Cross-cutting / personal / strategic → new permanent note `03-knowledge/permanent-notes/decision-<slug>.md`.
 6. **Write** the entry to the chosen destination.
 7. **Update `_MEMORY.md`**:

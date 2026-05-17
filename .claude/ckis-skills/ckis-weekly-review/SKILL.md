@@ -5,9 +5,14 @@ description: CKIS-aware weekly review. Wraps the operational weekly-review skill
 
 # CKIS Weekly Review
 
-Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/skills/weekly-review/skill.md`) and adds a CKIS-specific layer: lightweight health checks and proposed `_MEMORY.md` edits.
+Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/ckis-skills/weekly-review/skill.md`) and adds a CKIS-specific layer: lightweight health checks and proposed `_MEMORY.md` edits.
 
 ## Workflow
+
+0. **De-duplication check (Cron 4 coordination).** Cron 4 runs this skill automatically every Friday at 17:00 via headless `claude -p`. Before doing anything else:
+   - Glob `06-goals/weekly/YYYY-MM-DD-weekly-review.md` for today's date.
+   - If a file already exists for today (likely written by Cron 4), STOP and surface to Eduardo: show the existing path and ask explicitly: "A weekly review already exists for today — likely from Cron 4. Overwrite, append addendum, or abort? (overwrite/append/abort)"
+   - Only proceed when Eduardo answers. Default behavior on no-answer is `abort`.
 
 1. **Run the operational `weekly-review` skill.** Either invoke it (if the harness supports nested skills) or replicate its core logic:
    - Scan daily notes for the past 7 days (`01-daily/2026-MM-DD.md`).
@@ -21,7 +26,8 @@ Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/skills/weekly
    - Active projects silent ≥14 days — list.
    - Open decisions in `_MEMORY.md` older than 14 days — list.
    - Blockers unchanged across 2+ weekly reviews — list (compare to last weekly review file).
-   - CKIS file index integrity — does `00-system/ckis/00-ckis-master-context.md` §10 still match what's in the folder?
+   - CKIS file index integrity — does `00-systems/ckis/00-ckis-master-context.md` §10 still match what's in the folder?
+   - Dev Brain session activity this week — if `~/Documents/Dev Brain/sessions/index.md` exists, run `grep $(date '+%Y-%m-%d') ~/Documents/Dev\ Brain/sessions/index.md | wc -l` and report the count of coding sessions logged this week.
 
 3. **Propose `_MEMORY.md` edits.** Read the current `_MEMORY.md`, then:
    - For each section (Business state, Active focus, Open Decisions, Blockers, Financial state, University, System state) — produce a *proposed* edit only if the past week's activity warrants one.
@@ -75,6 +81,7 @@ Sunday cadence. Wraps the existing `weekly-review` skill (`.claude/skills/weekly
 - Stale open decisions (>14d): <list>
 - Persistent blockers: <list>
 - CKIS index integrity: ok | drift detected
+- Dev Brain coding sessions this week: N (or "Dev Brain not present")
 
 ## Proposed _MEMORY.md edits
 - (diff-style block per section needing changes; "no change" otherwise)
