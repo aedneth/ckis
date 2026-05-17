@@ -2,7 +2,7 @@
 type: permanent-note
 created: 2026-05-03
 modified: 2026-05-17
-tags: [architecture, ckis, claude-code, brain, graphify, wiki-brain, dev-brain, korvex, brisas-del-golfo, korvex-crm, open-source]
+tags: [architecture, ckis, claude-code, brain, graphify, wiki-brain, dev-brain, open-source]
 status: evergreen
 related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent]]", "[[06-decision-execution-and-review-protocol]]", "[[09-cross-model-shared-context-protocol]]", "[[02-projects/korvex/_overview]]", "[[02-projects/brisas-del-golfo/_overview]]", "[[ai-specialization-automation-engineering]]"]
 ---
