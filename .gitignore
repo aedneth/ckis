@@ -1,0 +1,42 @@
+# Obsidian
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Per-project .brain/ — regenerable / personal
+.brain/_CONTEXT.md
+.brain/.session-state
+.brain/.compact-triggers
+.brain/.compacts-this-session
+.brain/sessions/*
+!.brain/sessions/.gitkeep
+.brain/graph/*
+!.brain/graph/.gitkeep
+graphify-out
+
+# CKIS vault — personal / session state
+00-inbox/_MEMORY.md
+00-inbox/_PROFILE.md
+00-inbox/_INTERESTS.md
+00-inbox/_ACTIVE-PROJECTS.md
+01-daily/
+!01-daily/.gitkeep
+
+# MCP config (contains tokens)
+.mcp.json
+
+# Secrets
+.env
+.env.local
+*.env
+
+# Dev Brain (separate vault, not committed here)
+# ~/Documents/Dev Brain/ is managed separately
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc

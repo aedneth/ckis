@@ -1,0 +1,61 @@
+name: CKIS Vault CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate vault structure
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Validate YAML frontmatter
+        run: python scripts/validate-frontmatter.py
+
+      - name: Check required files
+        run: |
+          required=(
+            "README.md"
+            "LICENSE"
+            "CONTRIBUTING.md"
+            "SECURITY.md"
+            "CHANGELOG.md"
+            "SCHEMA.md"
+            "CLAUDE.md"
+            ".claude/CLAUDE.md"
+            "00-systems/ckis/00-ckis-master-context.md"
+          )
+          missing=()
+          for f in "${required[@]}"; do
+            [ -f "$f" ] || missing+=("$f")
+          done
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "Missing required files:"
+            printf '  %s\n' "${missing[@]}"
+            exit 1
+          fi
+          echo "All required files present."
+
+      - name: Check for accidentally committed secrets
+        run: |
+          # Basic check for common secret patterns
+          if grep -rE "(ANTHROPIC_API_KEY|sk-ant-|sk-proj-|ghp_|gho_)" \
+               --include="*.md" --include="*.json" --include="*.sh" \
+               --exclude-dir=".git" . 2>/dev/null | grep -v "example\|placeholder\|YOUR_KEY"; then
+            echo "Potential secret found in committed files. Review above matches."
+            exit 1
+          fi
+          echo "No secrets detected."

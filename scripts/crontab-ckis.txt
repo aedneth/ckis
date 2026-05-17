@@ -1,0 +1,20 @@
+# CKIS Crontab — install with: crontab scripts/crontab-ckis.txt
+# Requires: ~/.claude/.env with ANTHROPIC_API_KEY
+# Logs: ~/logs/
+# Full spec: 00-systems/ckis/17-crons-architecture.md
+
+# ── Cron 1: Vault Git Sync (every 6 hours) ────────────────────────────────────
+0 */6 * * * cd "$HOME/path/to/your/vault" && git add -A && git commit -m "chore: auto-sync $(date '+\%Y-\%m-\%d \%H:\%M')" --allow-empty && git push origin main >> "$HOME/logs/vault-git-sync.log" 2>&1
+
+# ── Cron 2: CRM Sort (daily 07:30) ────────────────────────────────────────────
+30 7 * * * source "$HOME/.claude/.env" && claude -p "Sort new contacts in 07-people/ into correct categories per 07-projects-areas-resources-archives-map.md" --allowedTools "Read,Glob,Write" --max-turns 15 --bare >> "$HOME/logs/crm-sort.log" 2>&1
+
+# ── Cron 3: Content Discovery (weekly Monday 08:00) ───────────────────────────
+# Uncomment when API credits confirmed
+# 0 8 * * 1 source "$HOME/.claude/.env" && claude -p "Check 04-resources/ for unprocessed items and create synthesis notes in 03-knowledge/" --allowedTools "Read,Glob,Write" --max-turns 20 --bare >> "$HOME/logs/content-discovery.log" 2>&1
+
+# ── Cron 4: Weekly Review Prompt (Friday 17:00) ───────────────────────────────
+0 17 * * 5 source "$HOME/.claude/.env" && claude -p "Run the weekly review skill: @.claude/ckis-skills/weekly-review/skill.md" --allowedTools "Read,Glob,Write" --max-turns 30 --bare >> "$HOME/logs/weekly-review.log" 2>&1
+
+# ── Cron 5: Memory Consolidation (1st of month 09:00) ─────────────────────────
+0 9 1 * * source "$HOME/.claude/.env" && claude -p "Update 00-inbox/_MEMORY.md and 00-inbox/_ACTIVE-PROJECTS.md based on recent activity. Read 01-daily/logs/ (last 7 days) and 02-projects/*/_overview.md. Flag stale projects." --allowedTools "Read,Glob,Write" --max-turns 20 --bare >> "$HOME/logs/memory-consolidation.log" 2>&1
