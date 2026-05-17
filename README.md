@@ -35,6 +35,8 @@ Sound familiar? In 2026, a Notion vault with 822 files was audited — 90% were 
 
 **The failure mode is not the tool. It's the manual organization layer.**
 
+Andrej Karpathy identified the same bottleneck: in knowledge-heavy work, the constraint isn't retrieval — it's *knowledge coherence*. Connecting ideas across hundreds of documents, resolving contradictions, surfacing gaps. You don't need a better tool. You need a system that compiles knowledge the way a compiler builds code — incrementally, consistently, automatically.
+
 ## The Solution
 
 CKIS is a structured Obsidian vault + Claude Code skill system that eliminates the manual organization layer:
@@ -45,6 +47,24 @@ CKIS is a structured Obsidian vault + Claude Code skill system that eliminates t
 - **Runs itself** — 5 crons handle weekly reviews, memory consolidation, vault git sync, and more
 
 You stop managing your second brain. It manages itself.
+
+Princeton researchers showed that the same AI model performs **3× better** when placed in the right environment — not a smarter model, but a better *harness*. OpenAI shipped 1M lines of code with 3 engineers not by switching models, but by building the linters, feedback loops, and observability tools that let agents operate at their ceiling. CKIS is that harness: three-layer memory, session context injection, and 5 automated crons that keep the environment alive without manual effort.
+
+---
+
+## Intellectual Foundation
+
+CKIS builds on and operationalizes ideas from across the AI and knowledge management space.
+
+**[Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)** — Andrej Karpathy described a workflow where raw sources (papers, articles, repos) are compiled by an LLM into an incrementally-maintained `.md` wiki with summaries, cross-references, and automated lint passes — no RAG pipeline, no vector DB. At ~100 articles and ~400K words on a single topic, the wiki handles complex Q&A with no additional tooling. Every question asked improves the base. CKIS operationalizes this pattern: Obsidian is the wiki layer, Claude Code is the compiler, and 5 crons keep it self-healing.
+
+**[Karpathy's four principles for AI coding agents](https://github.com/multica-ai/andrej-karpathy-skills)** — Karpathy identified why LLM coding assistants fail: silent assumptions, overcomplication, unwanted code changes. These observations were formalized into four principles (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) that went #1 on GitHub trending with 90k+ stars. These principles are embedded directly in CKIS's `CLAUDE.md` as the agent's operating rules.
+
+**Harness Engineering** — Princeton research and OpenAI's internal practice show that the bottleneck in AI-assisted work isn't the model — it's the environment. Anthropic built a two-agent system where one agent sets up the environment before the other builds the product. CKIS applies this to knowledge work: the three-layer memory stack, session hooks, and automated crons are the harness that makes Claude effective across sessions, not just in them.
+
+**[Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)** (Anthropic) — The evolution from prompt engineering to curating the optimal set of tokens at any given moment. CKIS treats every session start, skill trigger, and cron output as a context engineering decision: what is the minimal, highest-signal information the model needs right now?
+
+**PARA method** (Tiago Forte) — Projects / Areas / Resources / Archive as the organizational skeleton for the vault (folders 02–05). CKIS extends PARA with two additional layers: `00-systems/` for the operating system itself and `01-daily/` for temporal capture, plus `06-goals/`, `07-people/`, and the full Dev Brain integration that PARA never anticipated.
 
 ---
 
@@ -243,13 +263,70 @@ The vision was always an Agentic OS: a system that manages itself while you focu
 
 ---
 
-## Related Tools
+## Ecosystem
 
-| Tool | Relationship |
-|---|---|
-| [agentmemory](https://github.com/rohitg00/agentmemory) | Reactive auto-capture memory for AI agents. Complementary: agentmemory captures automatically from every tool call; CKIS captures deliberately via skills and crons. Evaluation in `00-systems/ckis/22-optional-agentmemory-integration.md`. |
-| [graphify](https://github.com/aedneth/graphify) | Code knowledge graph engine powering the Dev Brain layer (Layer 2). Required for the per-project second brain architecture. |
-| [Obsidian](https://obsidian.md) | The storage and visualization layer. CKIS is built on top of Obsidian, not a replacement. |
+Tools CKIS integrates with, was built alongside, or evaluated against. Each solves a different layer of the problem.
+
+### Integrated in CKIS
+
+#### [graphify](https://github.com/safishamsi/graphify) · [@safishamsi](https://github.com/safishamsi) · MIT · ✅ Active
+
+The code knowledge graph engine powering Dev Brain (Layer 2). Indexes codebases — 31+ languages plus PDFs and markdown — into queryable knowledge graphs via tree-sitter AST parsing and LLM semantic extraction. Outputs: interactive HTML visualization, markdown architecture report, queryable JSON graph. Wired to CKIS via git post-commit hooks so every commit auto-updates the Dev Brain.
+
+**Strengths:** MCP server for real-time Claude Code queries · confidence scoring (EXTRACTED / INFERRED / AMBIGUOUS) · relationship intelligence (god nodes, surprising cross-module connections) · zero manual curation  
+**Limitations:** Python 3.10+ required · full semantic extraction needs an API key (Claude / OpenAI / Gemini; Ollama fallback available)  
+**Install:** `uv tool install graphifyy` *(double-y on PyPI)*
+
+---
+
+#### [Obsidian](https://obsidian.md) · Obsidian · Proprietary (free personal use) · ✅ Required
+
+The markdown storage and visualization layer. CKIS is a standard Obsidian vault — all files are plain `.md` and work without Obsidian, but you lose the 3D graph view, Dataview queries, and the plugin ecosystem.
+
+---
+
+### Evaluated — compatible, not integrated by default
+
+#### [GitNexus](https://github.com/abhigyanpatwari/GitNexus) · [@abhigyanpatwari](https://github.com/abhigyanpatwari) · PolyForm Noncommercial
+
+Code intelligence engine with 16 MCP tools. Runs entirely in-browser via WebAssembly (no install required), blast radius detection (pre-commit impact analysis), hybrid BM25 + semantic search, coordinated multi-file refactoring. Referenced in the Claude Code community as the dependency mapping tool behind zero-regression 100% AI-written code workflows.
+
+**Strengths:** More MCP tools than Graphify · interactive browser UI, no install · git-diff impact analysis · coordinated rename across 50+ files  
+**Limitations:** PolyForm Noncommercial license restricts commercial use  
+**Consider when:** You want interactive code exploration UI or deeper MCP tool density in Cursor / Claude Code
+
+---
+
+#### [MemPalace](https://github.com/mempalace/mempalace) · [@mempalace](https://github.com/mempalace) · MIT
+
+Local-first semantic memory system with 29 MCP tools. Organizes memory by people / projects / topics (method of loci metaphor), achieves 96–98% retrieval recall via local vector embeddings, no cloud required, verbatim storage (no summarization loss), multi-agent memory isolation.
+
+**Strengths:** No cloud dependency · verbatim recall · multi-agent memory sharing across specialist agents · temporal knowledge graphs  
+**Limitations:** Overlaps with CKIS Cron 5 (memory consolidation) + auto-memory at typical vault scale  
+**Consider when:** 2,000+ note vaults, multi-agent systems, or shared team memory  
+**Evaluation:** `00-systems/ckis/18-memory-architecture.md`
+
+---
+
+#### [claude-mem](https://github.com/thedotmack/claude-mem) · [@thedotmack](https://github.com/thedotmack) · Apache 2.0
+
+Session compression for Claude Code: 5 lifecycle hooks (SessionStart, UserPromptSubmit, PostToolUse, Stop, SessionEnd) capture observations → AI compresses → injects relevant context at next session start. Web viewer at `localhost:37777`, natural-language search via built-in skill.
+
+**Strengths:** Lightweight · tight Claude Code lifecycle integration · token-cost visibility (progressive disclosure) · real-time web viewer  
+**Limitations:** Claude Code–specific; overlaps with CKIS auto-memory + session logs for full vault users  
+**Consider when:** Developers who want session persistence without building a full vault  
+**Evaluation:** `00-systems/ckis/18-memory-architecture.md`
+
+---
+
+#### [agentmemory](https://github.com/rohitg00/agentmemory) · [@rohitg00](https://github.com/rohitg00) · MIT
+
+Reactive auto-capture from 12 lifecycle hooks → BM25 + vector + graph hybrid index → SessionStart injection. Neuroscience-inspired memory tiers (working / episodic / semantic / procedural) with automated decay and contradiction resolution. Claims 92% token reduction and 95% retrieval accuracy.
+
+**Strengths:** Fully automatic (zero manual capture) · hybrid retrieval (BM25 + semantic + graph) · MCP integration  
+**Limitations:** Runtime vector/SQLite store — not human-readable markdown; operational complexity at <2,000 note scale  
+**Consider when:** 2,000+ notes, multi-user teams, or when the `synthesize` skill returns noisy/slow results  
+**Evaluation:** `00-systems/ckis/22-optional-agentmemory-integration.md`
 
 ---
 
