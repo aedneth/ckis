@@ -183,11 +183,11 @@ Copies `.brain/graph/GRAPH_REPORT.md` into `$CKIS_VAULT/02-projects/<slug>/graph
 
 #### `sync-obsidian-graph.sh` — called from `post-commit.brain` (cadence-gated)
 
-Reads `.brain/graph/graph.json` and calls the Graphify Python API directly to generate one `.md` file per code node in `~/Documents/Dev Brain/code-graph/<slug>/`. Called every `OBSIDIAN_GRAPH_CADENCE` commits. After Obsidian export completes, calls `~/Documents/Dev Brain/scripts/build-wiki-page.sh <slug>` to regenerate the wiki digest at `wiki/<slug>.md` (v2.2).
+Reads `.brain/graph/graph.json` and calls the Graphify Python API directly to generate one `.md` file per code node in `~/Documents/Dev Brain/code-graph/<slug>/`. Called every `OBSIDIAN_GRAPH_CADENCE` commits. After Obsidian export completes, calls `~/Documents/Dev Brain/.scripts/build-wiki-page.sh <slug>` to regenerate the wiki digest at `wiki/<slug>.md` (v2.2).
 
 #### `register-to-dev-brain.sh` — run once per project (idempotent)
 
-5-line wrapper that sources `config.sh` and calls `~/Documents/Dev Brain/scripts/register-project.sh <slug> <name> <repo_root>`. Updates `projects.json` and the `<!-- projects:auto -->` block in `AGENT_README.md`. Run after initial `.brain/` setup or whenever project metadata changes.
+5-line wrapper that sources `config.sh` and calls `~/Documents/Dev Brain/.scripts/register-project.sh <slug> <name> <repo_root>`. Updates `projects.json` and the `<!-- projects:auto -->` block in `AGENT_README.md`. Run after initial `.brain/` setup or whenever project metadata changes.
 
 **Critical implementation note:** The Graphify CLI's `update` subcommand does NOT expose `--obsidian`. The Obsidian export function (`graphify.export.to_obsidian`) is only accessible via the Python API. The script calls Python inline:
 
