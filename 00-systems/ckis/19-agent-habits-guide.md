@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-17
-modified: 2026-05-17
+modified: 2026-05-18
 tags: [ckis, habits, workflow, agent, terminal, claude-code]
 status: active
 related: ["[[00-ckis-master-context]]", "[[17-crons-architecture]]", "[[18-memory-architecture]]", "[[04-claude-code-obsidian-agent]]"]
@@ -107,7 +107,7 @@ Write this to 01-daily/logs/2026-05-17.md.
 
 **Automated (Cron 4, Sunday 9:30pm)**:
 - Cron 4 reads the week's daily logs + session logs + project overviews
-- Writes `06-goals/weekly/week-YYYY-WW.md` with: Wins, Losses, Blockers, [YOUR_PROJECT] Progress, Priorities
+- Writes `06-goals/weekly/week-YYYY-WW.md` with: Wins, Losses, Blockers, Korvex Progress, Priorities
 - **No action needed** — just read the output Monday morning
 
 **Manual additions (15 minutes)**:
@@ -123,7 +123,7 @@ Write this to 01-daily/logs/2026-05-17.md.
 ## 6. When Memory Feels Wrong
 
 **Symptom**: Claude doesn't remember something from a previous session
-→ Check `~/.claude/projects/<your-vault-project>/memory/MEMORY.md`
+→ Check `~/.claude/projects/<your-vault-project-id>/memory/MEMORY.md`
 → If the memory isn't there, save it manually: *"Remember that..."*
 
 **Symptom**: _MEMORY.md is stale (references past state)
@@ -135,27 +135,28 @@ Write this to 01-daily/logs/2026-05-17.md.
 → If still empty: verify `jq` is installed (`which jq`)
 
 **Symptom**: /compact isn't being saved
-→ Check `01-daily/logs/compacts/` — compact files should appear after each `/compact`
-→ Verify `vault-session-stop.sh` is executable: `ls -la .brain/scripts/`
+→ Check `.brain/sessions/compacts/` in the project repo — files appear after each `/compact`
+→ Check `~/Documents/Dev Brain/sessions/compacts/<project>/` — mirrored to Dev Brain automatically
+→ Verify `log-compact.sh` and `log-session.sh` are executable: `ls -la .brain/scripts/`
 
 ━━━
 
-## 7. [YOUR_PROJECT]-web Sessions (separate from vault)
+## 7. Korvex-web Sessions (separate from vault)
 
-When working on the [your-project] codebase:
+When working on the korvex-web codebase:
 
 ```bash
-cd "<YOUR_PROJECT_PATH>"
+cd "<path/to/your-project>"
 claude
 ```
 
-The [your-project] `.brain/` system is **more automated** than the vault:
+The korvex-web `.brain/` system is **more automated** than the vault:
 - **SessionStart**: auto-assembles `_CONTEXT.md` with last 3 sessions + open decisions
 - **PostToolUse**: auto-captures every build, test, lint, and commit
 - **Stop**: auto-writes session log with iterations and compactions
 - **74+ compaction files** already captured
 
-For [your-project] sessions, your only habit is: **use /compact generously**. Everything else is automatic.
+For korvex-web sessions, your only habit is: **use /compact generously**. Everything else is automatic.
 
 ━━━
 
@@ -182,14 +183,16 @@ CKIS is NOT working if:
 # Start a vault session (Second Brain)
 cd ~/Documents/Second\ Brain && claude
 
-# Start a coding session ([your-project])
-cd "<YOUR_PROJECT_PATH>" && claude
+# Start a coding session (korvex-web)
+cd "<path/to/your-project>" && claude
 
 # Check today's session log
 cat ~/Documents/Second\ Brain/01-daily/logs/$(date +%Y-%m-%d).md
 
-# Check compact files from today
-ls ~/Documents/Second\ Brain/01-daily/logs/compacts/ | grep $(date +%Y-%m-%d)
+# Check compact files from today (korvex-web project)
+ls ~/Documents/Dev\ Brain/sessions/compacts/korvex/ | grep $(date +%Y-%m-%d)
+# Or in the project itself:
+ls "<path/to/your-project>/.brain/sessions/compacts/" | grep $(date +%Y-%m-%d)
 
 # Verify crons are installed
 crontab -l | grep vault-git-sync
@@ -207,7 +210,7 @@ bash -c 'source ~/.claude/.env && cd ~/Documents/Second\ Brain && \
   --bare --dangerously-skip-permissions --allowedTools "Read,Glob,Write" --max-turns 10'
 
 # Check auto-memory state
-cat ~/.claude/projects/<your-vault-project>/memory/MEMORY.md
+cat ~/.claude/projects/<your-vault-project-id>/memory/MEMORY.md
 ```
 
 ━━━

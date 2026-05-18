@@ -7,6 +7,46 @@ Format per entry: date · files created · files updated · sources used · open
 
 ━━━
 
+## 2026-05-18 — /compact bridge + Dev Brain autonomous routing + raw/ removal (v2.3.4)
+
+**Type:** new feature + architecture cleanup
+
+**Changes:**
+
+1. **`/compact` → Dev Brain bridge** — Complete autonomous pipeline: `log-compact.sh` eagerly extracts the most recent prior compact on `/compact` submission and routes to `Dev Brain/sessions/compacts/<project>/`. `log-session.sh` is the catch-all at session end. Both use shared `lib/compact-routing.sh` (idempotent, atomic copy).
+2. **Content extraction fix** — jq `textify` function handles both string and array-of-blocks content formats. Drops empty-body compacts.
+3. **`lib/compact-routing.sh`** — new shared helper (both projects). Atomic `cp → tmp → mv` (Obsidian-safe).
+4. **`raw/` removed from Dev Brain** — empty folder eliminated. All references updated in AGENT_README.md, CLAUDE.md, per-project-second-brain.md, 00-ckis-master-context.md. Wiki-brain now accepts URLs/content directly.
+5. **Dev Brain README.md rewritten** — comprehensive human-readable doc with query patterns, folder table, compact summaries section.
+6. **CKIS docs updated** — 19-agent-habits-guide.md (corrected compact paths), 00-ckis-master-context.md (Dev Brain structure updated), per-project-second-brain.md (v2.4 spec).
+7. **AGENT_README.md updated** — new `sessions/compacts/<project>/` table row; new "Compact summaries" query section.
+
+**Files created:**
+- `.brain/scripts/lib/compact-routing.sh` (both projects)
+
+**Files updated:**
+- `.brain/scripts/log-session.sh`, `log-compact.sh` (both projects)
+- `Dev Brain/AGENT_README.md`, `README.md`
+- `00-systems/ckis/00-ckis-master-context.md`, `19-agent-habits-guide.md`
+- `03-knowledge/permanent-notes/per-project-second-brain.md`
+
+━━━
+
+## 2026-05-18 — Dev Brain UX overhaul + full audit (v2.3.3)
+
+**Type:** bug fix + UX improvement
+
+**Fixes applied:**
+1. `graphify-out/` stray folder deleted from Dev Brain root.
+2. `scripts/` → `.scripts/` (hidden from Obsidian sidebar). All 8 references updated.
+3. Per-project session pointer stubs eliminated — `sessions/index.md` is sufficient.
+4. Graph Digest awk range bug fixed in `build-wiki-page.sh` (flag-based, explicit bounds).
+5. Tier 3 jq filter excludes compaction preamble messages from session index summary.
+6. `sessions/index.md` backfilled — 4 rows with compaction preamble replaced with `no-summary`.
+7. Wiki pages rebuilt with working Graph Digest.
+
+━━━
+
 ## 2026-05-18 — Hook CWD fix + autonomous Dev Brain summary (v2.3.2)
 
 **Type:** bug fix — `.brain/` hooks + Dev Brain session index

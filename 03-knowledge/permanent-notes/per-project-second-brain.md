@@ -10,7 +10,8 @@ related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]", "[
 # Per-Project Second Brain
 ## Graphify + `.brain/` + Dev Brain + Wiki-Brain Architecture
 
-> **Version:** 2026-05-17 (v2.2) — Dev Brain autonomous pipeline added; sessions indexed; wiki pages auto-built.
+> **Version:** 2026-05-18 (v2.4) — `/compact` bridge: summaries route to Dev Brain automatically; eager extraction via `log-compact.sh`; `raw/` folder removed from Dev Brain (fully autonomous — no human drops).
+> Previous: 2026-05-17 (v2.3) — Dev Brain UX overhaul: `scripts/` → `.scripts/`, session pointer stubs removed, wiki Graph Digest fixed, compaction preamble filtered.
 > Previous: 2026-05-04 (v2.0) — full implementation across [your-project] and [client-site].
 > This note is the canonical spec. Future changes start here, then propagate to the CKIS CHANGELOG.
 
@@ -67,7 +68,6 @@ Each layer has a clear owner and scope. Nothing crosses boundaries upward withou
 │   ├── config.sh             # project-specific config (paths, slug, cadence)
 │   ├── _CONTEXT.md           # GITIGNORED — auto-assembled at session start
 │   ├── .session-state        # GITIGNORED — start SHA/time for Stop hook
-│   ├── .compact-triggers     # GITIGNORED — /compact breadcrumbs (transient)
 │   ├── decisions/
 │   │   └── README.md         # COMMITTED — decision-log index + format spec
 │   ├── bugs/
@@ -82,9 +82,11 @@ Each layer has a clear owner and scope. Nothing crosses boundaries upward withou
 │       ├── assemble-context.sh    # SessionStart hook — builds _CONTEXT.md
 │       ├── log-session.sh         # Stop hook — writes per-session log
 │       ├── log-tool-event.sh      # PostToolUse hook — records builds/commits
-│       ├── log-compact.sh         # UserPromptSubmit hook — detects /compact
+│       ├── log-compact.sh         # UserPromptSubmit hook — eager compact extractor → Dev Brain
 │       ├── sync-graph-to-vault.sh # copies GRAPH_REPORT to CKIS (every commit)
-│       └── sync-obsidian-graph.sh # writes Dev Brain .md nodes (every N commits)
+│       ├── sync-obsidian-graph.sh # writes Dev Brain .md nodes (every N commits)
+│       └── lib/
+│           └── compact-routing.sh # shared: route compact .md to Dev Brain (idempotent)
 ├── .claude/
 │   ├── settings.json         # 5 Claude Code hooks wired here
 │   └── CLAUDE.md             # project rules (CKIS + .brain/ section appended)
@@ -95,7 +97,7 @@ Each layer has a clear owner and scope. Nothing crosses boundaries upward withou
 └── graphify-out -> .brain/graph/  # symlink (so graphify finds its expected output path)
 ```
 
-**Commit boundary** — committed (team-shareable, versioned): `decisions/`, `bugs/`, `scripts/`, `BRAIN.md`, `README.md`, `config.sh`. Gitignored (regenerable or personal): `_CONTEXT.md`, `.session-state`, `.compact-triggers`, `sessions/`, `graph/`.
+**Commit boundary** — committed (team-shareable, versioned): `decisions/`, `bugs/`, `scripts/`, `BRAIN.md`, `README.md`, `config.sh`. Gitignored (regenerable or personal): `_CONTEXT.md`, `.session-state`, `sessions/`, `graph/`.
 
 ### 2.2 `config.sh` — project identity
 
@@ -127,7 +129,7 @@ OBSIDIAN_GRAPH_CADENCE=10       # rebuild Dev Brain notes every N commits
 Runs automatically when Claude Code opens a session in this repo. It:
 
 1. Records session start to `.session-state` (UTC timestamp, branch, HEAD SHA).
-2. Rotates any orphaned `_active.md` or `.compact-triggers` from a crashed previous session.
+2. Rotates any orphaned `_active.md` from a crashed previous session.
 3. Calls `sync-graph-to-vault.sh` as a catch-up in case the post-commit hook missed it.
 4. Builds `_CONTEXT.md` by assembling:
    - CKIS pointer block (paths to `_MEMORY.md`, `_overview.md`, architecture spec)
@@ -144,16 +146,16 @@ The agent does not need to read `_CONTEXT.md` again — it's already in context 
 Runs automatically when Claude Code ends a session. It:
 
 1. Reads `.session-state` to compute duration and git diff vs. start.
-2. Extracts `/compact` summaries from the JSONL transcript: finds entries with `isCompactSummary: true` and `timestamp >= SESSION_START_UTC`, writes each to `sessions/compacts/<ts>-compact.md` with YAML frontmatter.
-3. Writes `sessions/<DATE_TAG>-session.md` with sections:
-   - `## Summary` — placeholder stub; actual summary auto-generated via 4-tier fallback at index time (compact → commit → last assistant turn → diffstat)
+2. Extracts `/compact` summaries from the JSONL transcript: finds entries with `isCompactSummary: true` and `timestamp >= SESSION_START_UTC`, extracts text via polymorphic `textify` jq filter, writes each to `sessions/compacts/<ts>-compact.md` with YAML frontmatter.
+3. **Dev Brain compact routing** (v2.4): mirrors each compact `.md` to `~/Documents/Dev Brain/sessions/compacts/<project>/` via `lib/compact-routing.sh` (idempotent, atomic copy).
+4. Writes `sessions/<DATE_TAG>-session.md` with sections:
    - `## Iterations` — build/test/lint/commit events from `_active.md`
    - `## Compactions` — pointer + 200-char excerpt per compact
    - `## Commits made` — `git log --oneline` since start SHA
    - `## Files changed` — `git diff --name-only` + diffstat
    - `## Working tree at end` — `git status --short`
-4. **Dev Brain session index** (v2.2): appends one line to `~/Documents/Dev Brain/sessions/index.md` (format: `UTC | slug | duration | sha | summary | source_path`); writes a pointer file to `~/Documents/Dev Brain/sessions/<slug>/<DATE_TAG>.md`.
-5. Cleans up `.session-state`, `_active.md`, `.compact-triggers`, `.compacts-this-session`.
+5. **Dev Brain session index**: appends one line to `~/Documents/Dev Brain/sessions/index.md` (format: `UTC | slug | duration | sha | summary | source_path`). Summary uses 4-tier fallback: compact excerpt → commit subject → last assistant turn → diffstat.
+6. Cleans up `.session-state`, `_active.md`, `.compacts-this-session`.
 
 The result: every Claude Code session leaves a complete, searchable, machine-readable log. Compaction summaries are never lost.
 
@@ -169,13 +171,16 @@ Everything else is ignored — no noise from routine file reads or trivial shell
 
 #### `log-compact.sh` — `UserPromptSubmit` hook
 
-Fires on every user prompt. Only acts on `/compact` (bare or with focus text). Writes a timestamp breadcrumb to `.compact-triggers`:
+Fires when the user submits `/compact` (bare or with focus text). Acts as an **eager extractor**: at this moment, the NEW compact hasn't been generated yet, but any prior compact from the same session is already in the JSONL transcript. The script:
 
-```
-2026-05-04T15:32:00Z|focus text here
-```
+1. Reads `transcript_path` from the hook payload.
+2. Extracts the most recent prior `isCompactSummary: true` entry.
+3. Writes it to `sessions/compacts/<ts>-compact.md` if not already on disk (idempotent).
+4. Routes it to Dev Brain via `lib/compact-routing.sh`.
 
-No stdout — `UserPromptSubmit` hooks must not inject context. The actual summary extraction happens in `log-session.sh` at Stop time, after the JSONL transcript is complete.
+The Stop hook (`log-session.sh`) is the final catch-all — it captures any final compact after the session ends. Both paths share the same idempotent routing helper, so duplicate calls are safe.
+
+No stdout — `UserPromptSubmit` hooks must not inject context.
 
 #### `sync-graph-to-vault.sh` — called from `post-commit.brain` + `assemble-context.sh`
 
@@ -270,17 +275,17 @@ exit 0
 │   └── [client-site]/ # 190 .md notes — one per brisas node
 ├── sessions/
 │   ├── index.md          # append-only feed: UTC | slug | duration | sha | summary | path
-│   ├── [your-project]/           # per-session pointer files from [your-project] Stop hook
-│   └── [client-site]/ # per-session pointer files from brisas Stop hook
+│   └── compacts/
+│       ├── [your-project]/   # LLM-distilled /compact summaries from [your-project]
+│       └── [client-site]/    # same for [client-site]
 ├── wiki/
 │   ├── index.md          # auto-rebuilt by build-wiki-page.sh after each Obsidian sync
 │   ├── [your-project].md         # god-nodes + communities + recent sessions digest
 │   └── [client-site].md
-├── scripts/
+├── .scripts/             # hidden from Obsidian sidebar (dot-prefix)
 │   ├── query-all.sh          # cross-project query via graphify merge-graphs
 │   ├── register-project.sh   # upserts project in projects.json + AGENT_README.md
 │   └── build-wiki-page.sh    # reads GRAPH_REPORT + sessions → wiki/<slug>.md
-├── raw/                  # immutable source drops (articles, transcripts, docs)
 ├── timeline/             # chronological context (wiki-brain managed)
 └── .gitignore            # code-graph/ + .obsidian/workspace*
 ```
@@ -307,11 +312,9 @@ Rebuilt every `OBSIDIAN_GRAPH_CADENCE` commits (default: 10). The cost is ~1–2
 
 Wiki-brain turns the Dev Brain vault into a compounding knowledge base. Claude is the only writer. The workflow:
 
-1. Drop a source into `~/Documents/Dev Brain/raw/` (article, transcript, doc, etc.)
-2. Run `/wiki-brain ingest <filename>` in any Claude Code session.
-3. Claude reads the source, summarizes, creates/updates wiki pages under `wiki/`, cross-links aggressively with `[[wikilinks]]`, updates `wiki/index.md`.
-4. The source in `raw/` is immutable — never modified.
-5. `SessionEnd` global hook (`~/.claude/skills/wiki-brain/hooks/session-end.sh`) checks rebuild cadence and runs Graphify if due.
+1. Run `/wiki-brain ingest <url-or-source>` in any Claude Code session — pass a URL, file path, or inline content directly (Dev Brain has no human-drop folder).
+2. Claude reads the source, summarizes, creates/updates wiki pages under `wiki/`, cross-links aggressively with `[[wikilinks]]`, updates `wiki/index.md`.
+3. `SessionEnd` global hook (`~/.claude/skills/wiki-brain/hooks/session-end.sh`) checks rebuild cadence and runs Graphify if due.
 
 Commands:
 - `/wiki-brain` — status menu
@@ -388,17 +391,19 @@ SessionStart
 
 During session
   ├── PostToolUse(Bash) → log-tool-event.sh → sessions/_active.md
-  └── UserPromptSubmit → log-compact.sh → .compact-triggers
+  └── UserPromptSubmit → log-compact.sh (on /compact)
+      ├── extract most recent prior compact from JSONL → sessions/compacts/<ts>.md
+      └── route → Dev Brain/sessions/compacts/<project>/ (eager, idempotent)
 
 Stop
   └── log-session.sh
       ├── extract /compact summaries from JSONL → sessions/compacts/<ts>.md
+      ├── route each compact → Dev Brain/sessions/compacts/<project>/ (catch-all)
       ├── merge iterations from _active.md
       ├── compute git diff + commits + duration
       ├── write sessions/<ts>-session.md (persistent, searchable)
-      └── Dev Brain indexing (v2.2):
-          ├── append line to ~/Documents/Dev Brain/sessions/index.md
-          └── write ~/Documents/Dev Brain/sessions/<slug>/<DATE>.md (pointer)
+      └── Dev Brain session index:
+          └── append line to ~/Documents/Dev Brain/sessions/index.md
 
 SessionEnd (global, wiki-brain)
   └── wiki-brain session-end.sh
@@ -485,7 +490,6 @@ EOF
 ```
 .brain/_CONTEXT.md
 .brain/.session-state
-.brain/.compact-triggers
 .brain/sessions/*
 !.brain/sessions/.gitkeep
 .brain/graph/*
