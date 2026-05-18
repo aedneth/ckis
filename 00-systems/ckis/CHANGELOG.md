@@ -7,6 +7,31 @@ Format per entry: date · files created · files updated · sources used · open
 
 ━━━
 
+## 2026-05-18 — Hook CWD fix + autonomous Dev Brain summary (v2.3.2)
+
+**Type:** bug fix — `.brain/` hooks + Dev Brain session index
+
+**Trigger:** Hook errors (`No such file or directory`) appeared when Claude Code was launched from a directory other than the project root. Separate audit revealed Dev Brain session index always captured template comment text instead of meaningful session summary.
+
+**Fixes applied** (korvex-web, brisas-del-golfo, CKIS template doc):
+
+1. **Hook CWD resolution** — All 4 hook commands now prepend `bash -c 'cd "$(git rev-parse --show-toplevel 2>/dev/null)" && ...'` so scripts resolve correctly from any launch directory. No hardcoded paths — portable across machines.
+
+2. **Autonomous Dev Brain summary** — `log-session.sh` replaces the broken awk (which read from `## Summary` placeholder — never filled by anyone) with a 4-tier fallback that generates `SUMMARY_LINE` purely from machine-readable data:
+   - Tier 1: compact excerpt (if `/compact` was used)
+   - Tier 2: first commit subject (`git log --oneline`)
+   - Tier 3: last assistant text turn from JSONL transcript (`jq`)
+   - Tier 4: diffstat (`3 files changed, 47 insertions(+)`)
+   - Fallback: `no-summary`
+   No human input, no API credits required. >99% of sessions now produce a meaningful index entry.
+
+**Files updated:**
+- `.brain/scripts/log-session.sh` (both korvex-web and brisas-del-golfo)
+- `.claude/settings.json` (both korvex-web and brisas-del-golfo)
+- `03-knowledge/permanent-notes/per-project-second-brain.md` (§2.4, §7 Step 4, §8 Open Risks)
+
+━━━
+
 ## 2026-05-17 — Dev Brain Autonomous Architecture (v2.2)
 
 **Type:** system correction + new architecture — Dev Brain restored and properly integrated.

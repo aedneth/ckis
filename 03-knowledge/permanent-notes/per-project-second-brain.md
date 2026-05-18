@@ -1,7 +1,7 @@
 ---
 type: permanent-note
 created: 2026-05-03
-modified: 2026-05-17
+modified: 2026-05-18
 tags: [architecture, ckis, claude-code, brain, graphify, wiki-brain, dev-brain, open-source]
 status: evergreen
 related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent]]", "[[06-decision-execution-and-review-protocol]]", "[[09-cross-model-shared-context-protocol]]", "[[02-projects/[your-project]/_overview]]", "[[02-projects/[client-site]/_overview]]", "[[ai-specialization-automation-engineering]]"]
@@ -146,7 +146,7 @@ Runs automatically when Claude Code ends a session. It:
 1. Reads `.session-state` to compute duration and git diff vs. start.
 2. Extracts `/compact` summaries from the JSONL transcript: finds entries with `isCompactSummary: true` and `timestamp >= SESSION_START_UTC`, writes each to `sessions/compacts/<ts>-compact.md` with YAML frontmatter.
 3. Writes `sessions/<DATE_TAG>-session.md` with sections:
-   - `## Summary` — comment stub (Claude fills this in during the session when it matters)
+   - `## Summary` — placeholder stub; actual summary auto-generated via 4-tier fallback at index time (compact → commit → last assistant turn → diffstat)
    - `## Iterations` — build/test/lint/commit events from `_active.md`
    - `## Compactions` — pointer + 200-char excerpt per compact
    - `## Commits made` — `git log --oneline` since start SHA
@@ -205,6 +205,8 @@ The `edges="links"` kwarg is required (NetworkX FutureWarning becomes error with
 
 ### 2.4 Claude Code hooks (`.claude/settings.json`)
 
+Hook commands use `git rev-parse --show-toplevel` to resolve the project root before running any script. This makes them work correctly regardless of which directory `claude` was launched from.
+
 ```json
 {
   "permissions": {
@@ -214,16 +216,16 @@ The `edges="links"` kwarg is required (NetworkX FutureWarning becomes error with
   },
   "hooks": {
     "SessionStart": [
-      {"hooks": [{"type": "command", "command": "bash .brain/scripts/assemble-context.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/assemble-context.sh'"}]}
     ],
     "PostToolUse": [
-      {"matcher": "Bash", "hooks": [{"type": "command", "command": "bash .brain/scripts/log-tool-event.sh"}]}
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/log-tool-event.sh'"}]}
     ],
     "UserPromptSubmit": [
-      {"hooks": [{"type": "command", "command": "bash .brain/scripts/log-compact.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/log-compact.sh'"}]}
     ],
     "Stop": [
-      {"hooks": [{"type": "command", "command": "bash .brain/scripts/log-session.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/log-session.sh'"}]}
     ]
   }
 }
@@ -502,16 +504,16 @@ graphify-out
   },
   "hooks": {
     "SessionStart": [
-      {"hooks": [{"type": "command", "command": "bash .brain/scripts/assemble-context.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/assemble-context.sh'"}]}
     ],
     "PostToolUse": [
-      {"matcher": "Bash", "hooks": [{"type": "command", "command": "bash .brain/scripts/log-tool-event.sh"}]}
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/log-tool-event.sh'"}]}
     ],
     "UserPromptSubmit": [
-      {"hooks": [{"type": "command", "command": "bash .brain/scripts/log-compact.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/log-compact.sh'"}]}
     ],
     "Stop": [
-      {"hooks": [{"type": "command", "command": "bash .brain/scripts/log-session.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null)\" && bash .brain/scripts/log-session.sh'"}]}
     ]
   }
 }
@@ -567,7 +569,7 @@ uv tool install graphifyy==0.6.7
 | --- | --- |
 | Graphify maturity | Pinned `graphifyy==0.6.7`; architecture is tool-replaceable |
 | `sync-obsidian-graph.sh` depends on `graphify.export.to_obsidian` internal API | If API breaks on version bump, the Python script is isolated and replaceable without touching the rest of the system |
-| Stop hook reliability | Narrative `## Summary` depends on Claude/Eduardo filling it in. The iteration log + compacts capture everything else automatically |
+| Stop hook reliability | Dev Brain `SUMMARY_LINE` auto-generated via 4-tier fallback (compact → commit → last assistant turn → diffstat). No human input required. |
 | Dev Brain vault not mounted | `sync-obsidian-graph.sh` exits 0 with a no-op message if vault not found — never fails the commit |
 | CKIS vault not mounted | `sync-graph-to-vault.sh` exits 0 if `DEST_DIR` doesn't exist — never fails the commit |
 | PolyForm-licensed tools | GitNexus excluded for this reason; Graphify is MIT |
