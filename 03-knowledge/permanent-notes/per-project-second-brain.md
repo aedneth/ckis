@@ -10,7 +10,8 @@ related: ["[[00-ckis-master-context]]", "[[02-obsidian-vault-architecture]]", "[
 # Per-Project Second Brain
 ## Graphify + `.brain/` + Dev Brain + Wiki-Brain Architecture
 
-> **Version:** 2026-05-18 (v2.4) — `/compact` bridge: summaries route to Dev Brain automatically; eager extraction via `log-compact.sh`; `raw/` folder removed from Dev Brain (fully autonomous — no human drops).
+> **Version:** 2026-05-18 (v2.5) — Second Brain vault registered as `second-brain` project in Dev Brain; wikilinks footer injected into all Dev Brain compact copies (graph connectivity); 119 existing compacts backfilled.
+> Previous: 2026-05-18 (v2.4) — `/compact` bridge: summaries route to Dev Brain automatically; eager extraction via `log-compact.sh`; `raw/` folder removed from Dev Brain (fully autonomous — no human drops).
 > Previous: 2026-05-17 (v2.3) — Dev Brain UX overhaul: `scripts/` → `.scripts/`, session pointer stubs removed, wiki Graph Digest fixed, compaction preamble filtered.
 > Previous: 2026-05-04 (v2.0) — full implementation across [your-project] and [client-site].
 > This note is the canonical spec. Future changes start here, then propagate to the CKIS CHANGELOG.

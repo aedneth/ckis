@@ -6,7 +6,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Template](https://img.shields.io/badge/Use%20as-Template-green)](https://github.com/aedneth/ckis/generate)
 [![Claude Code](https://img.shields.io/badge/Powered%20by-Claude%20Code-orange)](https://claude.ai/code)
-[![Version](https://img.shields.io/badge/version-2.3.0-purple)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.3.4-purple)](CHANGELOG.md)
 
 ---
 

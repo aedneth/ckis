@@ -5,6 +5,64 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 
 ---
 
+## [v2.3.4] 2026-05-18 — Compact Bridge + Second Brain Registration + Graph Connectivity
+
+**Goal:** Every `/compact` command is now a first-class knowledge artifact — autonomously routed to Dev Brain and wikilinked for graph connectivity.
+
+### Added
+- `compact-routing.sh` now injects `[[wiki/<project>]] · [[sessions/index]]` footer into Dev Brain copies — all compact files become connected nodes in the Obsidian graph
+- Second Brain vault registered as `second-brain` project in Dev Brain — CKIS conversations now compound alongside code project sessions
+- `second-brain/.brain/scripts/log-compact.sh` — UserPromptSubmit eager extractor for vault sessions (mirrors korvex pattern)
+- `second-brain/.brain/config.sh` — project config for vault `.brain/` layer
+- `second-brain/.brain/scripts/lib/compact-routing.sh` — shared routing lib for vault compact bridge
+- `UserPromptSubmit` hook added to vault `.claude/settings.json` — fires `log-compact.sh` on every `/compact`
+- `Dev Brain/sessions/compacts/second-brain/` — new project slot for vault session compacts
+
+### Changed
+- `vault-session-stop.sh` — upgraded: uses `textify` jq function (handles string or array content), proper frontmatter, Dev Brain routing (catch-all path)
+- `Dev Brain/projects.json` — added `second-brain` entry with `graph_json: null` (no code graph for vault)
+
+### Fixed
+- Backfilled 119 existing korvex compact files with wikilinks footer → graph was fully disconnected before
+
+---
+
+## [v2.3.3] 2026-05-18 — README Rewrite + Dev Brain raw/ Removal
+
+**Goal:** Dev Brain is fully autonomous — no human drops files there. Remove `raw/` and all references; rewrite human-facing README.
+
+### Added
+- `Dev Brain/README.md` — comprehensive human-readable rewrite explaining three-layer stack, folder structure, query patterns, and "what NOT to do"
+- `Dev Brain/sessions/compacts/<project>/` — documented in AGENT_README as queryable cross-project compact layer
+
+### Removed
+- `Dev Brain/raw/` folder and all references (AGENT_README, CLAUDE.md, CKIS docs, per-project-second-brain.md) — philosophically wrong for an autonomous system
+
+### Changed
+- `~/.claude/CLAUDE.md` — added `compacts/` to "Do NOT write" list; removed `raw/` reference
+
+---
+
+## [v2.3.2] 2026-05-18 — CKIS Rename: Custom → Central
+
+**Goal:** Full name is now "Central Knowledge and Intelligence System." Acronym CKIS unchanged.
+
+### Changed
+- Updated all vault files and public template: every occurrence of "Custom" → "Central"
+- README header and description updated to reflect the new name
+
+---
+
+## [v2.3.1] 2026-05-17 — Public Repo Launch
+
+**Goal:** CKIS public repo launched at `github.com/aedneth/ckis`.
+
+### Added
+- Security audit: all personal project names, paths, and locale references replaced with generic placeholders across 20+ files
+- Public-safe CHANGELOG, README, and skill template files
+
+---
+
 ## [v2.3.0] 2026-05-17 — Plug-and-Play Template + 3D Graph + Apache 2.0
 
 **Goal:** Make the public template truly plug-and-play — any developer should be able to clone and immediately have a functioning agentic knowledge system.
