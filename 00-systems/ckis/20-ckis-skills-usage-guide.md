@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-17
-modified: 2026-05-17
+modified: 2026-05-19
 tags: [ckis, skills, sop, workflow, guide]
 status: active
 related: ["[[19-agent-habits-guide]]", "[[16-skill-cards-for-second-brain-workflows]]", "[[00-ckis-master-context]]", "[[17-crons-architecture]]"]
@@ -230,7 +230,7 @@ daily brief
 
 **Lo que hace:**
 1. Verifica si Cron 1 ya sincronizó (si sí, salta el sync)
-2. Lee la nota de ayer, los últimos logs de sesión y `_ACTIVE-PROJECTS.md`
+2. Lee la nota de ayer, los **3 compacts más recientes** de `01-daily/logs/compacts/` (NO los raw session logs de `01-daily/logs/`) y `_ACTIVE-PROJECTS.md`
 3. Cuenta items en el inbox, flaggea stale
 4. Lee los `_overview.md` de cada proyecto activo
 5. Escribe el brief en `01-daily/YYYY-MM-DD.md`
@@ -577,8 +577,13 @@ vault maintenance add-project [slug]
 → Lee `.claude/CLAUDE.md` sección Commands — si el trigger no está listado, el skill no está registrado
 
 ### El skill arranca pero no encuentra archivos
-→ Verifica que el cwd es la raíz del vault: `pwd` debe mostrar `.../Second Brain`
-→ Si estás en otro directorio, `cd ~/Documents/Second\ Brain` antes de abrir Claude
+→ Verifica que el cwd es la raíz del vault: `pwd` debe mostrar la ruta del vault
+→ Si estás en otro directorio, `cd ~/Documents/Second\ Brain` (o tu ruta) antes de abrir Claude
+
+### `daily brief` muestra "sin contexto de sesión" o contexto vacío
+→ Verifica que `01-daily/logs/compacts/` existe y tiene archivos: `ls 01-daily/logs/compacts/ | sort | tail -5`
+→ Los compacts se generan cuando corres `/compact` en una sesión. Si nunca lo has corrido, el directorio está vacío.
+→ El skill NO lee los raw session logs en `01-daily/logs/*.md` — solo lee compacts.
 
 ### `daily brief` muestra proyectos hardcodeados ([YOUR_PROJECT], Brisas, University)
 → La guía está desactualizada. A partir de v2.2 el brief lee dinámicamente `_ACTIVE-PROJECTS.md` 🟢
@@ -605,6 +610,8 @@ vault maintenance add-project [slug]
 ### `project context` no muestra sesiones de Dev Brain
 → Verificar que `~/Documents/Dev\ Brain/sessions/index.md` existe: `cat ~/Documents/Dev\ Brain/sessions/index.md`
 → Si está vacío, las sesiones de código aún no lo han alimentado — revisar que el hook Stop de los repos de código está activo
+→ Para ver compacts del proyecto (más detalle que el index): `ls ~/Documents/Dev\ Brain/sessions/compacts/<slug>/`
+→ Proyectos registrados en Dev Brain: `cat ~/Documents/Dev\ Brain/projects.json`
 
 ━━━
 
@@ -619,6 +626,7 @@ Para evitar confusión con qué está automatizado vs qué es manual:
 | Actualizar `graph-report.md` | post-commit.brain (por commit) | Nunca — no tocar |
 | Actualizar `code-graph/` en Dev Brain | post-commit.brain (cada 10 commits) | Nunca — no tocar |
 | Indexar sesiones en Dev Brain | Stop hook de cada repo | Nunca — no tocar |
+| Rutear compacts a Dev Brain | Stop hook (catch-all) + UserPromptSubmit hook (eager en `/compact`) | Nunca — automático |
 | Crear notas de knowledge desde braindump | ❌ | `process inbox` |
 | Decidir qué notas borrar | ❌ | Eduardo — siempre |
 | Re-subir contexto a ChatGPT Projects | ❌ | Manual en browser |

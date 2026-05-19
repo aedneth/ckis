@@ -5,6 +5,18 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 
 ---
 
+## [v2.3.5] 2026-05-19 — Compact Bridge Documentation + Skills Usage Guide Update
+
+**Goal:** `20-ckis-skills-usage-guide.md` now fully documents the compact routing layer — what the skills read, how compacts flow to Dev Brain, and how to diagnose when context is missing.
+
+### Changed
+- `20-ckis-skills-usage-guide.md` — `daily brief` step 2 now explicitly references `01-daily/logs/compacts/` as the source (NOT raw session logs in `01-daily/logs/`)
+- `20-ckis-skills-usage-guide.md` — added troubleshooting: `daily brief` shows empty context → diagnostic for missing compacts directory
+- `20-ckis-skills-usage-guide.md` — added troubleshooting: `project context` compact lookup commands
+- `20-ckis-skills-usage-guide.md` — added compact routing row to Section 11 automation table (Stop hook catch-all + UserPromptSubmit eager `/compact`)
+
+---
+
 ## [v2.3.4] 2026-05-18 — Compact Bridge + Second Brain Registration + Graph Connectivity
 
 **Goal:** Every `/compact` command is now a first-class knowledge artifact — autonomously routed to Dev Brain and wikilinked for graph connectivity.
