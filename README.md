@@ -6,22 +6,20 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Template](https://img.shields.io/badge/Use%20as-Template-green)](https://github.com/aedneth/ckis/generate)
 [![Claude Code](https://img.shields.io/badge/Powered%20by-Claude%20Code-orange)](https://claude.ai/code)
-[![Version](https://img.shields.io/badge/version-2.3.24-purple)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.3.31-purple)](CHANGELOG.md)
 
 ---
 
 <div align="center">
 
-**Before CKIS** — knowledge isolated in inbox, no connections, cold sessions every day
+<video src="https://github.com/aedneth/ckis/raw/main/assets/demo/ckis-demo-cut.mp4" controls width="100%" style="max-width: 800px;"></video>
 
-![Dispersed graph — knowledge not yet compounding](docs/images/graph-dispersed.png)
+**The 3D graph view** — your vault as a living knowledge network.
 
-**After CKIS** — every note connects, every session starts with full context, knowledge compounds
-
-![Connected graph — active CKIS vault with compounding knowledge](docs/images/graph-connected.png)
-
-*The 3D graph view (Open 3D Graph plugin) shows the health of your knowledge system at a glance.*
-*Purple = cross-project connections. Central nodes = your most-linked ideas.*
+The demo shows the vault's knowledge graph after active use:
+- **Cross-project connections** — purple edges linking ideas across active projects
+- **Central nodes** — your most-linked concepts surfaced automatically
+- **Plugin install** — how to get the 3D graph view from Obsidian Community Plugins (Settings → Community plugins → Browse → "Open 3D Graph" by Alexander Weichart)
 
 </div>
 
@@ -131,14 +129,14 @@ Each layer is automatically populated. You never manually maintain the Dev Brain
 07-people/         # Relationship intelligence (clients, mentors, network)
 08-templates/      # Note templates for every type
 09-archive/        # Completed or inactive items
-.claude/           # Claude Code config + 25 skills
+.claude/           # Claude Code config + 32 skills
 ```
 
 ---
 
 ## The Skill System
 
-CKIS ships with **25 Claude Code skills** — natural language triggers that execute vault operations.
+CKIS ships with **32 Claude Code skills** — natural language triggers that execute vault operations.
 
 ### Daily rhythm
 
@@ -174,6 +172,8 @@ CKIS ships with **25 Claude Code skills** — natural language triggers that exe
 | `export context` | Package vault state for ChatGPT upload |
 | `cross-model handoff` | Pass session context between Claude and ChatGPT |
 | `ckis vault maintenance` | Health checks across all 22 architecture files |
+| `ckis-context-handoff` | Extract full session state → paste-ready handoff doc for new tab |
+| `claude-project-architect` | Generate vault-verified Claude.ai Project setup (name, instructions, knowledge files, first message) |
 
 **Full skill reference:** `00-systems/ckis/20-ckis-skills-usage-guide.md`
 
