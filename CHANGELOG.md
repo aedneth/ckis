@@ -5,6 +5,26 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 
 ---
 
+## v2.3.24 — System Layer Updates (2026-05-28)
+
+### New Skills
+- `ckis-qc-pass` — 13-point vault quality control checklist (conventions, YAML, wikilinks, git, CHANGELOG)
+- `yaml-graph-audit` v1.1.0 — YAML frontmatter scanner + auto-fixer; now supports `type: archive-note`
+- `workflow-extend-pattern-a` — Extend stub workflows to full Pattern A standard (12-15 files)
+- `instagram-capture-process` — Full pipeline for processing Instagram saves (naming → frontmatter → index → MOC)
+
+### New System Files
+- `.claude/GUARDRAILS.md` — 5-section guardrails framework loaded on every session (Safety Rails, File Operations, Git Operations, Knowledge System Integrity, Agent Behavior)
+
+### YAML Standard Extension
+- `08-note-templates-and-frontmatter.md` — `type: archive-note` added to the type enum
+  - `archive-note`: retrospective documentation created *about* a past project (distinct from `type: project` + `status: archived`, which are working files moved to archive)
+
+### Skipped (v2.3.6–v2.3.23)
+Intermediate versions were private vault knowledge processing sessions (G5 sprint, GATE YC, GATE PI) — no system-layer changes relevant to the public template.
+
+---
+
 ## [v2.3.5] 2026-05-19 — Compact Bridge Documentation + Skills Usage Guide Update
 
 **Goal:** `20-ckis-skills-usage-guide.md` now fully documents the compact routing layer — what the skills read, how compacts flow to Dev Brain, and how to diagnose when context is missing.
