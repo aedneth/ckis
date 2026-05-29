@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-02
-modified: 2026-05-02
+modified: 2026-05-28
 tags: [ckis, templates, frontmatter]
 status: active
 related: ["[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent]]"]
@@ -17,7 +17,7 @@ related: ["[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent
 
 ```yaml
 ---
-type: [permanent-note | literature-note | project | daily | resource | capture | area | goal | person | system]
+type: [permanent-note | literature-note | project | archive-note | daily | resource | capture | area | goal | person | system]
 created: YYYY-MM-DD
 modified: YYYY-MM-DD
 tags: []
