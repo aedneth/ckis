@@ -1,4 +1,3 @@
-# CKIS — Central Knowledge & Intelligence System
 
 > A developer knowledge operating system that compounds over time.
 > Obsidian + Claude Code + Git — your second brain, built for engineers.
@@ -12,7 +11,7 @@
 
 <div align="center">
 
-![CKIS demo — 3D graph view, cross-project connections, and plugin install](https://github.com/user-attachments/assets/beab306e-4dec-458e-8e13-54179c3cd644)
+[![CKIS demo — 3D graph view, cross-project connections, and plugin install](https://img.youtube.com/vi/li6otfEPUBs/maxresdefault.jpg)](https://youtu.be/li6otfEPUBs)
 
 **The 3D graph view** — your vault as a living knowledge network.
 
