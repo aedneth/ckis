@@ -12,7 +12,7 @@
 
 <div align="center">
 
-<video src="https://github.com/aedneth/ckis/raw/main/assets/demo/ckis-demo-cut.mp4" controls width="100%" style="max-width: 800px;"></video>
+![CKIS demo — 3D graph view, cross-project connections, and plugin install](assets/demo/ckis-demo-cut.mp4)
 
 **The 3D graph view** — your vault as a living knowledge network.
 
