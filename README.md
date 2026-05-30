@@ -67,7 +67,15 @@ CKIS builds on and operationalizes ideas from across the AI and knowledge manage
 
 ## Quick Start
 
-**Works on any OS with Obsidian + Claude Code installed.**
+Works on any OS. Three free tools do all the work:
+
+| Prerequisite | What it is | Install |
+|---|---|---|
+| **Obsidian** | The markdown app that stores and visualizes your vault | [obsidian.md](https://obsidian.md) (free) |
+| **Claude Code** | Anthropic's AI coding agent — the intelligence layer that reads your vault and runs the skills | `npm install -g @anthropic-ai/claude-code` · [docs](https://claude.ai/code) |
+| **Git** | Version control — tracks every change to your vault | [git-scm.com](https://git-scm.com) (the `gh` CLI is also handy: [cli.github.com](https://cli.github.com)) |
+
+New to these? Obsidian is a free note-taking app where your vault is just a folder of `.md` files on disk. Claude Code is a terminal program (`claude`) you run inside that folder — it reads the included `CLAUDE.md` instructions and gains full context about how the system works. You drive it with plain English.
 
 ```bash
 # 1. Clone this template (or click "Use this template" above)
@@ -80,13 +88,14 @@ cd my-second-brain
 # 3. Install community plugins (Settings → Community plugins → Browse)
 # Essential: Obsidian Git, Templater, Dataview, Periodic Notes, Calendar
 
-# 4. Open Claude Code in this directory
-claude
+# 4. Install Claude Code (if you haven't already), then open it in this directory
+npm install -g @anthropic-ai/claude-code   # one-time install
+claude                                      # launch in the vault folder
 
 # 5. Say "daily brief" — Claude now has full context and generates your first morning brief
 ```
 
-**That's it.** Claude reads your vault structure, understands your system, and starts compounding knowledge immediately.
+**That's it — clone and go.** You don't need to read the architecture docs first. Claude reads your vault structure on launch, understands the system from the bundled `CLAUDE.md`, and starts compounding knowledge immediately. Every skill is triggered in plain English (see [The Skill System](#the-skill-system) below).
 
 ---
 
@@ -173,6 +182,7 @@ CKIS ships with **32 Claude Code skills** — natural language triggers that exe
 | `ckis vault maintenance` | Health checks across all 22 architecture files |
 | `ckis-context-handoff` | Extract full session state → paste-ready handoff doc for new tab |
 | `claude-project-architect` | Generate vault-verified Claude.ai Project setup (name, instructions, knowledge files, first message) |
+| `video-editor` | Cut, trim, and render brand-consistent videos with FFmpeg (demos, highlight reels) |
 
 **Full skill reference:** `00-systems/ckis/20-ckis-skills-usage-guide.md`
 
@@ -344,3 +354,4 @@ Apache 2.0 — use freely, fork freely, build on it commercially. Attribution re
 ---
 
 Built by the CKIS community. Original author: [@aedneth](https://github.com/aedneth).
+
