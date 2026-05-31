@@ -1,3 +1,6 @@
+## Central Knowledge & Intelligence System
+
+---
 
 > A developer knowledge operating system that compounds over time.
 > Obsidian + Claude Code + Git — your second brain, built for engineers.
