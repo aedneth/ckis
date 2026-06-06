@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-02
-modified: 2026-05-13
+modified: 2026-06-06
 tags: [ckis, vault, architecture]
 status: active
 related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-map]]", "[[08-note-templates-and-frontmatter]]"]
@@ -74,10 +74,11 @@ related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-
 │   └── client-note.md
 ├── 09-archive/                  # Completed or inactive
 ├── 00-system/                   # CKIS system files (this folder)
-│   └── CKIS/
-│       ├── 00-ckis-master-context.md
-│       ├── 01-ckis-user-profile-and-operating-context.md
-│       └── ...
+│   ├── CKIS/
+│   │   ├── 00-ckis-master-context.md
+│   │   ├── 01-ckis-user-profile-and-operating-context.md
+│   │   └── ...
+│   └── sops/                    # SOPs — executable, repeatable procedures (_index.md + _convention.md)
 ├── .claude/
 │   ├── CLAUDE.md                # Master instructions + command shortcuts
 │   ├── ckis-skills/             # Vault-specific CKIS workflow skills (25 skills)
@@ -120,7 +121,7 @@ Every note has YAML frontmatter:
 
 ```yaml
 ---
-type: [permanent-note | literature-note | project | daily | resource | capture | area | goal | person | system]
+type: [permanent-note | literature-note | project | daily | resource | capture | area | goal | person | system | sop]
 created: YYYY-MM-DD
 modified: YYYY-MM-DD
 tags: []
@@ -164,6 +165,7 @@ Notes:
 | `goal` | `06-goals/` | Annual / monthly / weekly goal notes |
 | `person` | `07-people/<sub>/` | Relationship notes |
 | `system` | `00-system/ckis/` | CKIS architecture and operating rules |
+| `sop` | `00-systems/sops/` or `<project>/processes/` | Executable, repeatable step-by-step procedure (SOP) |
 
 ## 9. Dashboards & Indexes
 

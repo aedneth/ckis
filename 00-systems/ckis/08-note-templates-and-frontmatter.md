@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-02
-modified: 2026-05-28
+modified: 2026-06-06
 tags: [ckis, templates, frontmatter]
 status: active
 related: ["[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent]]"]
@@ -17,7 +17,7 @@ related: ["[[02-obsidian-vault-architecture]]", "[[04-claude-code-obsidian-agent
 
 ```yaml
 ---
-type: [permanent-note | literature-note | project | archive-note | daily | resource | capture | area | goal | person | system]
+type: [permanent-note | literature-note | project | archive-note | daily | resource | capture | area | goal | person | system | sop]
 created: YYYY-MM-DD
 modified: YYYY-MM-DD
 tags: []
@@ -29,7 +29,7 @@ related: []
 
 Field rules:
 
-- `type` — required; one of the enum.
+- `type` — required; one of the enum. `sop` for Standard Operating Procedures (see §14).
 - `created` — required; never overwrite.
 - `modified` — required; should equal the latest git commit date (`git log` is authoritative, not filesystem `mtime`).
 - `tags` — kebab-case strings without leading `#`.
@@ -367,3 +367,36 @@ related: []
 ```
 
 Used for files in `00-system/ckis/`. Keeps tone and structure consistent across the system folder.
+
+## 14. SOP Template
+
+For Standard Operating Procedures in `00-systems/sops/` or `<project>/processes/`. Canonical convention: [[00-systems/sops/_convention]].
+
+```yaml
+---
+type: sop
+created: YYYY-MM-DD
+modified: YYYY-MM-DD
+tags: [sop, <domain>, ...]
+status: active            # active | draft | deprecated
+sop_domain: <domain>      # ckis | dev | os-hardware | [your-project] | content ...
+trigger: ""               # invocation phrase if agent-invokable, else empty
+related: []
+---
+```
+
+```markdown
+# SOP — <Process Name>
+> One-line purpose · who runs this · when.
+
+## 1. Purpose & Scope
+## 2. When to Execute
+## 3. Prerequisites
+## 4. Steps
+## 5. Verification / Expected Output
+## 6. Troubleshooting        (optional — symptom | cause | fix table)
+## 7. Notes & Exceptions / Lessons Learned   (optional)
+## 8. Agent-Delegatable Summary   (optional — paste block to hand an agent)
+
+*SOP v<x> — <author> — <date>*
+```

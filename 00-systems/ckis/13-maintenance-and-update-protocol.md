@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-02
-modified: 2026-05-02
+modified: 2026-06-06
 tags: [ckis, maintenance, updates]
 status: active
 related: ["[[00-ckis-master-context]]", "[[09-cross-model-shared-context-protocol]]"]
@@ -25,6 +25,7 @@ related: ["[[00-ckis-master-context]]", "[[09-cross-model-shared-context-protoco
 | CKIS architecture change | the relevant `00-system/ckis/<file>.md`, `CHANGELOG.md`, ChatGPT upload package |
 | New decision protocol | `[[06-decision-execution-and-review-protocol]]` |
 | Frontmatter / template change | `[[02-obsidian-vault-architecture]]` §5, `[[08-note-templates-and-frontmatter]]` |
+| New SOP | create in correct tier, fill from `[[08-templates/sop]]`, register in `[[00-systems/sops/_index]]`, CHANGELOG if cross-cutting |
 
 ## 2. Adding a New Project
 
@@ -34,6 +35,15 @@ related: ["[[00-ckis-master-context]]", "[[09-cross-model-shared-context-protoco
 4. If load-bearing: mention in `_MEMORY.md` under "Active focus" or "Open Decisions."
 5. If a project repository exists at `~/<slug>/`, plan the project-level `CLAUDE.md` bridge (open question — see `[[00-ckis-master-context]]` §9 #3).
 6. First commit: `feat: add <slug> project`.
+
+## 2b. Adding a New SOP
+
+1. Decide tier — project-specific → `02-projects/<project>/processes/`; cross-cutting/system/personal → `00-systems/sops/<domain>/`.
+2. Copy `[[08-templates/sop]]`.
+3. Fill §1–5 (required).
+4. Add a row to `[[00-systems/sops/_index]]`.
+5. CHANGELOG entry if cross-cutting/system-level.
+6. First commit: `feat(sop): add <name> SOP`.
 
 ## 3. Updating Context Files
 
