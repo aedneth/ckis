@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-02
-modified: 2026-05-04
+modified: 2026-06-06
 tags: [ckis, system, master-context]
 status: active
 related: ["[[01-ckis-user-profile-and-operating-context]]", "[[02-obsidian-vault-architecture]]"]
@@ -123,6 +123,7 @@ The CKIS vault is the **canonical source of truth** for strategic knowledge. Eve
 - **Decision mode** — decision logs (see `06-decision-execution-and-review-protocol.md`).
 - **Review mode** — daily brief, weekly review, monthly consolidation.
 - **Maintenance mode** — `sync overviews`, archive, template updates (see `13-maintenance-and-update-protocol.md`).
+- **SOP mode** — capture executable, repeatable procedures as first-class `type: sop` SOPs under `00-systems/sops/` (cross-cutting) or a project's `processes/` (project-specific). Registry: [[00-systems/sops/_index]]; convention: [[00-systems/sops/_convention]].
 
 ## 8. Confirmed Facts
 

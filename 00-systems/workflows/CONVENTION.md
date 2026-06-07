@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 00-systems/workflows
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 00-systems/workflows — Automated Workflows
 
 **Purpose:** Reusable, documented workflows — processes you've automated or structured as repeatable prompts.

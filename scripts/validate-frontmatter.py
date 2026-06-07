@@ -6,7 +6,9 @@ import re
 from pathlib import Path
 import yaml
 
-SKIP_DIRS = {'.git', '.obsidian', 'node_modules'}
+# 08-templates/ holds template "molds" with {{date}} / {{title}} placeholders
+# that are valid Obsidian Templater syntax but not valid YAML — skip them.
+SKIP_DIRS = {'.git', '.obsidian', 'node_modules', '08-templates'}
 REQUIRED_FIELDS = {'type', 'created', 'modified'}
 EXEMPT_FILES = {'README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'SECURITY.md',
                 'CODE_OF_CONDUCT.md', 'SCHEMA.md', 'CLAUDE.md'}

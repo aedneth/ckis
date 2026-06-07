@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 03-knowledge
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 03-knowledge — Processed Knowledge
 
 **Purpose:** Where raw captures become durable knowledge. Notes here are processed, linked, and evergreen.

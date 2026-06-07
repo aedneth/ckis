@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 05-areas
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 05-areas — Life Areas
 
 **Purpose:** Ongoing life areas that never "complete" — tracked, reviewed, and updated over time.

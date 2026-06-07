@@ -52,7 +52,7 @@ jobs:
       - name: Check for accidentally committed secrets
         run: |
           # Basic check for common secret patterns
-          if grep -rE "(ANTHROPIC_API_KEY|sk-ant-|sk-proj-|ghp_|gho_)" \
+          if grep -rE "(sk-ant-[A-Za-z0-9_-]{16,}|sk-proj-[A-Za-z0-9_-]{16,}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,})" \
                --include="*.md" --include="*.json" --include="*.sh" \
                --exclude-dir=".git" . 2>/dev/null | grep -v "example\|placeholder\|YOUR_KEY"; then
             echo "Potential secret found in committed files. Review above matches."

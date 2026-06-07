@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 06-goals
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 06-goals — Unified Goal System
 
 **Purpose:** One place for all goal tracking. Annual vision → quarterly targets → weekly focus. No duplication.

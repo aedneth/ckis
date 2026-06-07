@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 04-resources
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 04-resources — Raw Reference Material
 
 **Purpose:** Source material in its processed-but-not-synthesized form. One step above raw capture, one step below permanent knowledge.

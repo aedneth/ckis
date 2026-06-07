@@ -53,7 +53,7 @@ Every note requires YAML frontmatter:
 
 ```yaml
 ---
-type: <capture|permanent-note|project|decision|system|guide|daily|weekly>
+type: <capture|permanent-note|project|decision|system|guide|daily|weekly|sop>
 created: YYYY-MM-DD
 modified: YYYY-MM-DD
 tags: [tag-one, tag-two]

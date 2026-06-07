@@ -3,7 +3,7 @@ type: system
 subtype: convention
 folder: 08-templates
 created: 2026-05-24
-modified: 2026-05-24
+modified: 2026-06-06
 status: active
 tags: [convention, systems, ckis]
 related:
@@ -37,6 +37,7 @@ Obsidian templates — base files with predefined structure for creating new not
 | `daily.md` | Daily notes in `01-daily/` |
 | `client-note.md` | Client notes in `07-people/clients/` |
 | `monthly.md` | Monthly reports in `06-goals/monthly/` |
+| `sop.md` | SOPs in `00-systems/sops/` or `<project>/processes/` |
 
 ## Rule
 If a new template is created here, also add its spec to [[00-systems/ckis/08-note-templates-and-frontmatter]].

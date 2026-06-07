@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 00-inbox
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 00-inbox — Capture Zone
 
 **Purpose:** Everything enters the vault here first. Never organize in the moment — capture now, process later.
