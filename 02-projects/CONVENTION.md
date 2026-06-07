@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 02-projects
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # 02-projects — Active Projects
 
 **Purpose:** One folder per active project. Each folder is self-contained: overview, clients, processes, and a link to the Dev Brain code index.

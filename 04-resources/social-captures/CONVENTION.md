@@ -1,3 +1,13 @@
+---
+type: system
+subtype: convention
+folder: 04-resources/social-captures
+created: 2026-05-29
+modified: 2026-06-06
+status: active
+tags: [convention, systems, ckis]
+---
+
 # social-captures — Social Media Content
 
 **Purpose:** Store captured social content for later synthesis. Strip engagement bait; keep signal.
