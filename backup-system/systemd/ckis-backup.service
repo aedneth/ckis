@@ -1,0 +1,11 @@
+[Unit]
+Description=CKIS autonomous backup (Ring 2 safety net)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=@BIN@/ckis-backup-all
+TimeoutStartSec=1800
+Nice=10
+IOSchedulingClass=idle

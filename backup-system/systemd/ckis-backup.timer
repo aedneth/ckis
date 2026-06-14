@@ -1,0 +1,12 @@
+[Unit]
+Description=CKIS autonomous backup — daily safety net
+Documentation=https://github.com/aedneth/ckis
+
+[Timer]
+# Daily, ~30 min after login if missed, with jitter to avoid thundering herds.
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=900
+
+[Install]
+WantedBy=timers.target
