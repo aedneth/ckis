@@ -45,4 +45,20 @@ mkdir -p "$SB/parent/child"; echo data >"$SB/parent/child/x.md"
 assert_ok "subdir-of-repo push is a safe no-op" bash "$PUSH" "$SB/parent/child"
 assert_eq "parent repo NOT committed" "0" "$(git -C "$SB/parent" log --oneline --all 2>/dev/null | wc -l | tr -d ' ')"
 
+# HARD-FAIL: a pre-commit hook that ABORTS the commit (e.g. secret-scan block) must
+# make ckis-push fail loudly and leave ZERO commits — never silently report success.
+# Regression guard for the 24h silent-vault-failure bug (commit '|| warn' then log "committed").
+git init -q "$SB/blocked"; git -C "$SB/blocked" config user.email t@t; git -C "$SB/blocked" config user.name t
+printf '#!/bin/sh\necho "blocked by hook"; exit 1\n' >"$SB/blocked/.git/hooks/pre-commit"
+chmod +x "$SB/blocked/.git/hooks/pre-commit"
+echo data >"$SB/blocked/note.md"
+assert_fail "commit aborted by pre-commit -> ckis-push fails hard" bash "$PUSH" "$SB/blocked"
+assert_eq "blocked repo has ZERO commits" "0" "$(git -C "$SB/blocked" log --oneline 2>/dev/null | wc -l | tr -d ' ')"
+
+# Benign: a dirty repo whose changes are all already committed-equivalent (add stages nothing
+# new) is a clean no-op, exit 0 — must NOT be conflated with a hard failure.
+assert_ok "blocked repo after removing the hook commits cleanly" bash -c '
+  rm -f "$1/.git/hooks/pre-commit"; exec bash "$2" "$1"' _ "$SB/blocked" "$PUSH"
+assert_eq "now committed (1 commit)" "1" "$(git -C "$SB/blocked" log --oneline 2>/dev/null | wc -l | tr -d ' ')"
+
 assert_summary

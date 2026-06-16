@@ -32,6 +32,25 @@ while IFS=$'\t' read -r slug path remote class kind; do
   fi
 done < <(ckis::targets)
 
+# 1.5 Restore the centralized brains aggregator into its workdir, so every
+#     project's .brain/ is available immediately on the fresh machine. Non-fatal:
+#     the next backup-all rebuilds it from the live projects anyway.
+agg_remote="$(ckis::manifest '.discovery.brain_aggregator // empty')"
+agg_dir="$(ckis::expand "$(ckis::manifest '.discovery.aggregate_workdir // empty')")"
+if [ -n "$agg_remote" ] && [ "$agg_remote" != "null" ] && [ -n "$agg_dir" ] && [ "$agg_dir" != "null" ]; then
+  if [ -d "$agg_dir/.git" ]; then
+    ckis::info "aggregator: already present, skip"
+  else
+    mkdir -p "$(dirname "$agg_dir")"
+    agg_url="${REMOTE_BASE}${agg_remote}.git"
+    if ckis::retry 3 git clone "$agg_url" "$agg_dir" >>"$CKIS_LOG_FILE" 2>&1; then
+      ckis::info "aggregator: cloned centralized brains from $agg_url"
+    else
+      ckis::warn "aggregator: clone failed ($agg_url) — next backup-all will rebuild it"
+    fi
+  fi
+fi
+
 # 2. Restore L0 apparatus into ~/.claude (merge; never deletes user data).
 if [ "$NO_APP" -eq 0 ] && [ -d "$CKIS_INFRA_ROOT/apparatus" ]; then
   mkdir -p "$CLAUDE_HOME"

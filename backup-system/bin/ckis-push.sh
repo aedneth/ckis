@@ -29,20 +29,33 @@ _push_one() {
   local slug; slug="$(basename "$dir")"
 
   if ckis::repo_dirty "$dir"; then
-    local big; big="$(ckis::max_staged_mb "$dir")"
     git -C "$dir" add -A
-    big="$(ckis::max_staged_mb "$dir")"
-    local guard; guard="$(ckis::manifest '.physical.size_guard_mb // 25')"
+    local big guard; big="$(ckis::max_staged_mb "$dir")"
+    guard="$(ckis::manifest '.physical.size_guard_mb // 25')"
     if [ "${big:-0}" -ge "${guard:-25}" ]; then
       ckis::warn "$slug: staging a ${big}MB blob (>= ${guard}MB guard) — backing up anyway"
     fi
-    [ -n "$msg" ] || msg="ckis-backup: auto $(date -u +%Y-%m-%dT%H:%M:%SZ) on $(hostname -s 2>/dev/null || echo host)"
-    git -C "$dir" commit -q -m "$msg" || { ckis::warn "$slug: nothing to commit after add"; }
-    ckis::info "$slug: committed local changes"
+    # CRITICAL: distinguish "nothing actually staged" (benign no-op) from
+    # "commit aborted by a pre-commit hook" (HARD FAILURE). The old code ran
+    # `git commit || warn` then unconditionally logged success, so a secret-scan
+    # block silently stalled the vault for ~24h while reporting "up to date".
+    if git -C "$dir" diff --cached --quiet; then
+      ckis::info "$slug: nothing staged after add (no-op)"
+    else
+      [ -n "$msg" ] || msg="ckis-backup: auto $(date -u +%Y-%m-%dT%H:%M:%SZ) on $(hostname -s 2>/dev/null || echo host)"
+      if git -C "$dir" commit -q -m "$msg"; then
+        ckis::info "$slug: committed local changes"
+      else
+        ckis::err "$slug: COMMIT BLOCKED by pre-commit hook (e.g. secret-scan) — backup FAILED; staged changes remain uncommitted"
+        ckis::mark_fail "$slug" "commit blocked by pre-commit hook (secret-scan?)"
+        return 1
+      fi
+    fi
   fi
 
   if ! ckis::repo_has_remote "$dir"; then
     ckis::warn "$slug: no remote configured — committed locally, not pushed"
+    ckis::clear_fail "$slug"
     return 0
   fi
 
@@ -51,14 +64,16 @@ _push_one() {
   if git -C "$dir" rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; then
     local ahead; ahead="$(ckis::repo_ahead "$dir")"
     if [ "${ahead:-0}" = "0" ]; then
-      ckis::info "$slug: up to date, nothing to push"; return 0
+      ckis::info "$slug: up to date, nothing to push"; ckis::clear_fail "$slug"; return 0
     fi
   fi
   local branch; branch="$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null || echo HEAD)"
   if ckis::retry 3 git -C "$dir" push -u origin "$branch"; then
     ckis::info "$slug: pushed ($branch)"
+    ckis::clear_fail "$slug"
   else
     ckis::err "$slug: push failed after retries — local commit safe, will retry next run"
+    ckis::mark_fail "$slug" "push failed after retries"
     return 1
   fi
 }

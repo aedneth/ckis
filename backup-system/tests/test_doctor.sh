@@ -48,4 +48,18 @@ mkfix "$SB/does-not-exist"
 out4="$(bash "$DOC" --oneline)"
 assert_contains "missing repo flagged"    "$out4" "missing"
 
+# HARD FAILURE state: a persistent failure marker outranks benign drift and the
+# banner must scream 🔴 FAILED (the fix for the 24h silent-success outage).
+mkfix "$SB/clean"
+mkdir -p "$CKIS_LOG_DIR/failures"
+printf '%s\tcommit blocked by secret-scan\n' "$(date -u +%FT%TZ)" >"$CKIS_LOG_DIR/failures/t1"
+out5="$(bash "$DOC" --oneline)"
+assert_contains "failed marker -> 🔴 FAILED"  "$out5" "FAILED"
+assert_contains "FAILED names the target"      "$out5" "t1"
+# brain-repo / .gitcfg markers also surface even if not a manifest target
+printf '%s\tembedded credential in .git/config\n' "$(date -u +%FT%TZ)" >"$CKIS_LOG_DIR/failures/someproject.gitcfg"
+out6="$(bash "$DOC" --oneline)"
+assert_contains "non-target failure marker surfaces" "$out6" "someproject.gitcfg"
+rm -rf "$CKIS_LOG_DIR/failures"
+
 assert_summary

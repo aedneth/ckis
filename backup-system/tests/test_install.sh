@@ -30,4 +30,11 @@ assert_ok   "linked script is runnable"       bash "$SB/bin/ckis-backup-doctor" 
 # idempotent
 assert_ok   "second install idempotent"       bash "$ROOT/install.sh"
 
+# timer cadence is templated from the manifest (reconcile, not a fixed daily)
+assert_contains "timer template has @INTERVAL@" "$(cat "$ROOT/systemd/ckis-backup.timer")" "@INTERVAL@"
+interval="$(jq -r '.schedule.reconcile_interval' "$ROOT/ckis-manifest.example.json")"
+rendered="$(sed -e "s|@INTERVAL@|$interval|g" -e "s|@BOOTDELAY@|3min|g" "$ROOT/systemd/ckis-backup.timer")"
+assert_contains "rendered timer uses OnUnitActiveSec" "$rendered" "OnUnitActiveSec=$interval"
+assert_eq "no @INTERVAL@ placeholder remains"  "" "$(printf '%s' "$rendered" | grep -o '@INTERVAL@' || true)"
+
 assert_summary

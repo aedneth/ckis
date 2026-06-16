@@ -43,6 +43,10 @@ _phys() {
 drift_list=()
 report=""
 while IFS=$'\t' read -r slug path remote class kind; do
+  if ckis::is_failed "$slug"; then
+    report+="  🔴 $slug — FAILED: $(ckis::fail_reason "$slug")\n"
+    continue
+  fi
   d="$(_drift "$path")"
   if [ -n "$d" ]; then
     drift_list+=("$slug ($d)")
@@ -52,8 +56,15 @@ while IFS=$'\t' read -r slug path remote class kind; do
   fi
 done < <(ckis::targets)
 
+# Authoritative FAILED set = every persistent marker (targets AND brain repos,
+# incl. .gitcfg security findings). A hard failure outranks benign drift.
+failed_all="$(ckis::list_fails 2>/dev/null | tr '\n' ' ')"
+failed_all="${failed_all%% }"
+
 if [ "$ONELINE" -eq 1 ]; then
-  if [ "${#drift_list[@]}" -eq 0 ]; then
+  if [ -n "${failed_all// /}" ]; then
+    printf 'BACKUP 🔴 FAILED: %s · %s\n' "$failed_all" "$(_phys)"
+  elif [ "${#drift_list[@]}" -eq 0 ]; then
     printf 'BACKUP ✅ all pushed · %s\n' "$(_phys)"
   else
     printf 'BACKUP ⚠ %s · %s\n' "$(IFS='; '; echo "${drift_list[*]}")" "$(_phys)"
@@ -61,6 +72,7 @@ if [ "$ONELINE" -eq 1 ]; then
 else
   printf 'CKIS backup health:\n'
   printf '%b' "$report"
+  [ -n "${failed_all// /}" ] && printf '  🔴 FAILED markers: %s\n' "$failed_all"
   printf '  %s\n' "$(_phys)"
 fi
 exit 0

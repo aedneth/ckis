@@ -46,12 +46,16 @@ mapfile -t SECRET_GLOBS < <(ckis::manifest '.classes.secret[]')
 while IFS=$'\t' read -r slug path remote class kind; do
   [ -d "$path" ] || { ckis::warn "skip missing target: $slug"; continue; }
 
-  # 1. full mirror (working tree incl. .git) — non-FAT only. FAT-tolerant flags
-  #    so it also works on perms-less filesystems.
+  # 1. working-tree mirror — non-FAT only. FAT-tolerant flags so it also works on
+  #    perms-less filesystems. .git/ is EXCLUDED: it can hold credentials in
+  #    .git/config remote URLs (the PAT blind spot), and git history is already
+  #    captured by the authoritative bundle below. The mirror is for browsing
+  #    files, not for cloning — so no git internals ever land on the drive.
   if [ "$MIRROR" = 1 ]; then
     if rsync -rltD --delete --no-perms --no-owner --no-group --modify-window=2 \
+         --exclude='.git' \
          "$path"/ "$DEST/data/$slug"/ 2>>"$CKIS_LOG_FILE"; then
-      ckis::info "$slug: mirrored"
+      ckis::info "$slug: mirrored (working tree, no .git)"
     else
       ckis::warn "$slug: rsync mirror had errors (bundle is authoritative)"
     fi

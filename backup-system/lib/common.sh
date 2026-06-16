@@ -121,3 +121,90 @@ ckis::max_staged_mb() {
   done < <(git -C "$dir" diff --cached --name-only --diff-filter=A 2>/dev/null)
   printf '%s' "$max"
 }
+
+# ── Entropy ──────────────────────────────────────────────────────────────────
+# Shannon entropy in bits/char of a string (0.00 for empty). Pure awk. Used by
+# the secret scanner to tell a real high-entropy secret from a low-entropy
+# placeholder ("ghp_xxxx…") or a documentation token, killing false positives.
+ckis::entropy() {
+  printf '%s\n' "${1:-}" | awk '
+    NR==1 {
+      n=length($0)
+      if(n==0){printf "0.00"; exit}
+      for(i=1;i<=n;i++){c=substr($0,i,1); f[c]++}
+      H=0
+      for(c in f){p=f[c]/n; H-=p*log(p)/log(2)}
+      printf "%.2f", H
+    }'
+}
+
+# ── Brain discovery (agent-agnostic) ─────────────────────────────────────────
+# Emit "slug<TAB>repo_path" for every project that has a .brain/ dir — the UNION
+# of the Dev Brain registry AND a bounded filesystem scan of discovery.brain_roots.
+# The scan makes discovery agent-agnostic: a project created by ANY coding agent
+# (Codex, Gemini, OpenCode, ...) is found even if it never ran a registration
+# hook. De-duplicated by repo path; registry entries win the slug.
+ckis::brain_repos() {
+  local reg seen="|" slug repo root brain maxdepth roots_src
+  reg="${CKIS_REGISTRY:-$(ckis::expand "$(ckis::manifest '.discovery.registry // empty')")}"
+
+  # 1. registry (fast path)
+  if [ -f "$reg" ]; then
+    while IFS=$'\t' read -r slug repo; do
+      [ -n "$repo" ] || continue
+      repo="$(ckis::expand "$repo")"
+      [ -d "$repo/.brain" ] || continue
+      case "$seen" in *"|$repo|"*) continue;; esac
+      seen="$seen$repo|"
+      printf '%s\t%s\n' "$slug" "$repo"
+    done < <(jq -r '.projects[] | [.slug, .repo_root] | @tsv' "$reg" 2>/dev/null)
+  fi
+
+  # 2. filesystem scan of brain_roots (agent-agnostic safety net)
+  maxdepth="$(ckis::manifest '.discovery.brain_scan_maxdepth // 5')"
+  local prune=() nm first=1
+  prune+=( '(' )
+  while IFS= read -r nm; do
+    [ -n "$nm" ] || continue
+    [ "$first" = 1 ] && first=0 || prune+=( -o )
+    prune+=( -name "$nm" )
+  done < <(ckis::manifest '.discovery.brain_scan_prune[]?' 2>/dev/null)
+  prune+=( ')' -prune )
+
+  # roots: env override (newline-separated; empty disables the scan) or manifest
+  if [ "${CKIS_BRAIN_ROOTS+x}" = "x" ]; then
+    roots_src="$CKIS_BRAIN_ROOTS"
+  else
+    roots_src="$(ckis::manifest '.discovery.brain_roots[]?' 2>/dev/null)"
+  fi
+  while IFS= read -r root; do
+    [ -n "$root" ] || continue
+    root="$(ckis::expand "$root")"
+    [ -d "$root" ] || continue
+    while IFS= read -r brain; do
+      repo="$(dirname "$brain")"
+      ckis::is_repo "$repo" || continue
+      case "$seen" in *"|$repo|"*) continue;; esac
+      seen="$seen$repo|"
+      printf '%s\t%s\n' "$(basename "$repo")" "$repo"
+    done < <( [ "$first" = 0 ] \
+      && find "$root" -maxdepth "$maxdepth" "${prune[@]}" -o -type d -name .brain -print 2>/dev/null \
+      || find "$root" -maxdepth "$maxdepth" -type d -name .brain -print 2>/dev/null )
+  done <<< "$roots_src"
+}
+
+# ── Hard-failure markers ─────────────────────────────────────────────────────
+# Persistent record that a target FAILED to back up (e.g. commit blocked by the
+# secret scanner, or push failing). The doctor reads these to show 🔴 FAILED
+# (distinct from benign drift) and backup-all exits non-zero when any is set.
+# Keyed by slug (basename of the repo dir, matching the manifest target slugs).
+ckis::_fail_dir() { printf '%s' "$CKIS_LOG_DIR/failures"; }
+ckis::mark_fail() {  # slug reason...
+  local slug="$1"; shift
+  mkdir -p "$(ckis::_fail_dir)" 2>/dev/null || true
+  printf '%s\t%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >"$(ckis::_fail_dir)/$slug" 2>/dev/null || true
+}
+ckis::clear_fail()  { rm -f "$(ckis::_fail_dir)/$1" 2>/dev/null || true; }
+ckis::is_failed()   { [ -f "$(ckis::_fail_dir)/$1" ]; }
+ckis::fail_reason() { cut -f2- "$(ckis::_fail_dir)/$1" 2>/dev/null || true; }
+ckis::list_fails()  { ls -1 "$(ckis::_fail_dir)" 2>/dev/null || true; }

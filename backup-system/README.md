@@ -14,9 +14,9 @@ Most "backups" are a static cron job that rots the moment your setup changes. Th
 
 ## How it works — three rings of autonomy
 
-1. **Ring 1 — push on event (real time).** A git hook calls `ckis-push.sh <repo>` at the end of a work session: stage-all → commit-if-dirty → push with retry. Detached, lock-guarded, never blocks you. 100 new files = 1 commit = 1 push.
-2. **Ring 2 — daily safety net.** A `systemd --user` timer runs `ckis-backup-all.sh`: reads the manifest, **auto-creates missing private remotes** (self-healing onboarding), pushes any drift, aggregates public repos' gitignored subdirs into a private repo, exports the curated config apparatus, and runs the physical backup if a drive is mounted.
-3. **Ring 3 — passive visibility.** `ckis-backup-doctor.sh --oneline` prints a one-line health status (`BACKUP ✅ all pushed · physical 2d`) you can drop into a shell prompt or a session banner — so you see drift without checking.
+1. **Ring 1 — push on event (fast path).** A git hook or session-stop hook calls `ckis-push.sh <repo>`: stage-all → commit-if-dirty → push with retry. Detached, lock-guarded, never blocks you. 100 new files = 1 commit = 1 push. **It fails hard** if a commit is blocked — never reports a stalled backup as success.
+2. **Ring 2 — reconciling safety net (the real-time floor).** A `systemd --user` timer runs `ckis-backup-all.sh` on a short interval (default **15 min**, set in the manifest). Being a *reconcile* rather than an event hook makes it **tool-agnostic** — it captures changes no matter which editor/agent made them, with no `inotify` dependency. It auto-creates missing private remotes, pushes drift, **centralizes every project's memory subdir** (any tool, any visibility) into one private repo, exports the curated config apparatus, sweeps every `.git/config` for embedded credentials, runs a throttled deep secret-audit, and does the physical backup if a drive is mounted. **It exits non-zero on any real failure.**
+3. **Ring 3 — passive visibility.** `ckis-backup-doctor.sh --oneline` prints a one-line health status (`BACKUP ✅ all pushed · physical 2d`) for a shell prompt or session banner. A blocked backup shows **🔴 FAILED** (a real problem), distinct from a benign **⚠** drift.
 
 ## Layers it backs up
 
@@ -46,8 +46,9 @@ Wire Ring 1 into wherever a "work session" ends (a git `post-commit` hook, an ed
 ## Usage
 
 ```bash
-ckis-backup-doctor            # health report
-ckis-backup-all               # force a full run (push drift, aggregate, physical)
+ckis-backup-doctor            # health report (🔴 FAILED = real block, ⚠ = benign drift)
+ckis-backup-all               # force a full run (push drift, centralize, audit, physical)
+ckis-secret-audit             # scan every repo's working tree + .git/config for real secrets
 ckis-backup-physical          # physical backup to a mounted drive (auto-detected)
 ```
 
@@ -70,17 +71,19 @@ Every target is just a git repo, so any mobile git client works. For Obsidian va
 - **`$HOME` may itself be a git repo.** A directory without its own `.git` then resolves to the `$HOME` repo, and `git add -A` will try to stage your entire home directory. Every script guards with `is_repo_root` and refuses to operate on a parent repo. *(This one cost an 11-minute CPU hang to find.)*
 - **FAT/exFAT can't store `:` in filenames.** On FAT drives the per-file mirror is skipped; **git bundles** (single files holding full history + all filenames) are the authoritative physical copy.
 - **Heavy/third-party content is `regenerable`, not backed up** — e.g. a skill that bundles a 1 GB headless browser is reinstalled, not committed.
-- **Secrets never leave the machine.** A `pre-commit` secret scanner (dependency-free regex for GitHub/AWS/GCP keys + private keys) blocks accidental commits; the manifest `deny[]` and a defense-in-depth purge keep credentials out of the config export.
+- **Secrets never leave the machine.** A dependency-free `pre-commit` scanner blocks accidental commits — but it detects **real key material**, not mentions: tokens are gated by Shannon **entropy** (so a `ghp_xxxx…` placeholder or a doc that quotes one passes), PEM keys require an actual base64 body next to the marker, and it also covers **`.git/config` remote-URL credentials** and `class=secret` filenames. A `.ckis-secret-allow` file (or an inline `ckis-allow-secret` marker) sanctions docs/tests that legitimately quote a pattern.
+- **Silent success is the worst failure.** A backup that reports green while doing nothing is more dangerous than a crash. Marker-matching secret scanners false-positive on notes that *document* security work and can wedge a knowledge base's backup for hours; every failure path here exits non-zero and the banner shows 🔴, and `ckis-secret-audit` re-checks the whole system independently of any exit code.
 
 ## Layout
 
 ```
 bin/      ckis-push, ckis-backup-all, ckis-backup-doctor, ckis-backup-physical,
-          cli-brains-sync, ckis-apparatus-export, ckis-restore
-lib/      common.sh        (logging, flock, retry, manifest accessors, git helpers)
+          brains-sync, ckis-secret-audit, ckis-apparatus-export, ckis-restore
+lib/      common.sh        (logging, flock, retry, entropy, failure markers,
+                            agent-agnostic brain discovery, git helpers)
 hooks/    pre-commit-secret-scan.sh
 systemd/  ckis-backup.{service,timer}
-tests/    pure-bash test harness (run: bash tests/run.sh) — 106 assertions
+tests/    pure-bash test harness (run: bash tests/run.sh) — 12 suites
 install.sh · ckis-manifest.example.json
 ```
 

@@ -34,6 +34,16 @@ assert_file     "last-physical marker written" "$CKIS_LOG_DIR/last-physical"
 assert_ok       "bundle clones back"          git clone -q "$DEST/bundles/t1.bundle" "$SB/restored"
 assert_file     "restored content present"    "$SB/restored/note.md"
 
+# SECURITY: an embedded credential in .git/config must NEVER reach the drive.
+# The mirror excludes .git; the bundle holds objects+refs, not .git/config.
+tok="ghp_$(head -c 96 /dev/urandom | base64 2>/dev/null | tr -dc 'A-Za-z0-9' | head -c 36)"
+git -C "$SB/t1" remote add origin "https://u:$tok@github.com/x/t1.git"
+rm -rf "$DEST"
+assert_ok       "physical re-run exits 0"        bash "$PHYS" "$DEST"
+assert_no_file  ".git not present in mirror"     "$DEST/data/t1/.git"
+assert_eq       "no credential anywhere on drive" "" "$(grep -rIl "$tok" "$DEST" 2>/dev/null)"
+assert_ok       "bundle still restores after .git exclude" git clone -q "$DEST/bundles/t1.bundle" "$SB/restored2"
+
 # no dest + no mount -> non-zero
 assert_fail     "no dest, no mount -> error"  bash "$PHYS"
 

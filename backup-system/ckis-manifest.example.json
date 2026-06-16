@@ -11,11 +11,28 @@
   ],
 
   "discovery": {
-    "_doc": "OPTIONAL: aggregate gitignored subdirs (e.g. per-project .brain/) of PUBLIC repos into one private repo. Private repos back up via their own remote and are skipped. Registry is any json with .projects[].{slug, repo_root}.",
+    "_doc": "OPTIONAL: CENTRALIZE per-project memory subdirs (e.g. .brain/) of EVERY project into one private repo, regardless of the tool that created them or each project's own visibility. Discovery is the UNION of a registry (any json with .projects[].{slug, repo_root}) and a bounded filesystem scan of brain_roots — so a project made by any tool is found even before it registers.",
     "registry": "~/path/to/projects.json",
-    "public_brain_aggregator": "YOUR_GITHUB_USERNAME/private-aggregator",
-    "aggregate_workdir": "~/.local/state/ckis-backup/aggregator",
-    "aggregate_exclude": ["graph/", "node_modules/", ".git/"]
+    "brain_aggregator": "YOUR_GITHUB_USERNAME/brains-backup",
+    "aggregate_workdir": "~/.local/state/ckis-backup/brains-backup",
+    "aggregate_exclude": ["graph/", ".brain-backup-*", "node_modules/", ".git/", "*.html"],
+    "brain_roots": ["~/code", "~/Documents"],
+    "brain_scan_maxdepth": 5,
+    "brain_scan_prune": ["node_modules", ".git", ".next", "dist", "build", ".venv", "__pycache__"]
+  },
+
+  "schedule": {
+    "_doc": "Cadence of the reconciling safety-net timer (the agent-agnostic real-time floor; no inotify dependency). reconcile_interval is templated into the systemd unit by install.sh.",
+    "reconcile_interval": "15min",
+    "boot_delay": "3min"
+  },
+
+  "secret_scan": {
+    "_doc": "Strongest-mode scanner: detects REAL key material (Shannon entropy + key-body proximity), not mere documentation mentions of a marker. Also covers .git/config remote URLs and class=secret filenames. allowlist_file (per repo) sanctions paths that legitimately quote patterns.",
+    "entropy_threshold": 3.0,
+    "allowlist_file": ".ckis-secret-allow",
+    "scan_git_config": true,
+    "block_secret_filenames": true
   },
 
   "apparatus": {

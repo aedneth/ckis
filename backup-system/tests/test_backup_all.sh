@@ -36,5 +36,24 @@ assert_eq "t1 still 1 commit" "1" "$(git --git-dir="$SB/t1.git" log --oneline --
 
 # health line present in log
 assert_contains "health summary logged" "$(cat "$CKIS_LOG_DIR/backup.log")" "BACKUP"
+# deep secret audit ran (throttled, universal net) and recorded its marker
+assert_file "deep secret-audit marker written" "$CKIS_LOG_DIR/last-audit"
+
+# HARD-FAIL: a target whose pre-commit hook blocks the commit must make backup-all
+# exit NON-ZERO and record a FAILED marker — never the old silent success.
+git init -q --bare "$SB/b.git"
+git clone -q "$SB/b.git" "$SB/blocked" 2>/dev/null
+git -C "$SB/blocked" config user.email a@a; git -C "$SB/blocked" config user.name a
+printf '#!/bin/sh\nexit 1\n' >"$SB/blocked/.git/hooks/pre-commit"; chmod +x "$SB/blocked/.git/hooks/pre-commit"
+echo data >"$SB/blocked/x.md"
+cat >"$SB/mb.json" <<JSON
+{ "github_owner":"aedneth", "log_dir":"$CKIS_LOG_DIR",
+  "targets":[{"slug":"blocked","path":"$SB/blocked","remote":"aedneth/blocked","class":"track","kind":"vault"}],
+  "physical":{"size_guard_mb":25,"mount_candidates":["/nonexistent"]} }
+JSON
+export CKIS_MANIFEST="$SB/mb.json"
+assert_fail "backup-all exits NON-ZERO on a blocked target" bash "$ALL"
+assert_file "FAILED marker recorded for blocked target"     "$CKIS_LOG_DIR/failures/blocked"
+assert_contains "health line screams FAILED"               "$(cat "$CKIS_LOG_DIR/backup.log")" "FAILED"
 
 assert_summary
