@@ -229,6 +229,20 @@ CKIS runs 5 crons that maintain the system without manual effort:
 
 ---
 
+## Autonomous Backup (3-2-1)
+
+A knowledge base with no backup is a liability. CKIS ships a **self-hosting, declarative backup system** — see [`backup-system/`](backup-system/).
+
+- **3-2-1**: local + private GitHub remotes (off-site) + external-drive git bundles (off-device).
+- **Declarative**: one `ckis-manifest.json` classifies every path (`track` / `regenerable` / `secret` / `sensitive` / `snapshot`). Adding a repo or tool is one entry.
+- **Three rings of autonomy**: push on session end, a daily `systemd --user` safety net (self-heals missing remotes, aggregates, runs physical), and a one-line health status in your session banner.
+- **Plug-and-play restore**: `ckis-restore.sh` rebuilds everything on a fresh machine/OS; only secrets are re-provisioned by hand (never in backup).
+- **Zero heavy deps** (`bash`, `git`, `jq`, `rsync`, `flock`) and a pure-bash test suite (`bash backup-system/tests/run.sh`).
+
+**Start here:** [`backup-system/README.md`](backup-system/README.md).
+
+---
+
 ## From Execution Plan to Agentic OS — The Evolution
 
 CKIS v1.0 (April 2026) started as a simple answer to one question: *how do you stop a second brain from becoming 822 empty files?*
