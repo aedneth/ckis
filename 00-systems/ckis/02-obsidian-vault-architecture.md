@@ -1,7 +1,7 @@
 ---
 type: system
 created: 2026-05-02
-modified: 2026-06-06
+modified: 2026-06-18
 tags: [ckis, vault, architecture]
 status: active
 related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-map]]", "[[08-note-templates-and-frontmatter]]"]
@@ -104,6 +104,7 @@ related: ["[[00-ckis-master-context]]", "[[07-projects-areas-resources-archives-
 | MOC | `MOC-Topic-Name.md` | `MOC-AI-Agents.md` |
 | Project meta | `_overview.md` (underscore prefix) | `02-projects/[your-project]/_overview.md` |
 | System file | `_NAME.md` (underscore + caps) | `_PROFILE.md`, `_MEMORY.md` |
+| Folder routing table | `_CONVENTION.md` (underscore + caps, one per folder) | `03-knowledge/_CONVENTION.md` |
 | Permanent note | `descriptive-name.md` (kebab-case, no hashes) | `jackson-steele-alter-ego.md` |
 | Literature note | `source-or-topic-name.md` | `lex-fridman-ep-300.md` |
 | Person | `firstname-lastname.md` | `juan-perez.md` |
@@ -173,7 +174,10 @@ Notes:
 - `00-inbox/_ACTIVE-PROJECTS.md` — project roster.
 - `02-projects/<project>/_overview.md` — per-project canonical state.
 - `03-knowledge/maps-of-content/MOC-*.md` — topic indexes; serve as graph hub-nodes.
+- `_CONVENTION.md` (one per folder/subfolder, **every** folder has one) — the universal routing table: purpose, internal structure tree, what goes/doesn't go here, naming rules, related folders. Read this first when an agent enters a folder it hasn't worked in recently — it answers "what's here and where do I look" without needing to read the folder's contents.
 - This file (`02-obsidian-vault-architecture.md`) is the architecture index.
+
+**Note:** keep `_CONVENTION.md` casing consistent vault-wide (uppercase). A mixed-case vault is harmless to Obsidian (link resolution is case-insensitive) but breaks any script/skill that checks for the file by exact name — `ckis-qc-pass` Check 1 now does this check dynamically across the whole vault, excluding tooling/scratch dirs and leaf folders that already have an `_overview.md`.
 
 ## 10. Archive Rules
 

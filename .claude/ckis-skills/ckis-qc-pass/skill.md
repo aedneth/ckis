@@ -1,16 +1,17 @@
 ---
 name: ckis-qc-pass
 description: >
-  Run a standard quality-control pass on the vault: conventions check, YAML audit,
-  wikilink integrity, git status, and CHANGELOG entry. Use when [OWNER] says
-  "ckis-qc-pass", "run QC", "do a vault QC", "quality check the vault", "QC pass",
-  or at the end of any major sprint gate. Outputs a pass/fail report per check,
-  auto-fixes safe violations, and adds a CHANGELOG entry when structural changes occurred.
+  Run a standard quality-control pass on the vault: conventions check (vault-wide,
+  dynamic discovery), YAML audit, wikilink integrity, git status, CHANGELOG entry,
+  and file-bloat watch. Use when [OWNER] says "ckis-qc-pass", "run QC", "do a vault QC",
+  "quality check the vault", "QC pass", or at the end of any major sprint gate.
+  Outputs a pass/fail report per check, auto-fixes safe violations, and adds a
+  CHANGELOG entry when structural changes occurred.
 argument-hint: "optional: scope to a specific folder or sprint gate (e.g. G5.QC, 04-resources/)"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 metadata:
   author: [OWNER]
-  version: 1.0.0
+  version: 1.1.0
   ckis-context: true
   category: workflow-automation
 ---
@@ -42,41 +43,36 @@ Before running, verify:
 
 ━━━
 
-## The 5 QC Checks
+## The 6 QC Checks
 
-Each check runs independently. All 5 must pass for the QC pass to be "green."
+Each check runs independently. All 6 must pass for the QC pass to be "green."
 
 ### Check 1 — Conventions Integrity
 
-Verify that key folders have `_CONVENTION.md` files.
+Verify that every vault-content folder has a `_CONVENTION.md` routing table. Vault-wide dynamic discovery (not a hardcoded list — the set of folders grows as the vault grows). Excludes tooling dirs (`.claude/`, `.brain/`), scratch dirs (`*/tmp/*`, `logs/compacts/`), and leaf project/archive folders that already have their own `_overview.md` (that file already serves as the folder's dashboard — don't require both):
 
-Required `_CONVENTION.md` locations (minimum set):
-- `04-resources/social-captures/instagram-captures/`
-- `04-resources/social-captures/instagram-captures/saved-posts/`
-- `03-knowledge/permanent-notes/`
-- `03-knowledge/maps-of-content/`
-- `00-inbox/`
-- `01-daily/`
-- `02-projects/`
-- `00-systems/ckis/`
-
-Run:
 ```bash
-for dir in \
-  "04-resources/social-captures/instagram-captures" \
-  "04-resources/social-captures/instagram-captures/saved-posts" \
-  "03-knowledge/permanent-notes" \
-  "03-knowledge/maps-of-content" \
-  "00-inbox" \
-  "01-daily" \
-  "02-projects" \
-  "00-systems/ckis"; do
-  test -f "${VAULT}/${dir}/_CONVENTION.md" && echo "OK: $dir" || echo "MISSING: $dir"
+find "${VAULT}" -mindepth 1 -type d \
+  -not -path '*/.git*' -not -path '*/.obsidian*' -not -path '*/node_modules*' \
+  -not -path '*/.claude*' -not -path '*/.brain*' \
+  -not -path '*/logs/compacts*' -not -path '*/tmp/*' | while read -r dir; do
+  [ -f "$dir/_overview.md" ] && continue
+  if find "$dir" -maxdepth 1 -name "*.md" ! -name "_CONVENTION.md" 2>/dev/null | grep -q .; then
+    test -f "$dir/_CONVENTION.md" && echo "OK: $dir" || echo "MISSING: $dir"
+  fi
 done
 ```
 
-**Pass**: All 8 locations have `_CONVENTION.md`.
-**Fail**: List missing locations. Create missing convention files using the template in `04-resources/social-captures/instagram-captures/saved-posts/_CONVENTION.md` as reference.
+Also flag the inverse drift: any `_convention.md` (lowercase) — the vault standard is uppercase (`_CONVENTION.md`).
+
+```bash
+find "${VAULT}" -name "_convention.md" -not -path '*/.git*'
+```
+
+**Pass**: No `MISSING` folders, no lowercase `_convention.md` found.
+**Fail**: List missing locations and any lowercase strays. Create missing convention files using an existing `_CONVENTION.md` as a structural reference (Purpose / Internal Structure tree / What Goes Here / What Does NOT Go Here / Related Folders). `git mv` any lowercase stray to uppercase — do not recreate it as a new file (loses git history). Do NOT bulk-create missing convention files without confirmation — surface the list and let the owner decide which gaps are real vs. acceptable (e.g. a folder pending reorganization).
+
+**Ground-truthed:** an earlier, broader version of this check (no `.claude`/`.brain`/`tmp` exclusions, no `_overview.md` carve-out) returned dozens of false-positive MISSING folders against a known-good vault — caught by an independent audit before merge. Lesson: any check that scans the live filesystem must be run against the live filesystem before being trusted, not just reasoned about.
 
 ━━━
 
@@ -168,9 +164,33 @@ If CHANGELOG is stale AND the QC pass itself found/fixed violations: add a new e
 
 ━━━
 
+### Check 6 — File Bloat Watch
+
+Catch files growing unchecked before they bloat every session's context (this is what the per-folder `_CONVENTION.md`, the root `CLAUDE.md`, and `.claude/CLAUDE.md` all have in common — they get read frequently, so their size has an outsized cost).
+
+Thresholds (lines):
+| File kind | Warn at | Flag hard at |
+|---|---|---|
+| `CLAUDE.md` (root or `.claude/`) | 150 | 300 |
+| `_CONVENTION.md` | 80 | 150 |
+| `skill.md` | 250 | 400 |
+| `_MEMORY.md`, `_ACTIVE-PROJECTS.md` | 100 | 150 (these declare their own cap in-file) |
+
+```bash
+for f in $(find "${VAULT}" -iname "CLAUDE.md" -o -iname "_CONVENTION.md" -o -iname "skill.md" -o -iname "_MEMORY.md" -o -iname "_ACTIVE-PROJECTS.md"); do
+  n=$(wc -l < "$f")
+  echo "$n $f"
+done | sort -rn | head -20
+```
+
+**Pass**: No file over its "flag hard" threshold.
+**Fail**: List files over threshold with line count. Do NOT auto-trim — content reduction is a judgment call (what to cut, where to move it). Surface to [OWNER] with the specific file and count; suggest splitting (e.g. extract a section to its own note and link it) rather than deleting content.
+
+━━━
+
 ## Report Format
 
-After all 5 checks, deliver the QC pass report:
+After all 6 checks, deliver the QC pass report:
 
 ```
 ━━━ CKIS QC Pass — {YYYY-MM-DD} ━━━
@@ -182,6 +202,7 @@ Check 2 — YAML Audit:   {PASS ✅ | FAIL ❌ — N violations}
 Check 3 — Wikilinks:    {PASS ✅ | FAIL ❌ — N broken}
 Check 4 — Git Status:   {PASS ✅ | WARN ⚠️ — summary}
 Check 5 — CHANGELOG:    {PASS ✅ | FAIL ❌ — N days stale}
+Check 6 — Bloat Watch:  {PASS ✅ | FAIL ❌ — N files over threshold}
 
 Overall: {GREEN ✅ | YELLOW ⚠️ | RED ❌}
 
@@ -203,7 +224,7 @@ Next recommended action:
 ## Examples
 
 **Example 1** — [OWNER] says "ckis-qc-pass" after G5.NEW:
-- Check 1: All 8 convention files present ✅
+- Check 1: All folders have `_CONVENTION.md` (uppercase), no lowercase strays ✅
 - Check 2: YAML audit finds 3 Category C violations (non-standard subtypes) — auto-fixed ✅
 - Check 3: 2 broken wikilinks in MOC (files renamed) — auto-updated ✅
 - Check 4: 15 untracked files in `03-knowledge/` — flagged for commit ⚠️
@@ -237,7 +258,7 @@ Next recommended action:
 ## QA Checklist
 
 The QC pass itself passes when:
-- [ ] All 5 checks run and reported
+- [ ] All 6 checks run and reported
 - [ ] All auto-fixable violations resolved
 - [ ] Manual items surfaced with clear diagnosis
 - [ ] CHANGELOG updated if any structural changes occurred

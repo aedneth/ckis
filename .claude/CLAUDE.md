@@ -28,6 +28,10 @@ and strategic thinking partner.
 08-templates/  → Note templates
 09-archive/    → Completed or inactive items
 
+## Search
+
+For broad lookups across the vault ("find everything about X", "what do we have on Y"), install `qmd` (https://github.com/tobi/qmd, MIT, local-only — no API keys, no network calls after model download) and prefer `qmd search "<query>"` (BM25 full-text, instant, no embeddings needed) over grep/Glob — it burns far fewer tokens than reading multiple files. Setup: `bun install -g @tobilu/qmd` (or `npm install -g @tobilu/qmd` if your Node is ≥22), then `qmd collection add <vault-path> --name <vault-name>` once. Semantic search (`qmd vsearch`/`qmd query`, needs `qmd embed`) is optional and hardware-dependent — embedding generation runs a local model and can be slow or unreliable on weak/integrated GPUs; BM25-only `qmd search` works everywhere and covers most lookup needs. Fall back to grep/Glob only when `qmd search` returns nothing useful or `qmd` isn't installed.
+
 ## Session Protocol
 1. At session start: Read 01-daily/logs/ for recent session context
 2. Read _PROFILE.md, _INTERESTS.md, _ACTIVE-PROJECTS.md, _MEMORY.md

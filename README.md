@@ -94,6 +94,10 @@ npm install -g @anthropic-ai/claude-code   # one-time install
 claude                                      # launch in the vault folder
 
 # 5. Say "daily brief" — Claude now has full context and generates your first morning brief
+
+# 6. (Optional, recommended) Install qmd for fast local vault search — replaces grep/Glob
+bun install -g @tobilu/qmd   # or: npm install -g @tobilu/qmd  (needs Node >= 22)
+qmd collection add . --name my-second-brain
 ```
 
 **That's it — clone and go.** You don't need to read the architecture docs first. Claude reads your vault structure on launch, understands the system from the bundled `CLAUDE.md`, and starts compounding knowledge immediately. Every skill is triggered in plain English (see [The Skill System](#the-skill-system) below).
@@ -300,6 +304,16 @@ The code knowledge graph engine powering Dev Brain (Layer 2). Indexes codebases 
 **Strengths:** MCP server for real-time Claude Code queries · confidence scoring (EXTRACTED / INFERRED / AMBIGUOUS) · relationship intelligence (god nodes, surprising cross-module connections) · zero manual curation  
 **Limitations:** Python 3.10+ required · full semantic extraction needs an API key (Claude / OpenAI / Gemini; Ollama fallback available)  
 **Install:** `uv tool install graphifyy` *(double-y on PyPI)*
+
+---
+
+#### [qmd](https://github.com/tobi/qmd) · MIT · ✅ Active
+
+Local search engine for the vault — replaces grep/Glob for broad lookups so agents burn far fewer tokens finding things. Indexes all `.md` files into a SQLite FTS5 + vector store; `qmd search` (BM25 full-text) is instant and needs no embeddings. `qmd vsearch`/`qmd query` add semantic + hybrid + LLM-reranked search on top, fully local (no API keys, no network calls after the one-time model download).
+
+**Strengths:** Zero-config full-text search, instant, no embeddings required · fully local/offline · MCP server (`qmd mcp`) for direct agent integration · hybrid BM25 + vector + rerank pipeline when semantic search is enabled  
+**Limitations:** Semantic search (`qmd embed`) runs a local inference model and is hardware-dependent — works well on a discrete GPU or modern CPU, but can be slow or crash on weak/integrated GPUs (Vulkan driver issues observed on older integrated graphics). BM25-only `qmd search` has no such limitation and covers most lookup needs on its own.  
+**Install:** `bun install -g @tobilu/qmd` (or `npm install -g @tobilu/qmd` with Node ≥22), then `qmd collection add <vault-path> --name <vault-name>` once. See `.claude/CLAUDE.md` → Search.
 
 ---
 

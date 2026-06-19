@@ -5,6 +5,22 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 
 ---
 
+## v2.3.25 — Vault-Wide Routing-Table Audit + qmd Local Search (2026-06-18)
+
+### New
+- **[qmd](https://github.com/tobi/qmd)** integrated as the recommended local search tool — replaces grep/Glob for broad vault lookups, instant BM25 full-text, no embeddings required, fully local/offline. Semantic search (`qmd embed`/`vsearch`/`query`) is available but hardware-dependent (can be slow or unreliable on weak/integrated GPUs) — documented as optional, not required. Added: `.claude/CLAUDE.md` → Search section, `README.md` → Ecosystem entry + optional Quick Start step 6.
+
+### Changed
+- `ckis-qc-pass` → v1.1.0. Check 1 (Conventions Integrity) replaced its hardcoded folder list with vault-wide dynamic discovery — any folder with its own markdown content must have a `_CONVENTION.md`; the check now also flags lowercase `_convention.md` strays. New **Check 6 — File Bloat Watch**: line-count thresholds for `CLAUDE.md`, `_CONVENTION.md`, `skill.md`, `_MEMORY.md`/`_ACTIVE-PROJECTS.md`, surfacing files growing unchecked (no auto-trim — content reduction stays a human judgment call).
+- `02-obsidian-vault-architecture.md` — §4 File Naming and §9 Dashboards & Indexes now document `_CONVENTION.md` as the universal per-folder routing table, plus a note on keeping its casing consistent vault-wide.
+
+### Lesson Captured
+A QC-pass plan premise ("N folders missing a routing table") was audited at the planning stage but not re-verified against the actual filesystem before execution — the audit assessed the plan's structure, not its factual inputs. Ground-truth verification caught it mid-implementation instead. Takeaway for future plan-audits: explicitly ask the auditor to re-derive any quantitative claim against the real repo state, not just assess the plan built on top of it.
+
+The same lesson repeated one level down: the *fix* itself (Check 1's dynamic-discovery snippet) was reasoned through but not run against a live vault before being shipped — an independent maker≠checker audit caught 75 false-positive results (tooling dirs, scratch dirs, and leaf project folders with their own `_overview.md` were all being flagged). Corrected by excluding `.claude/`/`.brain/`/`tmp/` and treating `_overview.md` as sufficient for leaf folders. Any check that scans a live filesystem must be executed against that filesystem before being trusted — reasoning about what a `find` command "should" return is not the same as running it.
+
+---
+
 ## v2.3.24 — System Layer Updates (2026-05-28)
 
 ### New Skills
