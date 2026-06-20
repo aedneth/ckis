@@ -247,6 +247,17 @@ A knowledge base with no backup is a liability. CKIS ships a **self-hosting, dec
 
 ---
 
+## Autonomous Context Maintenance (optional)
+
+The same `backup-system/` ships two optional, declarative autonomy layers — add one manifest block, no extra code:
+
+- **Search-index auto-refresh** (`search_index` block) — if you use [qmd](https://github.com/tobi/qmd) for local vault search, the backup reconcile re-indexes on every run (and a session-end hook does it instantly), so `qmd search` stays fresh for edits made in Obsidian, mobile, or any agent. Best-effort: a stale index never fails a backup.
+- **Reflux engine** (`reflux` block + `ckis-reflux-all`) — keeps your canonical "heart docs" (`_MEMORY` / `_ACTIVE-PROJECTS` / `_INTERESTS` / `_PROFILE`) fresh from accumulated session activity via a headless model call (e.g. `claude -p`). **Propose-only by default**: it drafts an update + diff into a quarantine queue and *never* overwrites a live doc until you run `ckis-reflux-all --apply <queuefile>`. Every proposal passes structural guards (frontmatter `created` immutable, no section heading dropped, no shrink below a threshold, line cap, secret-scan) or it's rejected. A `systemd --user` timer runs it daily, cadence-throttled so it's never noisy; pending proposals surface in your session banner. This closes the gap where a vault grows for months while its canonical state files quietly go stale.
+
+Both are off until you add the block; remove the block to disable. See [`backup-system/ckis-manifest.example.json`](backup-system/ckis-manifest.example.json).
+
+---
+
 ## From Execution Plan to Agentic OS — The Evolution
 
 CKIS v1.0 (April 2026) started as a simple answer to one question: *how do you stop a second brain from becoming 822 empty files?*

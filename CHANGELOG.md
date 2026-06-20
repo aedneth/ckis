@@ -5,6 +5,20 @@ Format: `[vX.Y.Z] YYYY-MM-DD — Description`
 
 ---
 
+## v2.4.0 — Autonomous Context Maintenance: reflux engine + qmd auto-reindex (2026-06-19)
+
+### New
+- **Reflux engine** (`backup-system/bin/ckis-reflux-all.sh`) — autonomous context-maintenance that keeps the canonical "heart docs" (`_MEMORY` / `_ACTIVE-PROJECTS` / `_INTERESTS` / `_PROFILE`) fresh from accumulated session activity via a headless model call (`claude -p` or any equivalent). **Propose-only by default**: drafts an update + diff into a quarantine queue and never overwrites a live doc unless a human runs `ckis-reflux-all --apply <queuefile>` (or sets a doc's `auto_apply=true`, off by default). Every proposal passes structural guards — frontmatter `created` immutable, no section heading dropped, no shrink below `min_retain_pct`, line cap, secret-scan — or it's rejected, never queued. Optional `systemd --user` timer runs it daily, cadence-throttled (per-doc + skip-if-pending) so it's never noisy; pending proposals surface in the session banner. Declarative `reflux` block in the manifest; remove it to disable.
+- **qmd auto-reindex** — the backup reconcile now refreshes the local qmd BM25 search index on every run (optional `search_index` manifest block), so `qmd search` stays fresh for edits made outside any agent (Obsidian desktop/mobile, direct edits). Best-effort: a stale index never fails a backup.
+
+### Changed
+- `backup-system/install.sh` wires the optional reflux timer alongside the backup timer (only when a `reflux` block exists). `ckis-backup-all.sh` gains the best-effort search-index refresh step. `ckis-manifest.example.json` documents both new blocks. README: new "Autonomous Context Maintenance" section.
+
+### Tests
+- `backup-system/tests/test_reflux.sh` — 14 tests, no model call (stub), proving the structural guards reject every unsafe proposal, the live doc is never touched on propose, and `--apply` re-checks guards. Full suite green.
+
+---
+
 ## v2.3.25 — Vault-Wide Routing-Table Audit + qmd Local Search (2026-06-18)
 
 ### New

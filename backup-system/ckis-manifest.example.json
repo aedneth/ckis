@@ -22,9 +22,36 @@
   },
 
   "schedule": {
-    "_doc": "Cadence of the reconciling safety-net timer (the agent-agnostic real-time floor; no inotify dependency). reconcile_interval is templated into the systemd unit by install.sh.",
+    "_doc": "Cadence of the reconciling safety-net timer (the agent-agnostic real-time floor; no inotify dependency). reconcile_interval is templated into the systemd unit by install.sh. reflux_* drives the optional context-maintenance timer.",
     "reconcile_interval": "15min",
-    "boot_delay": "3min"
+    "boot_delay": "3min",
+    "reflux_interval": "1d",
+    "reflux_boot_delay": "10min"
+  },
+
+  "search_index": {
+    "_doc": "OPTIONAL. Local BM25 search index (qmd, https://github.com/tobi/qmd) over the vault. NOT a backup target — the index is regenerable and lives outside any repo. This is the agent-agnostic refresh floor: re-index on every reconcile so search stays fresh even for edits made outside any coding agent (Obsidian desktop/mobile, direct edits). Best-effort and incremental: a stale index is NOT a backup failure, so this step never flips the run red. Skipped cleanly when the binary is absent. refresh_cmd is run via word-splitting, so it MUST be a plain space-separated command with NO shell metacharacters; binary is the first token, checked on PATH before running. Remove this block to disable.",
+    "refresh_cmd": "qmd update",
+    "binary": "qmd"
+  },
+
+  "reflux": {
+    "_doc": "OPTIONAL. Autonomous context-maintenance engine (ckis-reflux-all). Keeps your vault's canonical 'heart docs' fresh from accumulated session activity via a headless model call (model_cmd). PROPOSE-ONLY by default: it writes a proposal + diff into queue_subdir (a quarantine) and NEVER overwrites a live doc unless a human runs `ckis-reflux-all --apply <queuefile>` OR a doc's auto_apply=true (keep false until trust is established — structural guards cannot detect content 'hollowing', so a human diff review is the real backstop). Every proposal must pass the structural guards (frontmatter `created` immutable; no section heading dropped; line count >= min_retain_pct of current; <= max_lines; secret-scan clean) or it is rejected, never queued. model_cmd is any headless CLI that reads a prompt arg and prints the updated markdown (e.g. `claude -p`). Remove this block to disable the reflux engine + timer.",
+    "vault": "~/Documents/Notes",
+    "queue_subdir": "00-inbox/_REFLUX-QUEUE",
+    "model_cmd": "claude -p",
+    "min_retain_pct": 70,
+    "sources": {
+      "session_logs": "01-daily/logs",
+      "recent_days": 21
+    },
+    "_auto_apply_warning": "DO NOT set any doc's auto_apply=true without first adding a SEMANTIC guard. The structural guards cannot detect content 'hollowing' (a proposal that keeps all headings + line count but guts the substance). Propose-only + human diff review is the real backstop.",
+    "docs": [
+      { "slug": "memory",          "path": "00-inbox/_MEMORY.md",          "max_lines": 150, "cadence": "daily",  "auto_apply": false },
+      { "slug": "active-projects", "path": "00-inbox/_ACTIVE-PROJECTS.md", "max_lines": 120, "cadence": "daily",  "auto_apply": false },
+      { "slug": "interests",       "path": "00-inbox/_INTERESTS.md",       "max_lines": 100, "cadence": "weekly", "auto_apply": false },
+      { "slug": "profile",         "path": "00-inbox/_PROFILE.md",         "max_lines": 120, "cadence": "weekly", "auto_apply": false }
+    ]
   },
 
   "secret_scan": {

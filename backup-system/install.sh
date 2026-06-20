@@ -41,6 +41,22 @@ if [ "${CKIS_NO_SYSTEMD:-0}" != "1" ] && command -v systemctl >/dev/null 2>&1; t
   else
     ckis::warn "could not enable systemd timer (headless? run: systemctl --user enable --now ckis-backup.timer)"
   fi
+
+  # 2b. reflux timer (OPTIONAL autonomous context maintenance; only if configured)
+  if [ -f "$HERE/systemd/ckis-reflux.timer" ] && [ "$(ckis::manifest '.reflux // empty')" != "" ]; then
+    R_INTERVAL="$(ckis::manifest '.schedule.reflux_interval // "1d"')"
+    R_BOOTDELAY="$(ckis::manifest '.schedule.reflux_boot_delay // "10min"')"
+    sed "s|@BIN@|$BIN_DIR|g" "$HERE/systemd/ckis-reflux.service" >"$SYSTEMD_DIR/ckis-reflux.service"
+    sed -e "s|@INTERVAL@|$R_INTERVAL|g" -e "s|@BOOTDELAY@|$R_BOOTDELAY|g" \
+      "$HERE/systemd/ckis-reflux.timer" >"$SYSTEMD_DIR/ckis-reflux.timer"
+    systemctl --user daemon-reload 2>/dev/null || true
+    if systemctl --user enable --now ckis-reflux.timer 2>/dev/null; then
+      systemctl --user restart ckis-reflux.timer 2>/dev/null || true
+      ckis::info "reflux timer enabled (propose-only, every $R_INTERVAL)"
+    else
+      ckis::warn "could not enable reflux timer (headless? run: systemctl --user enable --now ckis-reflux.timer)"
+    fi
+  fi
 fi
 
 # 3. secret-scan pre-commit into each target repo (don't clobber existing hooks)

@@ -120,6 +120,25 @@ _run() {
     ckis::info "physical backup skipped (no drive mounted)"
   fi
 
+  # 4.5 Refresh the local search index (best-effort, agent-agnostic floor).
+  #     OPTIONAL (manifest .search_index). The qmd BM25 index is regenerable and
+  #     lives outside any repo, so it is never a backup TARGET — but it must stay
+  #     fresh for edits made outside any coding agent (Obsidian desktop/mobile,
+  #     direct edits). A stale index is NOT a backup failure: this NEVER touches
+  #     $failures. Skipped cleanly if absent.
+  local idx_cmd idx_bin
+  idx_cmd="$(ckis::manifest '.search_index.refresh_cmd // empty')"
+  idx_bin="$(ckis::manifest '.search_index.binary // empty')"
+  if [ -n "$idx_cmd" ] && [ -n "$idx_bin" ] && command -v "$idx_bin" >/dev/null 2>&1; then
+    if $idx_cmd >>"$CKIS_LOG_FILE" 2>&1; then
+      ckis::info "search index refreshed ($idx_cmd)"
+    else
+      ckis::warn "search index refresh had issues (non-fatal): $idx_cmd"
+    fi
+  else
+    ckis::info "search index refresh skipped (not configured or binary absent)"
+  fi
+
   # 5. Health summary.
   ckis::info "health: $(bash "$HERE/ckis-backup-doctor.sh" --oneline)"
 

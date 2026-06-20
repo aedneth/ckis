@@ -1,0 +1,16 @@
+[Unit]
+Description=CKIS autonomous context reflux — heart-doc freshness
+Documentation=https://github.com/aedneth/ckis
+
+[Timer]
+# Cadence templated from ckis-manifest.json (.schedule.reflux_*) by install.sh.
+# Propose-only + per-doc cadence throttle (--due-only) means a daily fire just
+# tops up the review queue when a doc is genuinely due. Persistent catches missed
+# runs after sleep/suspend; jitter avoids thundering herds.
+OnBootSec=@BOOTDELAY@
+OnUnitActiveSec=@INTERVAL@
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

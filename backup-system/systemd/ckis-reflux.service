@@ -1,0 +1,16 @@
+[Unit]
+Description=CKIS autonomous context reflux (heart-doc maintenance, propose-only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# claude lives in ~/.local/bin and the engine in ~/bin — a systemd --user unit
+# starts with a minimal PATH, so set one that finds both (the model call needs it).
+Environment=PATH=%h/.local/bin:%h/bin:/usr/local/bin:/usr/bin:/bin
+# --due-only honors per-doc cadence + skips docs with a pending proposal, so a
+# daily fire is not noisy. Propose-only: never overwrites a live heart doc.
+ExecStart=@BIN@/ckis-reflux-all --due-only
+TimeoutStartSec=900
+Nice=15
+IOSchedulingClass=idle
